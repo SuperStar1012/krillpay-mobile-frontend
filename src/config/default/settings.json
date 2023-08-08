@@ -1,0 +1,8 @@
+{
+  "hideCryptoAccounts": false,
+  "hideBankAccounts": false,
+  "hidePrimaryCurrency": false,
+  "hideNotifications": false,
+  "hideSmsMfa": false,
+  "loopCurrencies": false
+}

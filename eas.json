@@ -1,0 +1,40 @@
+{
+  "cli": {
+    "version": ">= 2.7.1"
+  },
+  "build": {
+    "production": {
+      "android": {
+        "buildType": "apk"
+      },
+      "node": "16.18.1",
+      "yarn": "1.22.17",
+      "channel": "production",
+      "env": {
+        "appName": "KrillPay",
+        "appDescription": "As a KrillPay user, you can send a peer-to-peer instant money transfer to your friends and family members across the U.S. and Africa.",
+        "appSlug": "krillpay",
+        "appPrimaryColor": "#4d4d4d",
+        "appBackgroundColor": "#FFFFFF",
+        "appIOSBundleIdentifier": "com.app.krillpay",
+        "appAndroidPackage": "com.app.krillpay",
+        "appUpdatesUrl": "https://krillpay.com/",
+        "easProjectId": "4f8dee02-8f7b-48b1-b0cb-10cdd7f28603",
+        "sentryOrg": "KrillPay",
+        "sentryProject": "krill-pay",
+        "sentryDSN": "https://ee8832433eb7490fbaf4e7fa64d88980@o4504651039768576.ingest.sentry.io/4504651125161984"
+      }
+    },
+    "preview": {
+      "extends": "production"
+    },
+    "development": {
+      "extends": "preview",
+      "developmentClient": true,
+      "distribution": "internal"
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}

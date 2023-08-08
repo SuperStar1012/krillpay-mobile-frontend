@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./src",
+    "paths": {
+      "*": ["*", "src/*", "assets/*", "src/redux/*"]
+    }
+  },
+  "exclude": ["node_modules"]
+}

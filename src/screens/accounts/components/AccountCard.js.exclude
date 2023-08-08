@@ -1,0 +1,103 @@
+import React, { useState, useEffect } from 'react';
+// import PropTypes from 'prop-types';
+import { Card } from 'components';
+import {
+  concatCryptoAccountNoName,
+  concatBankAccount,
+  concatCryptoAccount,
+} from 'utility/general';
+import { CardLayout } from 'components/card/CardLayout';
+import context from 'components/context';
+import { hasStellarTrustline } from 'utility/stellar';
+import PaymentMethodSkeleton from '../pages/AddFundsPage/PaymentMethodSkeleton';
+// import PaymentMethodSkeleton from '../pages/AddFundsPage/PaymentMethodSkeleton';
+
+const _AccountCard = props => {
+  let {
+    item = {},
+    currency,
+    onPress,
+    design,
+    crypto,
+    trustlineHook,
+    label,
+  } = props;
+  const [loading, setLoading] = useState(true);
+  const trustlineHookLocal = useState(true);
+
+  const title = item?.metadata?.name ?? item?.name ?? '';
+  const titleObj = {
+    title,
+    subtitle: item?.address
+      ? concatCryptoAccountNoName(item)
+      : concatBankAccount(item, false, true),
+    badge: currency?.code,
+    currency,
+  };
+  if (!trustlineHook) {
+    trustlineHook = trustlineHookLocal;
+  }
+
+  const type = item?.crypto_type;
+  const isStellar = type === 'stellar';
+  const isTestnet = item.network === 'testnet' ? true : false;
+
+  const accountText = item.address
+    ? concatCryptoAccount(item, true, true)[0]
+    : concatBankAccount(item, false, true);
+
+  const accountText2 = isStellar
+    ? concatCryptoAccount(item, true, true)[1]
+    : '';
+
+  const [hasTrustline, setHasTrustline] = trustlineHook;
+  useEffect(() => {
+    async function testTrustline(address) {
+      let resp = await hasStellarTrustline(
+        accountText,
+        currency?.code,
+        address,
+        isTestnet,
+      );
+      setHasTrustline(resp);
+      setLoading(false);
+    }
+    if (isStellar && crypto) {
+      setLoading(true);
+      setHasTrustline(false);
+      const assetDetails =
+        crypto?.[isTestnet ? 'TXLM' : 'XLM']?.assetsDetails?.find(
+          asset => asset.currency_code === currency.code,
+        ) ?? {};
+      testTrustline(assetDetails?.address);
+    } else {
+      setLoading(false);
+    }
+  }, [isStellar, accountText, currency?.code, crypto]);
+
+  const showTrustlineError =
+    isStellar && !hasTrustline && !(currency?.code ?? '')?.match(/TXLM|XLM/);
+
+  // return <PaymentMethodSkeleton loading />;
+
+  if (!item || loading) {
+    return <PaymentMethodSkeleton label={label} />;
+  }
+  return (
+    <Card
+      label={label}
+      onPressContent={() => onPress()}
+      loading
+      design={design.wallets}
+      containerStyle={{
+        marginHorizontal: 0,
+        paddingRight: 24,
+      }}>
+      <CardLayout design={design.wallets} titleObj={titleObj} />
+    </Card>
+  );
+};
+
+const AccountCard = context(_AccountCard);
+
+export default AccountCard;

@@ -1,0 +1,29 @@
+name: Client repo updates
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+
+jobs:
+  update-client-repos:
+    name: Pull changes into all repos
+    if: ${{ github.repository == 'rehive/wallet-react-native' }}
+    runs-on: ubuntu-latest
+
+    # Clone each of the client repos, and merge the latest changes from Rehive's repo
+    steps:
+    - name: Pull
+      run: |
+        for i in ${{ secrets.CLIENTS }}
+        do
+          git config --global user.email "info@rehive.com"
+          git config --global user.name "Rehive"
+          echo $i | sed 's/./& /g'
+          git clone https://${{ secrets.CLIENT_REPOS_GH_TOKEN }}@github.com/rehive/client-$i-wallet-react-native.git || continue
+          cd client-$i-wallet-react-native || continue
+          git pull https://${{ secrets.CLIENT_REPOS_GH_TOKEN }}@github.com/rehive/wallet-react-native master --no-edit --no-ff --strategy-option theirs || continue
+          git push || continue
+        done
+        
+

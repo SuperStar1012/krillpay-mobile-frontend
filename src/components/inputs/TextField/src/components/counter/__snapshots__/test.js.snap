@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders when limit is exceeded 1`] = `null`;
+
+exports[`renders when limit is set 1`] = `null`;

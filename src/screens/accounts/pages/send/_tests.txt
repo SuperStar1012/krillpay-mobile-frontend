@@ -1,0 +1,11 @@
+1. shows keyboard / amount / currency selector
+2. if conversions 
+2.0 show switch button 
+2.2 converted amount
+2.1 allow switch / perform it
+3. disabled next 
+3.0 if 0 and not request
+3.1 account empty/0
+3.2 over max + show error + button disabled
+3.3 
+4.0 validate 

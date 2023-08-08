@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "502630423025",
+    "project_id": "krillpay-66f25",
+    "storage_bucket": "krillpay-66f25.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:502630423025:android:4bf723ff9b6d5e1794cc50",
+        "android_client_info": {
+          "package_name": "com.app.krillpay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "502630423025-iqs0umj8ama7v85uop2uan1k1kar2ui4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7E_zkrUltEh-tPLpQJ_uUodxtnJrhsdQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "502630423025-iqs0umj8ama7v85uop2uan1k1kar2ui4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

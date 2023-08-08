@@ -1,0 +1,42 @@
+name: Publish OTA update (production)
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+
+jobs:
+  build:
+    if: ${{ github.repository == 'rehive/wallet-react-native' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v2
+      
+      - name: Load .env file
+        uses: xom9ikk/dotenv@v2
+        with:
+          path: ./
+          mode: production
+
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: yarn
+
+      - name: 🏗 Setup Expo and EAS
+        uses: expo/expo-github-action@v7
+        with:
+          expo-version: 6.0.8
+          eas-version: 2.7.1
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Install dependencies
+        run: yarn install --prefer-offline
+
+      - name: 🚀 Create update
+        run: eas update --branch ${{ github.ref_name }} --message ${{ github.ref_name }}
+      
+      - name: 🚀 Deploy update
+        run: eas channel:edit production --branch ${{ github.ref_name }}

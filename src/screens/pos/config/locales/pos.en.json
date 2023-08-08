@@ -1,0 +1,15 @@
+{
+  "point_of_sale": "Point of sale",
+  "custom_sale": "Custom sale",
+  "clear": "Clear",
+  "product_name": "Product name",
+  "price": "Price",
+  "quantity": "Quantity",
+  "product": "Product",
+  "create_new_sale": "Create new sale",
+  "print_qr": "Print QR",
+  "top_up_user_balance": "Top up user balance",
+  "recipient": "Recipient",
+  "topped_up": "Topped up",
+  "top_up": "Top up"
+}

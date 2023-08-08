@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="130" height="130" viewBox="0 0 130 130">
+  <g id="Pin" transform="translate(-468 -147)">
+    <path id="Path_611" data-name="Path 611" d="M35,0H95a35,35,0,0,1,35,35V95a35,35,0,0,1-35,35H35A35,35,0,0,1,0,95V35A35,35,0,0,1,35,0Z" transform="translate(468 147)" fill="#40d3ff"/>
+    <path id="Intersection_1" data-name="Intersection 1" d="M23.789,77.916l41.922-3.93,45.132-16.138,22.642,33.108c.051,6.72,3.369,23.2-13.863,36.758-8.148,6.714-19.06,6.748-19.06,6.748H78.571Z" transform="translate(464.158 142.423)" opacity="0.1"/>
+    <rect id="Rectangle_341" data-name="Rectangle 341" width="92.97" height="34.273" rx="17.136" transform="translate(486.33 194.848)" fill="#dbfffa"/>
+    <text id="_" data-name="****" transform="translate(497.391 234.753)" fill="#222" font-size="43" font-family="HelveticaNeue-Medium, Helvetica Neue" font-weight="500" letter-spacing="0.03em"><tspan x="0" y="0">****</tspan></text>
+  </g>
+</svg>

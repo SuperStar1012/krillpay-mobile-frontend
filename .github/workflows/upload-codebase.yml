@@ -1,0 +1,42 @@
+name: Zip and upload codebase
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+
+jobs:
+  zip-and-upload:
+    name: Zip and upload codebase
+    if: ${{ github.repository == 'rehive/wallet-react-native' }}
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+
+    # Exclusions on zip release don't seem to work so adding this step
+    - name: Manually delete files to exclude
+      run: |
+        rm -rf .git etc rdeploy.yaml .github app.json app.json.back .env.production .env.staging eas.json
+
+    - name: Zip release
+      uses: thedoctor0/zip-release@0.6.2
+      with:
+        type: 'zip'
+        filename: '${{ github.ref_name }}.zip'
+
+    - name: Upload codebase
+      run: | 
+        curl https://app.services.rehive.io/api/superadmin/app-codebases/ \
+        -X POST -H "Authorization: Token ${{ secrets.APP_SERVICE_SUPERADMIN_TOKEN }}" \
+        -H "Content-Type: multipart/form-data" \
+        -F file=@${{ github.ref_name }}.zip \
+        -F type=mobile \
+        -F title=${{ github.ref_name }} \
+        -F version=${{ github.ref_name }} 
+
+
+
+
+        
+
