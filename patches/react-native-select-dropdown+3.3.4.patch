@@ -1,0 +1,13 @@
+diff --git a/node_modules/react-native-select-dropdown/src/helpers/deepSearchInArr.js b/node_modules/react-native-select-dropdown/src/helpers/deepSearchInArr.js
+index 39a8f1b..488de5e 100644
+--- a/node_modules/react-native-select-dropdown/src/helpers/deepSearchInArr.js
++++ b/node_modules/react-native-select-dropdown/src/helpers/deepSearchInArr.js
+@@ -25,7 +25,7 @@ export const deepSearchInArr = (query, arr) => {
+     if (contains(arr[i], query)) {
+       array.push(arr[i]);
+     } else {
+-      array.push(null);
++    //   array.push(null);
+     }
+     if (i == arr.length - 1) {
+       return array;
