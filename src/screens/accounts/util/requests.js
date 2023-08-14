@@ -3,7 +3,7 @@ import { cleanMobile } from 'utility/general';
 
 export function contactMatch({ email, mobile, contacts }) {
   if (!contacts) return;
-  return contacts.phone.find(
+  return contacts.phone.find?.(
     x =>
       (email && x.contact === email) ||
       (mobile && cleanMobile(x.contact) === cleanMobile(mobile)),
