@@ -1,4 +1,4 @@
-import React, { useEffect, createRef, useState } from 'react';
+import React, { useEffect, createRef, useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import {
   SectionList,
@@ -8,6 +8,7 @@ import {
   RefreshControl,
   TouchableOpacity,
   Alert,
+  Linking,
 } from 'react-native';
 import { intersection } from 'lodash';
 import { View, Text, TextField } from 'components';
@@ -72,6 +73,28 @@ export default function ContactList(props) {
   useEffect(() => {
     fetchingContacts(null);
   }, []);
+  const openSettingsHandler = useCallback(() => {
+    Alert.alert(
+      '',
+      'We could not fetch your contacts. Please allow contacts permission from Settings to send money',
+      [
+        {
+          text: 'Go Back',
+          onPress: () => {
+            navigation.goBack();
+          },
+        },
+        {
+          text: 'Open Settings',
+          onPress: () => {
+            navigation.goBack();
+            Linking.openSettings();
+          },
+        },
+      ],
+      { cancelable: false },
+    );
+  }, []);
 
   const fetchingContacts = async handleRefresh => {
     try {
@@ -83,17 +106,7 @@ export default function ContactList(props) {
         setcontacts(response);
         setRefreshing(false);
       } else {
-        Alert.alert(
-          'Invalid Token',
-          'Your token has expired or is invalid. Please log in again.',
-          [
-            {
-              text: 'OK',
-              onPress: () => navigation.goBack(),
-            },
-          ],
-          { cancelable: false },
-        );
+        openSettingsHandler();
       }
     } catch (e) {
       //setError

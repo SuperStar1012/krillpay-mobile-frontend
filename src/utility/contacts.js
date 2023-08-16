@@ -1,5 +1,5 @@
 import * as Contacts from 'expo-contacts';
-import * as Permissions from 'expo-permissions';
+// import * as Permissions from 'expo-permissions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { safe } from './general';
 import { krillPayContacts } from '../utility/customService';
@@ -8,10 +8,10 @@ const PAGE_SIZE = 500;
 
 var ContactUtil = {
   getAllContacts: async (types = [], handleRefresh) => {
-    const permission = await Permissions.askAsync(Permissions.CONTACTS);
+    const { status } = await Contacts.requestPermissionsAsync();
 
     try {
-      if (permission.status === 'granted') {
+      if (status === 'granted') {
         let response = await Contacts.getContactsAsync({
           fields: [
             Contacts.Fields.PhoneNumbers,
