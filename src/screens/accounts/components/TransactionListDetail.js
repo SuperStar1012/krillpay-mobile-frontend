@@ -372,131 +372,242 @@ export default function TransactionListDetail(props) {
 
   return (
     <React.Fragment>
-      {recipientDetails && (
+      {subtype == 'buy' || subtype == 'sell' ? (
         <>
           <View
-            bC={'#044494'}
             style={{
               alignItems: 'center',
               justifyContent: 'center',
               borderRadius: 6,
             }}
+            bC={'#044494'}
             ph={0.125}
-            mv={0.5}
-            pv={1}>
-            <Text style={{ color: '#ffffff' }} s={20}>
-              {subtype == 'send_mobile'
-                ? 'Sent to'
-                : subtype === 'receive_mobile'
-                ? 'Received From'
-                : 'Requested From'}
+            pv={1.15}>
+            <Text style={{ color: '#ffffff' }} s={30} fW={'700'}>
+              {subtype == 'buy'
+                ? '-' + amountConvString.slice(1)
+                : '+' + amountString}
+            </Text>
+
+            <Text style={{ color: '#ffffff' }} o={0.87} s={16}>
+              {formatTime(created, 'MMMM Do YYYY | h:mm:ss a', profile)}
             </Text>
           </View>
-
           <View
             style={{
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-            ph={0.125}
-            pv={0.5}>
-            <Text o={0.87} s={16}>
-              {formatTime(created, 'MMMM Do YYYY, h:mm:ss a', profile)}
-            </Text>
-          </View>
-
-          <View mt={2} mb={1}>
-            <TouchableOpacity onPress={() => setModal(true)}>
-              <SendRecipient user={item.partner?.user} />
-            </TouchableOpacity>
+              display: 'flex',
+              gap: 30,
+              marginTop: 50,
+            }}>
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                paddingBottom: 25,
+                borderBottomWidth: 1,
+                marginTop: -5,
+                borderColor: '#E0E0E0',
+                borderBottomStyle: 'solid',
+              }}>
+              <Text>From</Text>
+              <Text> {subtype == 'buy' ? 'USD Wallet' : 'NGN Wallet'}</Text>
+            </View>
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                paddingBottom: 25,
+                borderBottomWidth: 1,
+                marginTop: -5,
+                borderColor: '#E0E0E0',
+                borderBottomStyle: 'solid',
+              }}>
+              <Text>Transaction</Text>
+              <Text>
+                {subtype == 'buy' ? 'Exchanged to NGN' : 'Exchanged from USD'}
+              </Text>
+            </View>
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                paddingBottom: 25,
+                borderBottomWidth: 1,
+                marginTop: -5,
+                borderColor: '#E0E0E0',
+                borderBottomStyle: 'solid',
+              }}>
+              <Text>Fee</Text>
+              <Text>
+                <Text>
+                  {items?.find(x => x?.id === 'fee')?.value ?? subtype == 'buy'
+                    ? '0.00 USD'
+                    : '0.00 NGN'}
+                </Text>
+              </Text>
+            </View>
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                paddingBottom: 25,
+                borderBottomWidth: 1,
+                marginTop: -5,
+                borderColor: '#E0E0E0',
+                borderBottomStyle: 'solid',
+              }}>
+              <Text>Rate</Text>
+              <Text>{items?.find(x => x?.id === 'rate')?.value ?? ''}</Text>
+            </View>
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                paddingBottom: 25,
+                borderBottomWidth: 1,
+                marginTop: -5,
+                borderColor: '#E0E0E0',
+                borderBottomStyle: 'solid',
+              }}>
+              <Text>Transaction ID</Text>
+              <Text>{id.substring(0, 11) + '...'}</Text>
+            </View>
           </View>
         </>
-      )}
-      {renderQuickActions()}
-      {hasReward &&
-        (loading ? (
-          <Spinner />
-        ) : error ? (
-          <ErrorOutput>{error}</ErrorOutput>
-        ) : (
-          <CampaignCard
-            item={reward}
-            altStyle
-            onPress={() => {
-              // hideModal;
-              // navigation.navigate('Rewards', {
-              //   initialTab: 'Earned',
-              //   id: get(metadata, ['service_reward', 'reward_id']),
-              // });
-            }}
-          />
-        ))}
-      <View w={'100%'} ph={0.125} style={{ paddingBottom: 32 }}>
-        <View
-          style={{
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: 6,
-          }}
-          ph={0.125}
-          mv={0.5}
-          pv={1}>
-          <Text s={30} fW={'700'}>
-            {amountString}
-          </Text>
-          <Text>{amountConvString}</Text>
-        </View>
-        <View>
-          <TextInput
-            style={{
-              borderWidth: 1,
-              borderColor: '#434343',
-              color: '#000000',
-              borderRadius: 5,
-              padding: 10,
-              paddingTop: 20,
-              paddingBottom: 20,
-              marginTop: 20,
-            }}
-            editable={false}
-            value={note ?? description}
-          />
-        </View>
-        <View
-          mt={3}
-          style={{
-            alignItems: 'center',
-          }}>
-          <Button label={' Share Receipt '} />
-        </View>
-        {/* <OutputList items={items} /> */}
+      ) : (
+        <>
+          {recipientDetails && (
+            <>
+              <View
+                bC={'#044494'}
+                style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: 6,
+                }}
+                ph={0.125}
+                mv={0.5}
+                pv={1}>
+                <Text style={{ color: '#ffffff' }} s={20}>
+                  {subtype == 'send_mobile'
+                    ? 'Sent to'
+                    : subtype === 'receive_mobile'
+                    ? 'Received From'
+                    : 'Requested From'}
+                </Text>
+              </View>
 
-        {/* <TransactionListCryptoDetails item={item} /> */}
-      </View>
-      {!!modal && (
-        <ModalFullscreen
-          visible={modal}
-          scrollView
-          iconTitleRight={'close'}
-          onPressTitleRight={() => setModal(false)}
-          onDismiss={() => setModal(false)}>
-          <ReceiptInfoPage
-            onDismiss={() => {
-              setModal(false);
-              closeModal();
-            }}
-            close={() => setModal(false)}
-            setItem={setItem}
-            user={item.partner?.user}
-            navigation={navigation}
-            profile={profile}
-            getTransactions={getTransactions}
-            nav={nav}
-            c={c}
-            rates={rates}
-            crypto={crypto}
-          />
-        </ModalFullscreen>
+              <View
+                style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+                ph={0.125}
+                pv={0.5}>
+                <Text o={0.87} s={16}>
+                  {formatTime(created, 'MMMM Do YYYY, h:mm:ss a', profile)}
+                </Text>
+              </View>
+
+              <View mt={2} mb={1}>
+                <TouchableOpacity onPress={() => setModal(true)}>
+                  <SendRecipient user={item.partner?.user} />
+                </TouchableOpacity>
+              </View>
+            </>
+          )}
+          {renderQuickActions()}
+          {hasReward &&
+            (loading ? (
+              <Spinner />
+            ) : error ? (
+              <ErrorOutput>{error}</ErrorOutput>
+            ) : (
+              <CampaignCard
+                item={reward}
+                altStyle
+                onPress={() => {
+                  // hideModal;
+                  // navigation.navigate('Rewards', {
+                  //   initialTab: 'Earned',
+                  //   id: get(metadata, ['service_reward', 'reward_id']),
+                  // });
+                }}
+              />
+            ))}
+          <View w={'100%'} ph={0.125} style={{ paddingBottom: 32 }}>
+            <View
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: 6,
+              }}
+              ph={0.125}
+              mv={0.5}
+              pv={1}>
+              <Text s={30} fW={'700'}>
+                {amountString}
+              </Text>
+              <Text>{amountConvString}</Text>
+            </View>
+            <View>
+              <TextInput
+                style={{
+                  borderWidth: 1,
+                  borderColor: '#434343',
+                  color: '#000000',
+                  borderRadius: 5,
+                  padding: 10,
+                  paddingTop: 20,
+                  paddingBottom: 20,
+                  marginTop: 20,
+                }}
+                editable={false}
+                value={note ?? description}
+              />
+            </View>
+            <View
+              mt={3}
+              style={{
+                alignItems: 'center',
+              }}>
+              <Button label={' Share Receipt '} />
+            </View>
+            {/* <OutputList items={items} /> */}
+
+            {/* <TransactionListCryptoDetails item={item} /> */}
+          </View>
+          {!!modal && (
+            <ModalFullscreen
+              visible={modal}
+              scrollView
+              iconTitleRight={'close'}
+              onPressTitleRight={() => setModal(false)}
+              onDismiss={() => setModal(false)}>
+              <ReceiptInfoPage
+                onDismiss={() => {
+                  setModal(false);
+                  closeModal();
+                }}
+                close={() => setModal(false)}
+                setItem={setItem}
+                user={item.partner?.user}
+                navigation={navigation}
+                profile={profile}
+                getTransactions={getTransactions}
+                nav={nav}
+                c={c}
+                rates={rates}
+                crypto={crypto}
+              />
+            </ModalFullscreen>
+          )}
+        </>
       )}
     </React.Fragment>
   );
