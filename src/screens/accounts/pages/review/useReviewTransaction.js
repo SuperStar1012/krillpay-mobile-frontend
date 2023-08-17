@@ -9,7 +9,11 @@ export default function useReviewTransaction({ route }) {
   );
 
   return {
-    data: { ...data, bankName: route.params.bankName },
+    data: {
+      ...data,
+      bankName: route.params.bankName,
+      amount: route.params.amount,
+    },
     isLoading,
     isError,
   };

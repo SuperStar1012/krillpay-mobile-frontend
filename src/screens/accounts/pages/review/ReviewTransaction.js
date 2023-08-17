@@ -10,52 +10,58 @@ import {
 } from 'react-native';
 import TopUpPage from 'screens/pos/pages/topup';
 import useReviewTransaction from './useReviewTransaction';
+import { Spinner } from 'components';
+import FullScreenSpinner from 'components/outputs/FullScreenSpinner';
 
 // create a component
 // ! Add Heading icons
 // ! Add loading state
 const ReviewTransaction = ({ navigation, route }) => {
-  const { data } = useReviewTransaction({ route });
+  const { data, isLoading } = useReviewTransaction({ route });
 
   return (
-    <View style={{ paddingTop: 32 }}>
-      <HeaderNew title="Review" navigation={navigation} />
-      <ScrollView>
-        <View style={{ flex: 1 }}>
-          <View
-            style={{
-              padding: 16,
-              flex: 1,
-              gap: 16,
-              position: 'relative',
-            }}>
-            <InformationContainer {...FromContainer} />
-            <InformationContainer {...ToContainer(data)} />
-            <InformationContainer {...DetailsContainer} />
-            <TouchableOpacity>
+    <>
+      <View style={{ paddingTop: 32 }}>
+        <FullScreenSpinner isLoading={isLoading}>
+          <HeaderNew title="Review" navigation={navigation} />
+          <ScrollView>
+            <View style={{ flex: 1 }}>
               <View
                 style={{
-                  paddingVertical: 16,
-                  backgroundColor: 'blue',
-                  borderRadius: 8,
-                  justifyContent: 'center',
-                  marginBottom: 96,
-                  paddingHorizontal: 32,
+                  padding: 16,
+                  flex: 1,
+                  gap: 16,
+                  position: 'relative',
                 }}>
-                <Text
-                  style={{
-                    color: 'white',
-                    textAlign: 'center',
-                    fontFamily: 'Roboto_400Regular',
-                  }}>
-                  Proceed to Payment
-                </Text>
+                <InformationContainer {...FromContainer} />
+                <InformationContainer {...ToContainer(data)} />
+                <InformationContainer {...DetailsContainer(data)} />
+                <TouchableOpacity>
+                  <View
+                    style={{
+                      paddingVertical: 16,
+                      backgroundColor: 'blue',
+                      borderRadius: 8,
+                      justifyContent: 'center',
+                      marginBottom: 96,
+                      paddingHorizontal: 32,
+                    }}>
+                    <Text
+                      style={{
+                        color: 'white',
+                        textAlign: 'center',
+                        fontFamily: 'Roboto_400Regular',
+                      }}>
+                      Proceed to Payment
+                    </Text>
+                  </View>
+                </TouchableOpacity>
               </View>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </ScrollView>
-    </View>
+            </View>
+          </ScrollView>
+        </FullScreenSpinner>
+      </View>
+    </>
   );
 };
 
@@ -119,12 +125,12 @@ const FromContainer = {
   ],
 };
 
-const DetailsContainer = {
+const DetailsContainer = ({ amount }) => ({
   title: 'Transaction Detail',
   fields: [
     { key: 'Commission', value: 'NGN 100.25' },
-    { key: 'Total Debit', value: 'NGN 20,100.25', bold: true },
+    { key: 'Total Debit', value: `NGN ${+amount + 100.25}`, bold: true },
   ],
-};
+});
 
 export default ReviewTransaction;

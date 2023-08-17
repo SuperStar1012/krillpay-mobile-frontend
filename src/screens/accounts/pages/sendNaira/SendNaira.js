@@ -7,6 +7,8 @@ import { View, TouchableOpacity, Text } from 'react-native';
 import { AmountInAccountComponent } from './components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import useSendNaira from './useSendNaira';
+import { Spinner } from 'components';
+import FullScreenSpinner from 'components/outputs/FullScreenSpinner';
 
 const initialValues = {
   accountNumber: '',
@@ -15,92 +17,99 @@ const initialValues = {
 };
 
 export default function SendNaira({ navigation }) {
-  const { data, navigateToReview } = useSendNaira({ navigation });
+  const { data, navigateToReview, isLoading } = useSendNaira({ navigation });
 
   return (
-    <View style={{ paddingTop: 16, flex: 1 }}>
-      <KeyboardAwareScrollView>
-        <HeaderNew title="Transfer" navigation={navigation} />
-        <View
-          style={{
-            padding: 16,
-            flex: 1,
-            position: 'relative',
-          }}>
-          <AmountInAccountComponent />
-          <Formik initialValues={initialValues}>
-            {({ values, isSubmitting, isValid, setFieldValue }) => (
-              <>
-                <View style={{ gap: 16 }}>
-                  {/* Bank Code */}
-                  <DropdownSelect
-                    data={data}
-                    onChange={e => {
-                      setFieldValue('bankDetails', e.value);
-                    }}
-                  />
-                  <OutlinedTextField
-                    label="Beneficiary Account Number"
-                    keyboardType="numeric"
-                    labelTextStyle={{ fontFamily: 'Roboto_300Light' }}
-                    innerTextStyle={{ fontFamily: 'Roboto_300Light' }}
-                    onChangeText={e => {
-                      setFieldValue('accountNumber', e);
-                    }}
-                  />
-                  <OutlinedTextField
-                    label="Amount"
-                    keyboardType="numeric"
-                    labelTextStyle={{ fontFamily: 'Roboto_300Light' }}
-                    innerTextStyle={{ fontFamily: 'Roboto_300Light' }}
-                    onChangeText={e => setFieldValue('amount', e)}
-                  />
-                  <OutlinedTextField
-                    label="What for? (optional)"
-                    labelTextStyle={{ fontFamily: 'Roboto_300Light' }}
-                    innerTextStyle={{ fontFamily: 'Roboto_300Light' }}
-                    onChangeText={e => setFieldValue('narration', e)}
-                  />
-                </View>
-                <View
-                  style={{
-                    width: '100%',
-                    marginTop: 16,
-                    flex: 1,
-                  }}>
-                  <TouchableOpacity
-                    onPress={() =>
-                      navigateToReview({
-                        ...values,
-                        bankName: values.bankDetails.bankName,
-                        bankCode: values.bankDetails.bankCode,
-                      })
-                    }>
+    <>
+      <View style={{ paddingTop: 16, flex: 1, position: 'relative' }}>
+        <FullScreenSpinner isLoading={isLoading}>
+          <KeyboardAwareScrollView>
+            <HeaderNew title="Transfer" navigation={navigation} />
+            <View
+              style={{
+                padding: 16,
+                flex: 1,
+                position: 'relative',
+              }}>
+              <AmountInAccountComponent />
+              <Formik initialValues={initialValues}>
+                {({ values, isSubmitting, isValid, setFieldValue }) => (
+                  <>
+                    <View style={{ gap: 16 }}>
+                      {/* Bank Code */}
+                      <DropdownSelect
+                        data={data}
+                        onChange={e => {
+                          setFieldValue('bankDetails', e.value);
+                        }}
+                        inputStyle={{
+                          marginTop: 16,
+                        }}
+                      />
+                      <OutlinedTextField
+                        label="Beneficiary Account Number"
+                        keyboardType="numeric"
+                        labelTextStyle={{ fontFamily: 'Roboto_300Light' }}
+                        innerTextStyle={{ fontFamily: 'Roboto_300Light' }}
+                        onChangeText={e => {
+                          setFieldValue('accountNumber', e);
+                        }}
+                      />
+                      <OutlinedTextField
+                        label="Amount"
+                        keyboardType="numeric"
+                        labelTextStyle={{ fontFamily: 'Roboto_300Light' }}
+                        innerTextStyle={{ fontFamily: 'Roboto_300Light' }}
+                        onChangeText={e => setFieldValue('amount', e)}
+                      />
+                      <OutlinedTextField
+                        label="What for? (optional)"
+                        labelTextStyle={{ fontFamily: 'Roboto_300Light' }}
+                        innerTextStyle={{ fontFamily: 'Roboto_300Light' }}
+                        onChangeText={e => setFieldValue('narration', e)}
+                      />
+                    </View>
                     <View
                       style={{
-                        paddingVertical: 16,
-                        backgroundColor: 'blue',
-                        borderRadius: 8,
-                        justifyContent: 'center',
-                        paddingHorizontal: 32,
+                        width: '100%',
+                        marginTop: 16,
+                        flex: 1,
                       }}>
-                      <Text
-                        style={{
-                          color: 'white',
-                          textAlign: 'center',
-                          fontFamily: 'Roboto_400Regular',
-                        }}>
-                        Proceed
-                      </Text>
+                      <TouchableOpacity
+                        onPress={() =>
+                          navigateToReview({
+                            ...values,
+                            bankName: values.bankDetails.bankName,
+                            bankCode: values.bankDetails.bankCode,
+                          })
+                        }>
+                        <View
+                          style={{
+                            paddingVertical: 16,
+                            backgroundColor: 'blue',
+                            borderRadius: 8,
+                            justifyContent: 'center',
+                            paddingHorizontal: 32,
+                          }}>
+                          <Text
+                            style={{
+                              color: 'white',
+                              textAlign: 'center',
+                              fontFamily: 'Roboto_400Regular',
+                            }}>
+                            Proceed
+                          </Text>
+                        </View>
+                      </TouchableOpacity>
                     </View>
-                  </TouchableOpacity>
-                </View>
-              </>
-            )}
-          </Formik>
-        </View>
-      </KeyboardAwareScrollView>
-    </View>
+                  </>
+                )}
+              </Formik>
+            </View>
+          </KeyboardAwareScrollView>
+        </FullScreenSpinner>
+      </View>
+    </>
   );
 }
 

@@ -14,11 +14,14 @@ const DropdownSelect = ({
   label,
   dropdownText,
   headerLabel,
+  inputStyle,
   searchPlaceholder,
 }) => {
   return (
     <View>
-      <Text style={{ fontSize: 14, marginBottom: 8 }}>{headerLabel}</Text>
+      {headerLabel && (
+        <Text style={{ fontSize: 14, marginBottom: 8 }}>{headerLabel}</Text>
+      )}
       <SelectDropdown
         searchPlaceHolderColor="#AAA"
         onSelect={onChange}
@@ -40,11 +43,13 @@ const DropdownSelect = ({
           backgroundColor: 'white',
           borderWidth: 1,
           borderColor: '#AAA',
+          ...inputStyle,
         }}
         dropdownStyle={{
           left: -4,
           width: '100%',
-          height: '50%',
+          height: '78%',
+          marginTop: '-50%',
         }}
         defaultButtonText={placeholder}
         rowStyle={{ justifyContent: 'flex-start', paddingHorizontal: 8 }}
