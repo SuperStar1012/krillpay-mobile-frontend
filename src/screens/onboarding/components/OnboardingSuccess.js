@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { userProfileSelector } from '@redux/rehive/reducer';
 import { getUserCountryFromMSISDN } from 'utility/general';
 import { Image } from 'react-native';
+import { Flag } from '../../../../assets';
 
 export default function OnboardingSuccess(props) {
   const { navigation } = props;
@@ -51,9 +52,11 @@ export default function OnboardingSuccess(props) {
             marginBottom: 16,
             marginTop: 16,
           }}
-          source={{
-            uri: user?.currency?.icon,
-          }}
+          source={
+            getUserCountryFromMSISDN(user?.mobile) == 'NG'
+              ? Flag.NIGERIA
+              : Flag.USA
+          }
         />
       </View>
       <View p={1.5}>
