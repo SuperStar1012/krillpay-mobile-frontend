@@ -3,6 +3,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { PinScreen } from 'react-native-awesome-pin';
 import Logo from '../../../../../assets/icons/splash.png';
 
+const MAX_OTP_LENGTH = 5;
 // create a component
 const OTPInput = () => {
   const pinScreenRef = useRef();
@@ -10,14 +11,14 @@ const OTPInput = () => {
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
-    if (currentPin.length === 5 && currentPin !== '12345') {
+    if (currentPin.length === MAX_OTP_LENGTH && currentPin !== '12345') {
       setHasError(true);
       pinScreenRef?.current?.throwError('Invalid pin');
     }
   }, [currentPin]);
 
   function onKeyDown(value) {
-    if (hasError) {
+    if (hasError && value.length !== MAX_OTP_LENGTH) {
       pinScreenRef?.current?.clearError();
     }
     setCurrentPin(value);
@@ -30,12 +31,12 @@ const OTPInput = () => {
       logoEnabled
       keyDown={onKeyDown}
       tagline="Please enter the OTP sent to your email"
-      logo={require('../../../../../assets/icons/splash.png')}
+      logo={Logo}
       keyTextStyle={{
         fontFamily: 'Roboto_400Regular',
       }}
       taglineStyle={{
-        fontFamily: 'Roboto_300Light',
+        fontFamily: 'Roboto_400Regular',
         color: 'black',
         fontSize: 18,
       }}
