@@ -43,21 +43,22 @@ export default function OnboardingSuccess(props) {
           Your KrillPay wallet default currency is
           {getUserCountryFromMSISDN(user?.mobile) == 'NG' ? ' Naira' : ' USD'}.
         </Text>
-        <Image
-          style={{
-            width: 40,
-            height: 40,
-            borderRadius: 40,
-            borderWidth: 0,
-            marginBottom: 16,
-            marginTop: 16,
-          }}
-          source={
-            getUserCountryFromMSISDN(user?.mobile) == 'NG'
-              ? Flag.NIGERIA
-              : Flag.USA
-          }
-        />
+        <View style={{ marginVertical: 16 }}>
+          <Image
+            style={{
+              width: 40,
+              height: 40,
+              borderRadius: 40,
+              borderWidth: 0.5,
+              borderColor: '#eeeeeeee',
+            }}
+            source={
+              getUserCountryFromMSISDN(user?.mobile) == 'NG'
+                ? Flag.NIGERIA
+                : Flag.USA
+            }
+          />
+        </View>
       </View>
       <View p={1.5}>
         <Button wide id="enter_app" onPress={handleContinue} />
