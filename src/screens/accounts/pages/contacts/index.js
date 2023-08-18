@@ -1,5 +1,6 @@
 import React, { useEffect, createRef, useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
+import * as Contacts from 'expo-contacts';
 import {
   SectionList,
   StyleSheet,
@@ -106,7 +107,22 @@ export default function ContactList(props) {
         setcontacts(response);
         setRefreshing(false);
       } else {
-        openSettingsHandler();
+        const { status } = await Contacts.getPermissionsAsync();
+        if (status !== 'granted') {
+          openSettingsHandler();
+        } else {
+          Alert.alert(
+            'Invalid Token',
+            'Your token has expired or is invalid. Please log in again.',
+            [
+              {
+                text: 'OK',
+                onPress: () => navigation.goBack(),
+              },
+            ],
+            { cancelable: false },
+          );
+        }
       }
     } catch (e) {
       //setError
