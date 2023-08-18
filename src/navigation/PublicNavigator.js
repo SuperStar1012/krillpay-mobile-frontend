@@ -7,12 +7,13 @@ import { useRehiveContext } from 'contexts';
 import SendNaira from 'screens/accounts/pages/sendNaira';
 import ReviewTransaction from 'screens/accounts/pages/review/ReviewTransaction';
 import OTPInput from 'screens/accounts/pages/otp/OTPInput';
+import TransactionCompleteScreen from 'screens/accounts/pages/transactionCompleteScreen';
 
 const Stack = createStackNavigator();
 
 export default function PublicNavigator() {
   const {
-    context: { initialAuthScreen = 'OTP_Input' },
+    context: { initialAuthScreen = 'Send' },
   } = useRehiveContext();
   if (!initialAuthScreen) {
     return <SplashScreen />;
@@ -21,9 +22,13 @@ export default function PublicNavigator() {
     <Stack.Navigator
       initialRouteName={initialAuthScreen}
       screenOptions={{ headerShown: false, animationEnabled: false }}>
+      <Stack.Screen
+        name="Transaction_Complete"
+        component={TransactionCompleteScreen}
+      />
       <Stack.Screen name="OTP_Input" component={OTPInput} />
       <Stack.Screen name="Send" component={SendNaira} />
-      <Stack.Screen name="ReviewTransaction" component={ReviewTransaction} />
+      <Stack.Screen name="Review_Transaction" component={ReviewTransaction} />
       <Stack.Screen name="Auth" component={AuthScreen} />
       <Stack.Screen name="Splash" component={SplashScreen} />
       <Stack.Screen name="LocalAuth" component={LocalAuthScreen} />

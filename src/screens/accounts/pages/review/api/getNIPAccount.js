@@ -2,15 +2,15 @@ import { CONSTANTS } from 'config/constants';
 
 /**
  *
- * @param {{accountNumber: string, beneficiaryBank: string}} body
- * @returns
+ * @param {import('../useReviewTransaction').ReviewTransactionRouteParams} body
+ * @returns { Promise<NIPAccountModel> }
  */
 export default async function getNIPAccount(body) {
   const requestBody = {
-    beneficiaryBank: body.bankCode,
+    beneficiaryBank: body.bankDetails.bankCode,
     accountNumber: body.accountNumber,
   };
-  const response = await fetch(`${CONSTANTS.providus_api}/third/account`, {
+  const response = await fetch(CONSTANTS.getNIPAccount_API, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

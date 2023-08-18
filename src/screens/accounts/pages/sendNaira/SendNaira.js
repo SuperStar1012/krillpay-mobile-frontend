@@ -76,13 +76,7 @@ export default function SendNaira({ navigation }) {
                         flex: 1,
                       }}>
                       <TouchableOpacity
-                        onPress={() =>
-                          navigateToReview({
-                            ...values,
-                            bankName: values.bankDetails.bankName,
-                            bankCode: values.bankDetails.bankCode,
-                          })
-                        }>
+                        onPress={() => navigateToReview(values)}>
                         <View
                           style={{
                             paddingVertical: 16,

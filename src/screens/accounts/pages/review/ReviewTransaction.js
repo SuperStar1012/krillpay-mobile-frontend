@@ -16,14 +16,15 @@ import FullScreenSpinner from 'components/outputs/FullScreenSpinner';
 // create a component
 // ! Add Heading icons
 // ! Add loading state
-const ReviewTransaction = ({ navigation, route }) => {
-  const { data, isLoading } = useReviewTransaction({ route });
+const ReviewTransaction = navigationProps => {
+  const { data, isLoading, transferNairaFunds } =
+    useReviewTransaction(navigationProps);
 
   return (
     <>
       <View style={{ paddingTop: 32 }}>
         <FullScreenSpinner isLoading={isLoading}>
-          <HeaderNew title="Review" navigation={navigation} />
+          <HeaderNew title="Review" navigation={navigationProps.navigation} />
           <ScrollView>
             <View style={{ flex: 1 }}>
               <View
@@ -36,7 +37,7 @@ const ReviewTransaction = ({ navigation, route }) => {
                 <InformationContainer {...FromContainer} />
                 <InformationContainer {...ToContainer(data)} />
                 <InformationContainer {...DetailsContainer(data)} />
-                <TouchableOpacity>
+                <TouchableOpacity onPress={transferNairaFunds}>
                   <View
                     style={{
                       paddingVertical: 16,
@@ -107,15 +108,16 @@ const InformationContainer = ({ title, fields }) => (
   </View>
 );
 
-const ToContainer = ({ bankName, accountNumber, accountName }) => ({
+const ToContainer = ({ bankDetails, accountNumber, accountName }) => ({
   title: 'To',
   fields: [
     { key: 'Name', value: accountName },
     { key: 'Account Number', value: accountNumber },
-    { key: 'Bank', value: bankName },
+    { key: 'Bank', value: bankDetails.bankName },
   ],
 });
 
+//! Add sender account details from Rehive
 const FromContainer = {
   title: 'From',
   fields: [
@@ -125,6 +127,7 @@ const FromContainer = {
   ],
 };
 
+//! Add extra transaction details from NIP transfer endpoint / calculation
 const DetailsContainer = ({ amount }) => ({
   title: 'Transaction Detail',
   fields: [

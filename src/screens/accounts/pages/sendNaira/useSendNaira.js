@@ -9,7 +9,7 @@ export default function useSendNaira({ navigation }) {
   });
 
   function navigateToReview(routeParams) {
-    navigation.navigate('ReviewTransaction', routeParams);
+    navigation.navigate('Review_Transaction', routeParams);
   }
 
   return { data, isLoading, isError, navigateToReview };
