@@ -1,9 +1,12 @@
 //import liraries
-import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 // create a component
 const AmountInAccountComponent = () => {
+  const [showAmount, setShowAmount] = useState(false);
+
   return (
     <View
       style={{
@@ -25,7 +28,8 @@ const AmountInAccountComponent = () => {
             fontSize: 32,
             fontFamily: 'Roboto_700Bold',
           }}>
-          N 20,000.00
+          {/*//!Add Correct amount here from Rehive */}
+          {showAmount ? 'NGN 20,000' : '*****'}
         </Text>
         <Text
           style={{
@@ -33,13 +37,17 @@ const AmountInAccountComponent = () => {
             color: 'white',
             fontFamily: 'Roboto_400Regular',
           }}>
+          {/* //! Add correct account name from Rehive */}
           Account Name
         </Text>
       </View>
       <View style={{ justifyContent: 'center', padding: 8 }}>
-        <Text style={{ color: 'white', fontFamily: 'Roboto_400Regular' }}>
-          Show
-        </Text>
+        <Ionicons
+          onPress={() => setShowAmount(prev => !prev)}
+          name={showAmount ? 'eye-sharp' : 'eye-off-sharp'}
+          size={32}
+          color="white"
+        />
       </View>
     </View>
   );

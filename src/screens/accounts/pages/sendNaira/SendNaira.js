@@ -7,13 +7,14 @@ import { View, TouchableOpacity, Text } from 'react-native';
 import { AmountInAccountComponent } from './components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import useSendNaira from './useSendNaira';
-import { Spinner } from 'components';
+import * as yup from 'yup';
 import FullScreenSpinner from 'components/outputs/FullScreenSpinner';
 
 const initialValues = {
   accountNumber: '',
   amount: '',
   narration: '',
+  bankDetails: null,
 };
 
 export default function SendNaira({ navigation }) {
@@ -32,8 +33,17 @@ export default function SendNaira({ navigation }) {
                 position: 'relative',
               }}>
               <AmountInAccountComponent />
-              <Formik initialValues={initialValues}>
-                {({ values, isSubmitting, isValid, setFieldValue }) => (
+              <Formik
+                onSubmit={values => navigateToReview(values)}
+                initialValues={initialValues}
+                validationSchema={validationSchema}>
+                {({
+                  values,
+                  isSubmitting,
+                  isValid,
+                  handleSubmit,
+                  setFieldValue,
+                }) => (
                   <>
                     <View style={{ gap: 16 }}>
                       {/* Bank Code */}
@@ -75,8 +85,7 @@ export default function SendNaira({ navigation }) {
                         marginTop: 16,
                         flex: 1,
                       }}>
-                      <TouchableOpacity
-                        onPress={() => navigateToReview(values)}>
+                      <TouchableOpacity onPress={handleSubmit}>
                         <View
                           style={{
                             paddingVertical: 16,
@@ -107,21 +116,16 @@ export default function SendNaira({ navigation }) {
   );
 }
 
-function maskToCurrencyFormat(number) {
-  try {
-    // Convert the input number to a float to handle cases with decimal places
-    number = parseFloat(number);
-    // Check if the conversion resulted in a valid number
-    if (isNaN(number)) {
-      return '';
-    }
-    // Convert the number to an integer and format with commas for thousands separator
-    const formattedNumber = Math.round(number)
-      .toString()
-      .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    return formattedNumber;
-  } catch (error) {
-    // If the input cannot be converted to a float, return an error message
-    return 'Error: ' + error.message;
-  }
-}
+const validationSchema = yup.object().shape({
+  accountNumber: yup.string().required('Account number is required'),
+  amount: yup.string().required('Amount is required'),
+  narration: yup.string(),
+  bankDetails: yup
+    .object()
+    .nonNullable()
+    .typeError('Please select receipient bank')
+    .shape({
+      bankCode: yup.string().required('Bank code is required'),
+      bankName: yup.string().required('Bank name is required'),
+    }),
+});
