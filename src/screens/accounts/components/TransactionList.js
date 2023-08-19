@@ -23,6 +23,7 @@ import { fetchAccounts } from '../redux/actions';
 import { useDispatch } from 'react-redux';
 import { orderBy, isEmpty } from 'lodash';
 import EmptyListPlaceholder from 'components/images/empty';
+import { useContacts } from 'contexts/ContactsContext';
 
 export default function TransactionList(props) {
   const {
@@ -36,6 +37,7 @@ export default function TransactionList(props) {
   const {
     context: { user, services },
   } = useRehiveContext();
+  const { context: contacts } = useContacts();
   const { account, currency } = wallet;
 
   const [filters, setFilters] = useState({});

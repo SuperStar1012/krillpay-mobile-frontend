@@ -49,7 +49,7 @@ class _LocalAuthenticationSet extends Component {
     let result = await ExpoLocalAuthentication.authenticateAsync();
     this.setState({ modalVisible: false });
 
-    if (!result.success) {
+    if (result.success) {
       this.props.handleLocalAuthSet('biometrics');
     } else {
       this.setState({
