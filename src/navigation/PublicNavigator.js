@@ -13,7 +13,7 @@ const Stack = createStackNavigator();
 
 export default function PublicNavigator() {
   const {
-    context: { initialAuthScreen = 'Auth' },
+    context: { initialAuthScreen = 'Send' },
   } = useRehiveContext();
   if (!initialAuthScreen) {
     return <SplashScreen />;
