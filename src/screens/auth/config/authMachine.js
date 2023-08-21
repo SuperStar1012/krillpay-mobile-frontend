@@ -46,7 +46,7 @@ const authMachine = Machine({
         REGISTER,
         GROUP,
         FORGOT,
-        [SUCCESS]: MFA_VERIFY,
+        [SUCCESS]: LOCAL_AUTH_SET,
         ABOUT,
       },
     },
