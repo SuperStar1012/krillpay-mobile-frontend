@@ -1,16 +1,24 @@
-import { useState, useEffect } from 'react';
-import { useMutation, useQuery } from 'react-query';
+import { useQuery } from 'react-query';
 import getBankCodes from './api/getBankCodes';
 
-export default function useSendNaira({ navigation }) {
+export default function useSendNaira({ navigation, route }) {
   const { data, isLoading, isError } = useQuery('GET_BANK_CODES', {
     queryFn: getBankCodes,
     staleTime: Infinity,
   });
 
-  function navigateToReview(routeParams) {
-    navigation.navigate('Review_Transaction', routeParams);
+  function navigateToAmountSection(formValues) {
+    /**
+     * @description isWithdraw to handle onNext function on AmountStep Route
+     */
+    const routeParameters = {
+      ...formValues,
+      ...route.params,
+      isWithDraw: true,
+    };
+
+    navigation.navigate('Send', routeParameters);
   }
 
-  return { data, isLoading, isError, navigateToReview };
+  return { data, isLoading, isError, navigateToAmountSection };
 }

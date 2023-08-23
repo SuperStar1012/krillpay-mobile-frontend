@@ -75,6 +75,7 @@ export default function AccountFlow(props) {
     config = {},
     context: propsContext = {},
     refresh,
+    route,
   } = props;
   const { onSubmit, configs, id, initialFilters = {} } = config;
   const machine = Machine(config.machine);
@@ -201,6 +202,15 @@ export default function AccountFlow(props) {
     : toCurrency;
 
   async function handleNext() {
+    // If the sendPage is part of the withdraw amount flow, navigate to Review Transaction screen
+
+    if (state.matches('amount') && route?.params.isWithDraw) {
+      navigation.navigate('Review_Transaction', {
+        ...route.params,
+        amount: form.getValues()?.amount,
+      });
+      return;
+    }
     if (state?.done) {
       handleSuccess();
     } else if (state.matches('confirm')) {

@@ -17,15 +17,19 @@ const initialValues = {
   bankDetails: null,
 };
 
-export default function SendNaira({ navigation }) {
-  const { data, navigateToReview, isLoading } = useSendNaira({ navigation });
+export default function SendNaira(navigationProps) {
+  const { data, navigateToAmountSection, isLoading } =
+    useSendNaira(navigationProps);
 
   return (
     <>
       <View style={{ paddingTop: 16, flex: 1, position: 'relative' }}>
         <FullScreenSpinner isLoading={isLoading}>
           <KeyboardAwareScrollView>
-            <HeaderNew title="Transfer" navigation={navigation} />
+            <HeaderNew
+              title="Transfer"
+              navigation={navigationProps.navigation}
+            />
             <View
               style={{
                 padding: 16,
@@ -34,7 +38,7 @@ export default function SendNaira({ navigation }) {
               }}>
               <AmountInAccountComponent />
               <Formik
-                onSubmit={values => navigateToReview(values)}
+                onSubmit={values => navigateToAmountSection(values)}
                 initialValues={initialValues}
                 validationSchema={validationSchema}>
                 {({

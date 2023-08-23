@@ -4,7 +4,11 @@ import CompletionAnim from '../../../../../assets/lottie/Complete_Animation.json
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
-export default function TransactionCompleteScreen() {
+export default function TransactionCompleteScreen({ navigation }) {
+  function navigateToHome() {
+    navigation.reset({ index: 0, routes: [{ name: 'Private' }] });
+  }
+
   return (
     <>
       <StatusBar />
@@ -19,7 +23,9 @@ export default function TransactionCompleteScreen() {
         </View>
         <Text style={styles.Heading}>Funds transferred successfully</Text>
         {/* <Text style={styles.SubHeading}>Some Text here</Text> */}
-        <TouchableOpacity style={styles.ButtonContainer} onPress={() => {}}>
+        <TouchableOpacity
+          style={styles.ButtonContainer}
+          onPress={navigateToHome}>
           <Text style={styles.ButtonText}>Back to Home</Text>
         </TouchableOpacity>
       </View>
