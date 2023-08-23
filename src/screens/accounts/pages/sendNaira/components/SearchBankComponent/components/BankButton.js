@@ -1,15 +1,13 @@
 //import liraries
-import React from 'react';
+import React, { memo } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 
 /**
- *
  * @param {{onPress: Function, bankDetail: import('../../../api/getBankCodes').NIPBank}} param0
  * @returns
  */
 const BankButton = ({ onPress, bankDetail }) => {
-  console.log(bankDetail);
   return (
     <TouchableOpacity onPress={_ => onPress(bankDetail)}>
       <View style={styles.buttonStyle}>
@@ -39,4 +37,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default BankButton;
+export default memo(BankButton);

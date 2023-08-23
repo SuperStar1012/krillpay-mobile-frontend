@@ -31,59 +31,68 @@ export default function SendNaira(navigationProps) {
         <HeaderNew
           title="Transfer"
           navigation={navigationProps.navigation}
-          style={{ marginTop: 16 }}
+          style={{ marginTop: 32 }}
         />
-
         <KeyboardAvoidingView
-          behavior="padding"
-          style={{ padding: 16, position: 'relative', paddingBottom: 480 }}>
+          behavior="height"
+          style={{ position: 'relative' }}>
           <Formik
             onSubmit={values => navigateToAmountSection(values)}
             initialValues={initialValues}
             validationSchema={validationSchema}>
-            {({ handleSubmit, setFieldValue, values }) => (
+            {({ handleSubmit, setFieldValue, values, isValid }) => (
               <>
-                <OutlinedTextField
-                  label="Beneficiary Account Number"
-                  keyboardType="numeric"
-                  labelTextStyle={{ fontFamily: 'Roboto_300Light' }}
-                  innerTextStyle={{ fontFamily: 'Roboto_300Light' }}
-                  onChangeText={e => {
-                    setFieldValue('accountNumber', e);
-                  }}
-                />
                 <SearchBankComponent
                   show
+                  onSelect={e => setFieldValue('bankDetails', e)}
                   banks={data}
-                  // show={values.accountNumber.length === 10}
-                />
-                <OutlinedTextField
-                  label="What for? (optional)"
-                  labelTextStyle={{ fontFamily: 'Roboto_300Light' }}
-                  innerTextStyle={{ fontFamily: 'Roboto_300Light' }}
-                  onChangeText={e => setFieldValue('narration', e)}
-                />
+                  header={
+                    <OutlinedTextField
+                      label="Beneficiary Account Number"
+                      keyboardType="numeric"
+                      labelTextStyle={{ fontFamily: 'Roboto_300Light' }}
+                      innerTextStyle={{ fontFamily: 'Roboto_300Light' }}
+                      onChangeText={e => {
+                        setFieldValue('accountNumber', e);
+                      }}
+                    />
+                  }
+                  footer={
+                    <>
+                      <OutlinedTextField
+                        label="What for? (optional)"
+                        multiline
+                        labelTextStyle={{ fontFamily: 'Roboto_300Light' }}
+                        innerTextStyle={{ fontFamily: 'Roboto_300Light' }}
+                        onChangeText={e => setFieldValue('narration', e)}
+                      />
 
-                <TouchableOpacity onPress={handleSubmit}>
-                  <View
-                    style={{
-                      paddingVertical: 16,
-                      marginTop: 16,
-                      backgroundColor: 'blue',
-                      borderRadius: 8,
-                      justifyContent: 'center',
-                      paddingHorizontal: 32,
-                    }}>
-                    <Text
-                      style={{
-                        color: 'white',
-                        textAlign: 'center',
-                        fontFamily: 'Roboto_400Regular',
-                      }}>
-                      Proceed
-                    </Text>
-                  </View>
-                </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={handleSubmit}
+                        disabled={!isValid}>
+                        <View
+                          style={{
+                            paddingVertical: 16,
+                            marginTop: 16,
+                            backgroundColor: 'blue',
+                            borderRadius: 8,
+                            justifyContent: 'center',
+                            paddingHorizontal: 32,
+                            opacity: isValid ? 1 : 0.7,
+                          }}>
+                          <Text
+                            style={{
+                              color: 'white',
+                              textAlign: 'center',
+                              fontFamily: 'Roboto_400Regular',
+                            }}>
+                            Proceed
+                          </Text>
+                        </View>
+                      </TouchableOpacity>
+                    </>
+                  }
+                />
               </>
             )}
           </Formik>
@@ -94,7 +103,10 @@ export default function SendNaira(navigationProps) {
 }
 
 const validationSchema = yup.object().shape({
-  accountNumber: yup.string().required('Account number is required'),
+  accountNumber: yup
+    .string()
+    .required('Account number is required')
+    .length(10, 'Not a valid account number'),
   narration: yup.string(),
   bankDetails: yup
     .object()
