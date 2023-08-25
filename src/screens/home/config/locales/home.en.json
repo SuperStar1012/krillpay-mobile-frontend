@@ -1,0 +1,22 @@
+{
+  "welcome_card_title": "Welcome to {{company.name}}",
+  "welcome_card_description": "Send and receive payment securely",
+  "admin_acknowledge_modal_context": "You're logged in as an admin to this wallet. Note that the configuration for other user groups might be different. If you're testing the end-user experience it is recommended to create a new user account by registering as a user.",
+  "admin_account": "Admin account",
+  "acknowledge": "Acknowledge",
+
+  "complete_verification": "Complete verification",
+  "tap_to_complete_onboarding": "Tap the banner to complete your onboarding",
+  "start_onboarding": "Start onboarding",
+  "get_verified": "Get verified",
+  "documents_pending": "Documents pending",
+  "documents_pending_subtitle": "Your onboarding documents are pending review",
+  "onboarding_complete": "Onboarding complete!",
+  "onboarding_complete_subtitle": "Your identity has been verified!",
+  "onboarding_failed": "Document upload failed",
+  "onboarding_failed_subtitle": "Tap the banner to reupload your **verification document**",
+  "tap_to_close": "Tap to close",
+  "tap_to_open": "Tap to open",
+  "tap_to_view_details": "Tap to view details",
+  "crypto_address_setup_description": "Fill in your wallet address to withdraw funds"
+}

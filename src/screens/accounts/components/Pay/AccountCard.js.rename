@@ -1,0 +1,40 @@
+import React from 'react';
+// import PropTypes from 'prop-types';
+import { Card } from 'components';
+import {
+  concatCryptoAccountNoName,
+  concatBankAccount,
+} from 'util/general';
+import context from 'components/context';
+import { Text } from 'components';
+
+const _AccountCard = props => {
+  const { item, currency, onPress, design } = props;
+  if (!item) {
+    return null;
+  }
+
+  const title =
+    item.metadata && item.metadata.name ? item.metadata.name : item.name;
+  const titleObj = {
+    title,
+    subtitle: item.address
+      ? concatCryptoAccountNoName(item)
+      : concatBankAccount(item, false, true),
+    badge: currency.code,
+  };
+
+  return (
+    <Card
+      onPressContent={() => onPress()}
+      design={design.wallets}
+      containerStyle={{ marginHorizontal: 0 }}>
+      <Text>{titleObj?.title}</Text>
+      <Text>{titleObj?.subtitle}</Text>
+    </Card>
+  );
+};
+
+const AccountCard = context(_AccountCard);
+
+export default AccountCard;

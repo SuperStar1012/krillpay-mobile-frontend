@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="500" height="500" viewBox="0 0 500 500">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_62" data-name="Rectangle 62" width="385" height="388" transform="translate(79.664 80)" fill="#fff" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+    <clipPath id="clip-No-internet">
+      <rect width="500" height="500"/>
+    </clipPath>
+  </defs>
+  <g id="No-internet" clip-path="url(#clip-No-internet)">
+    <g id="Mask_Group_28" data-name="Mask Group 28" transform="translate(-21.664 -24)" clip-path="url(#clip-path)">
+      <g id="wifi_1_" data-name="wifi (1)" transform="translate(80 136.872)">
+        <g id="Group_55" data-name="Group 55" transform="translate(0 0)">
+          <g id="Group_54" data-name="Group 54">
+            <path id="Path_136" data-name="Path 136" d="M123.636,246.571l52.454,52.956,52.454-52.956A73.743,73.743,0,0,0,123.636,246.571Z" transform="translate(16.241 -24.929)" fill="#bfbfbf"/>
+            <path id="Path_137" data-name="Path 137" d="M61.818,188.4l34.97,35.3a122.853,122.853,0,0,1,174.847,0l34.97-35.3A171.963,171.963,0,0,0,61.818,188.4Z" transform="translate(8.121 -37.361)" fill="#bfbfbf"/>
+            <path id="Path_138" data-name="Path 138" d="M0,130.219l34.97,35.3a221.074,221.074,0,0,1,314.725,0l34.97-35.3A270.185,270.185,0,0,0,0,130.219Z" transform="translate(0 -49.792)" fill="#bfbfbf"/>
+          </g>
+        </g>
+      </g>
+    </g>
+    <rect id="Rectangle_63" data-name="Rectangle 63" width="37" height="432" rx="18.5" transform="matrix(0.695, 0.719, -0.719, 0.695, 417.238, 70.47)" fill="#868686"/>
+  </g>
+</svg>

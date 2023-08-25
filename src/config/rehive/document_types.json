@@ -1,0 +1,125 @@
+{
+  "proof_of_identity": {
+    "icon": "perm-contact-calendar",
+    "options": [
+      {
+        "id": "government_id",
+        "capture_height": 230,
+        "requireBack": true,
+        "icon": "card-account-details",
+        "set": "MaterialCommunityIcons",
+        "fields": [
+          { "name": "id_number", "type": "id_number", "required": true },
+          { "name": "doc_dates", "required": true }
+        ]
+      },
+      {
+        "id": "passport",
+        "capture_height": 230,
+        "set": "MaterialCommunityIcons",
+        "icon": "card-account-details-outline",
+        "fields": [
+          { "name": "id_number", "type": "id_number", "required": true },
+          { "name": "doc_dates", "required": true }
+        ]
+      },
+      {
+        "id": "drivers_license",
+        "capture_height": 230,
+        "requireBack": true,
+        "icon": "card-account-details",
+        "set": "MaterialCommunityIcons",
+        "fields": [
+          { "name": "id_number", "type": "id_number", "required": true },
+          { "name": "doc_dates", "required": true }
+        ]
+      }
+    ]
+  },
+  "proof_of_address": {
+    "icon": "location-on",
+    "options": [
+      {
+        "id": "utility_bill",
+        "capture_height": 350,
+        "icon": "receipt-long",
+        "set": "MaterialIcons"
+      },
+      {
+        "id": "bank_statement",
+        "capture_height": 350,
+        "icon": "account-balance",
+        "set": "MaterialIcons"
+      },
+      {
+        "id": "lease_or_rental_agreement",
+        "capture_height": 350,
+        "icon": "apartment",
+        "set": "MaterialIcons"
+      },
+      {
+        "id": "municipal_rate_and_taxes",
+        "capture_height": 300,
+        "icon": "house",
+        "set": "MaterialIcons"
+      },
+      {
+        "id": "mortgage_statement",
+        "capture_height": 300,
+        "icon": "house",
+        "set": "MaterialIcons"
+      },
+      {
+        "id": "telephone",
+        "capture_height": 300,
+        "icon": "call",
+        "set": "MaterialIcons"
+      },
+      {
+        "id": "insurance_policy",
+        "capture_height": 300,
+        "icon": "request-quote",
+        "set": "MaterialIcons"
+      },
+      {
+        "id": "retail_store",
+        "capture_height": 300,
+        "icon": "store",
+        "set": "MaterialIcons"
+      }
+    ]
+  },
+  "advanced_proof_of_identity": {
+    "icon": "camera-account",
+    "set": "MaterialCommunityIcons",
+    "options": [
+      {
+        "id": "id_confirmation"
+      }
+    ]
+  },
+  "proof_of_income": {
+    "type": "finances",
+    "icon": "perm-contact-calendar",
+    "options": [
+      {
+        "id": "payslip",
+        "capture_height": 450,
+        "icon": "monetization-on",
+        "set": "MaterialIcons"
+      },
+      {
+        "id": "employment_letter",
+        "capture_height": 450,
+        "set": "MaterialCommunityIcons",
+        "icon": "file-document-outline"
+      },
+      {
+        "id": "financial_statement",
+        "capture_height": 450,
+        "icon": "file-document",
+        "set": "MaterialCommunityIcons"
+      }
+    ]
+  }
+}

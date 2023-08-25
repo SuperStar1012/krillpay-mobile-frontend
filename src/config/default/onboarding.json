@@ -1,0 +1,30 @@
+{
+  "locales": {
+    "en": {
+      "individual_onboarding": {
+        "get_started": {
+          "title": "start_onboarding",
+          "subtitle": "get_verified"
+        },
+        "continue": {
+          "title": "complete_verification",
+          "subtitle": "tap_to_complete_onboarding"
+        },
+        "pending": {
+          "title": "documents_pending",
+          "subtitle": "documents_pending_subtitle"
+        },
+        "complete": {
+          "title": "onboarding_complete",
+          "subtitle": "onboarding_complete_subtitle"
+        },
+        "failed": {
+          "title": "onboarding_failed",
+          "subtitle": "onboarding_failed_subtitle"
+        }
+      }
+    }
+  },
+  "hideRegister": [],
+  "hideApp": []
+}

@@ -1,0 +1,79 @@
+{
+  "send": {
+    "condition": {
+      "hideCurrency": []
+    },
+    "config": {
+      "recipient": ["email", "mobile", "crypto"]
+    }
+  },
+  "receive": {
+    "condition": {
+      "hideCurrency": []
+    },
+    "config": {
+      "initialPage": "qr",
+      "showRecipientButtonsQr": false,
+      "recipient": []
+    }
+  },
+  "request": {
+    "condition": {
+      "hideCurrency": []
+    }
+  },
+  "deposit": {
+    "condition": {
+      "hideCurrency": []
+    }
+  },
+  "withdraw": {
+    "condition": {
+      "hideCurrency": []
+    },
+    "config": {
+      "pairs": [],
+      "message": ""
+    }
+  },
+  "sell_credit": {
+    "condition": {
+      "showGroups": ["merchant", "admin", "manager", "trader"],
+      "hide": true,
+      "hideCurrency": [""]
+    }
+  },
+  "pay": {
+    "condition": {
+      "hide": true,
+      "hideCurrency": []
+    },
+    "config": {
+      "showTip": false,
+      "showRating": false,
+      "tipType": "",
+      "tipValues": ["5", "10", "25"]
+    }
+  },
+  "prepaid": {
+    "config": {},
+    "condition": {
+      "hide": false,
+      "hideCurrency": []
+    }
+  },
+  "card": {
+    "config": {
+      "disableAdd": true
+    },
+    "condition": {
+      "hide": false,
+      "hideCurrency": ["XBT"]
+    }
+  },
+  "redeem_voucher": {
+    "condition": {
+      "hide": false
+    }
+  }
+}

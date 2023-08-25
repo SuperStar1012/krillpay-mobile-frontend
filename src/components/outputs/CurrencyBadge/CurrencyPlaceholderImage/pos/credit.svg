@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="130" height="130" viewBox="0 0 130 130">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_345" data-name="Rectangle 345" width="66.182" height="50.03" fill="#fff" stroke="#707070" stroke-width="0.424"/>
+    </clipPath>
+  </defs>
+  <g id="Credit" transform="translate(-627 -476)">
+    <path id="Path_614" data-name="Path 614" d="M35,0H95a35,35,0,0,1,35,35V95a35,35,0,0,1-35,35H35A35,35,0,0,1,0,95V35A35,35,0,0,1,35,0Z" transform="translate(627 476)" fill="#71ebe0"/>
+    <path id="Intersection_1" data-name="Intersection 1" d="M36.584,91.644,65.71,73.987l35.351-25.325L133.8,86.95c-.637,11.681,3.052,27.206-14.181,40.765-8.148,6.714-19.06,6.748-19.06,6.748H78.228Z" transform="translate(623.158 471.423)" opacity="0.1"/>
+    <g id="Mask_Group_215" data-name="Mask Group 215" transform="translate(659.33 517.182)" clip-path="url(#clip-path)">
+      <g id="credit-card" transform="translate(0 1.379)">
+        <path id="Path_584" data-name="Path 584" d="M4.727,57.455H61.455a4.741,4.741,0,0,0,4.727-4.727V14.909a4.741,4.741,0,0,0-4.727-4.727H4.727A4.741,4.741,0,0,0,0,14.909V52.727a4.741,4.741,0,0,0,4.727,4.727Z" transform="translate(0 -10.182)" fill="#9f2bfb"/>
+        <rect id="Rectangle_346" data-name="Rectangle 346" width="66.182" height="9.455" transform="translate(0 9.455)" fill="#f3e4ff"/>
+        <g id="Group_299" data-name="Group 299" transform="translate(3.545 28.364)" opacity="0.286">
+          <circle id="Ellipse_128" data-name="Ellipse 128" cx="4.727" cy="4.727" r="4.727" transform="translate(48.455)"/>
+          <path id="Path_585" data-name="Path 585" d="M9.727,52H5a1.182,1.182,0,1,1,0-2.364H9.727a1.182,1.182,0,1,1,0,2.364Z" transform="translate(-3.818 -41.364)"/>
+          <path id="Path_586" data-name="Path 586" d="M19.909,52H15.182a1.182,1.182,0,1,1,0-2.364h4.727a1.182,1.182,0,1,1,0,2.364Z" transform="translate(-4.545 -41.364)"/>
+          <path id="Path_587" data-name="Path 587" d="M30.091,52H25.364a1.182,1.182,0,1,1,0-2.364h4.727a1.182,1.182,0,1,1,0,2.364Z" transform="translate(-5.273 -41.364)"/>
+          <path id="Path_588" data-name="Path 588" d="M40.273,52H35.545a1.182,1.182,0,0,1,0-2.364h4.727a1.182,1.182,0,1,1,0,2.364Z" transform="translate(-6 -41.364)"/>
+          <path id="Path_589" data-name="Path 589" d="M23.909,46.909H5a1.182,1.182,0,0,1,0-2.364H23.909a1.182,1.182,0,0,1,0,2.364Z" transform="translate(-3.818 -41)"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

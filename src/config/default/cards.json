@@ -1,0 +1,10 @@
+{
+  "home": {
+    "mergeMainFeed": true,
+    "general": {
+      "welcome": true,
+      "verify": true
+    },
+    "custom": []
+  }
+}

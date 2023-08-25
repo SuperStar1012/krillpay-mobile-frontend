@@ -1,0 +1,7 @@
+{
+  "locales": {},
+  "hideID": false,
+  "labelID": "",
+  "addressTypes": ["permanent", "shipping", "billing"],
+  "referral": { "enabled": true }
+}

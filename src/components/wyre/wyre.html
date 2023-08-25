@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+    <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+
+    <script src="https://verify.sendwyre.com/js/pm-widget-init.js"></script>
+    <script type="text/javascript">
+      var handler = new WyrePmWidget({
+        env: 'test',
+        onLoad: function () {
+          // In this example we open the modal immediately on load. More typically you might have the handler.open() invocation attached to a button.
+          // window.ReactNativeWebView.postMessage('loaded');
+          handler.open();
+        },
+        onSuccess: function (result) {
+          // Here you would forward the publicToken back to your server in order to  be shipped to the Wyre API
+          window.ReactNativeWebView.postMessage('token:' + result.publicToken);
+          console.log(result.publicToken);
+        },
+        onExit: function (err) {
+          if (err != null) {
+            // The user encountered an error prior to exiting the module
+          }
+          window.ReactNativeWebView.postMessage('error:' + err);
+        },
+      });
+    </script>
+  </head>
+</html>
