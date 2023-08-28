@@ -87,7 +87,8 @@ function PendingIndacionTransactions(props) {
               variant="h6"
               align="right"
               width="auto"
-              style={{ whiteSpace: 'nowrap' }}>
+              // style={{ whiteSpace: 'nowrap' }}  // whiteSpace does not support by Text
+            >
               {formatDivisibility(item.amount_in, 2) + ' EUR'}
             </Text>
           </div>

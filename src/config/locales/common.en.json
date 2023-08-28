@@ -64,6 +64,8 @@
   "error": "Error",
   "try_again": "Try again",
   "update": "Update",
+  "warning": "Warning",
+  "info": "Info",
 
   "info_prefix": "Info: ",
   "alert_prefix": "Alert: ",

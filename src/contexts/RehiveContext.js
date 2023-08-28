@@ -25,9 +25,9 @@ function mapConfig(company) {
 }
 function mapServices(company) {
   let services = {};
-    company?.services?.map(service => {
-    services[service.name] = true;
-    return { [service.name]: true };
+  company?.services?.map(service => {
+    services[service.slug] = true;
+    return { [service.slug]: true };
   });
   return services;
 }

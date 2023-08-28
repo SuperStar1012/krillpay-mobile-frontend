@@ -5,26 +5,34 @@ to scan fingerprint if fingerprint has been set.
 */
 import React, { Component } from 'react';
 import { View, TouchableHighlight } from 'react-native';
-import { maybeOpenURL } from 'react-native-app-link';
-// import { PhoneNumberUtil, PhoneNumberFormat } from 'google-libphonenumber';
 
 import context from '../context';
 
-import { verifyMFA, sendAuthSMS } from 'utility/rehive';
+import { verifyMFA, deliverTokenForMFA } from 'utility/rehive';
 import { HeaderButton } from '../inputs/HeaderButton';
 import { CodeInput } from '../inputs/CodeInput';
 import Text from '../outputs/Text';
 import Images from 'components/images';
 
 class _MultiFactorAuthentication extends Component {
-  state = { hasGAuth: false, hasAuthy: false, error: '', loading: false };
+  state = {
+    hasGAuth: false,
+    hasAuthy: false,
+    error: '',
+    loading: false,
+    activeChallenge: this.props.challenges?.[0], // when verifying login MFA
+    authenticator: this.props.authenticator, // when setting MFA
+  };
 
   async verifyMFA(code) {
+    const { activeChallenge, authenticator } = this.state;
     try {
-      await verifyMFA(code);
-      // this.props?.showToast({
-      //   text: 'Two-factor authentication successful',
-      // });
+      await verifyMFA({
+        token: code,
+        [authenticator ? 'authenticator' : 'challenge']: authenticator
+          ? authenticator.id
+          : activeChallenge.id,
+      });
       const { onSuccess, setMfaStepCompleted } = this.props;
       typeof setMfaStepCompleted === 'function'
         ? setMfaStepCompleted(true)
@@ -37,77 +45,28 @@ class _MultiFactorAuthentication extends Component {
     }
   }
 
-  handleVerify(code) {
-    if (!this.state.loading) {
-      this.setState({ loading: true });
-      this.verifyMFA(code);
-    }
-  }
-
-  _onInputPinComplete(code) {
-    const { pin, onSuccess, setMfaStepCompleted } = this.props;
-    let error = '';
-    if (pin === code) {
-      typeof setMfaStepCompleted === 'function'
-        ? setMfaStepCompleted(true)
-        : onSuccess();
-    } else {
-      this._pinInput && this._pinInput.clear();
-      error = 'Incorrect pin, please try again';
-    }
-    this.setState({ error });
-  }
-
-  async _openAuthenticator(type) {
-    const { issuer, account, secret, authScreen } = this.props;
-
-    let url =
-      'otpauth://totp/' +
-      issuer +
-      ':' +
-      account +
-      +'?digits=6&issuer:' +
-      issuer +
-      (secret ? '&secret=' + secret : '');
-    let appName = '';
-    let appStoreId = '';
-    let playStoreId = '';
-    // let check = Linking.canOpenURL(url);
-    if (type === 'GAuth') {
-      appStoreId = '388497605';
-      playStoreId = 'com.google.android.apps.authenticator2';
-      url = 'otpauth://' + (authScreen ? 'open/' : url);
-      appName = 'Google Authenticator';
-    } else if (type === 'Authy') {
-      appStoreId = '494168017';
-      playStoreId = 'com.authy.authy';
-      url = 'authy://open/' + (authScreen ? '' : issuer);
-      appName = 'Authy';
-    }
-    maybeOpenURL(url, { appName, appStoreId, playStoreId })
-      .then(() => {
-        console.log('g auth opened');
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
-
   resendSMS = async () => {
-    await sendAuthSMS();
+    const { activeChallenge, authenticator } = this.state;
+    await deliverTokenForMFA({
+      [authenticator ? 'authenticator' : 'challenge']: authenticator
+        ? authenticator.id
+        : activeChallenge.id,
+    });
     this.props?.showToast({
       id: 'mfa_sms_new_code_sent',
     });
   };
 
   render() {
-    let { colors, type, codeLength, authScreen, mobile } = this.props;
-    const { error } = this.state;
-    const { viewStyleContainer, textStyle } = styles;
-    const isToken = type === 'token';
+    let { colors, codeLength, authScreen, mobile } = this.props;
+    const { error, activeChallenge, authenticator } = this.state;
+    const { textStyle } = styles;
+    const isToken = authenticator
+      ? authenticator.type === 'totp'
+      : activeChallenge?.authenticator_types?.includes('totp');
 
     return (
-      <View style={viewStyleContainer}>
+      <View>
         {authScreen ? (
           <HeaderButton
             text={'Logout'}
@@ -123,12 +82,10 @@ class _MultiFactorAuthentication extends Component {
         <View style={{ paddingHorizontal: 16 }}>
           <Text
             tA="center"
-            style={[
-              textStyle,
-              // authScreen ? { color: colors.authScreenContrast } : {},
-            ]}
+            style={[textStyle]}
             id={isToken ? 'mfa_token_verification' : 'mfa_sms_verification'}
-            context={{ mobile: mobile ? '' : 'your number' }}></Text>
+            context={{ mobile: mobile ? '' : 'your number' }}
+          />
           {Boolean(mobile) && !isToken && (
             <Text
               p={0.75}
@@ -158,33 +115,8 @@ class _MultiFactorAuthentication extends Component {
             onFulfill={code => this.verifyMFA(code)}
           />
 
-          {type === 'token' ? (
-            <View
-              style={{
-                padding: 8,
-              }}>
-              {/* <Button
-              label="OPEN GOOGLE AUTHENTICATOR"
-              color="secondary"
-              reference={input => {
-                this.login = input;
-              }}
-              onPress={() => this._openAuthenticator('GAuth')}
-              // animation="fadeInUpBig"
-            /> */}
-              {/* <View>
-              <Button
-                label="OPEN AUTHY"
-                textColor={colors.secondaryContrast}
-                backgroundColor={colors.secondary}
-                reference={input => {
-                  this.login = input;
-                }}
-                onPress={() => this._openAuthenticator('Authy')}
-                // animation="fadeInUpBig"
-              />
-            </View> */}
-            </View>
+          {isToken ? (
+            <View style={{ padding: 8 }} />
           ) : (
             <View
               style={{
@@ -210,14 +142,6 @@ class _MultiFactorAuthentication extends Component {
                   context={{ time: '' }}
                 />
               </TouchableHighlight>
-              {/* <Button
-              color="primary"
-              noPadding
-              type="text"
-              label="Resend"
-              size="small"
-              onPress={() => this.resendSMS()}
-            /> */}
             </View>
           )}
         </View>
@@ -227,11 +151,6 @@ class _MultiFactorAuthentication extends Component {
 }
 
 const styles = {
-  viewStyleContainer: {
-    // flex: 1,
-    // padding: 8,
-    // justifyContent: 'flex-start',
-  },
   textStyle: {
     width: '100%',
     justifyContent: 'center',

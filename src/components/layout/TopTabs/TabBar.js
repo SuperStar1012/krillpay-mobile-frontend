@@ -5,6 +5,7 @@ import {
   I18nManager,
   FlatList,
   Platform,
+  findNodeHandle,
 } from 'react-native';
 import Indicator from './Indicator';
 import TabBarItem from './TabBarItem';
@@ -21,7 +22,7 @@ export default function TabBar(props) {
     let m = [];
     data.forEach(item => {
       item?.ref?.current?.measureLayout(
-        containerRef?.current,
+        findNodeHandle(containerRef?.current),
         (x, y, width, height) => {
           m.push({ x, y, width, height });
           if (m?.length === data?.length) setMeasures(m);

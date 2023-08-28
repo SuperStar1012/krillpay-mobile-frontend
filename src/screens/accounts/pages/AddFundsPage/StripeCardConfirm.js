@@ -9,10 +9,7 @@ import Constants from 'expo-constants';
 import { get } from 'lodash';
 import { formatAmountString } from '../../util/rates';
 import client from 'config/client';
-import {
-  getStripePayment,
-  makeStripePayment,
-} from 'utility/rehive';
+import { getStripePayment, makeStripePayment } from 'utility/rehive';
 
 export default function StripeCardConfirm(props) {
   const {

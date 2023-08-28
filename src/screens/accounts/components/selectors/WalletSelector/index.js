@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { standardizeString, objectToArray, getUserCountryFromMSISDN } from 'utility/general';
+import {
+  standardizeString,
+  objectToArray,
+  getUserCountryFromMSISDN,
+} from 'utility/general';
 import { View, Text, PopUpGeneral } from 'components';
 
 import { TouchableOpacity, Pressable } from 'react-native';
@@ -13,9 +17,7 @@ import {
 } from 'screens/accounts/redux/reducer';
 import { getWallet } from 'utility/wallet';
 import CurrencySelectorCard from 'screens/settings/components/CurrencySelectorCard';
-import {
-  userProfileSelector,
-} from '@redux/rehive/reducer';
+import { userProfileSelector } from '@redux/rehive/reducer';
 
 export default function WalletSelector(props) {
   let { form, children, context, navigation } = props;
@@ -40,7 +42,7 @@ export default function WalletSelector(props) {
   const { accounts, multipleAccounts } = currencies;
   const profile = useSelector(userProfileSelector);
   const user = profile?.data?.[0];
- 
+
   const accountOptions = objectToArray(accounts).map(item => {
     return {
       value: item,
@@ -59,20 +61,19 @@ export default function WalletSelector(props) {
   if (disableCrypto) {
     items = items.filter(item => !item.crypto);
   }
-  
+
   const optionsNGN = items.map(item => {
     //if(item.currency.code =="NGN")
-   // {
-      return {
-        value: item,
-        key: item.account + ':' + item.currency.code,
-      };
-   // }
+    // {
+    return {
+      value: item,
+      key: item.account + ':' + item.currency.code,
+    };
+    // }
   });
 
   const optionsUSD = items.map(item => {
-    if(item.currency.code =="USD")
-    {
+    if (item.currency.code == 'USD') {
       return {
         value: item,
         key: item.account + ':' + item.currency.code,
@@ -80,7 +81,6 @@ export default function WalletSelector(props) {
     }
   });
 
- 
   const filteredOptionsNGN = optionsNGN.filter(function (el) {
     return el != null;
   });
@@ -88,7 +88,7 @@ export default function WalletSelector(props) {
   const filteredOptionsUSD = optionsUSD.filter(function (el) {
     return el != null;
   });
-  
+
   function onChange(currency) {
     setValue('currencyCode', currency?.currency?.code);
     setValue('accountRef', currency?.account);
@@ -101,24 +101,23 @@ export default function WalletSelector(props) {
         <View mb={0.5}>
           <Text c={'#777'} id={label} ns="accounts" />
         </View>
-        { getUserCountryFromMSISDN(user?.mobile) == "NG" ?
-        <CurrencySelectorCard
-          disabled={disabled}
-          currency={item}
-          items={filteredOptionsNGN}
-          rates={rates}
-          updateCurrency={item => onChange(item)}
-        />
-            :
-        <CurrencySelectorCard
-           disabled={disabled}
-           currency={item}
-           items={filteredOptionsUSD}
-           rates={rates}
-           updateCurrency={item => onChange(item)}
+        {getUserCountryFromMSISDN(user?.mobile) == 'NG' ? (
+          <CurrencySelectorCard
+            disabled={disabled}
+            currency={item}
+            items={filteredOptionsNGN}
+            rates={rates}
+            updateCurrency={item => onChange(item)}
           />
-
-        }
+        ) : (
+          <CurrencySelectorCard
+            disabled={disabled}
+            currency={item}
+            items={filteredOptionsUSD}
+            rates={rates}
+            updateCurrency={item => onChange(item)}
+          />
+        )}
       </>
     );
 
@@ -158,25 +157,23 @@ export default function WalletSelector(props) {
             </View>
           )}
 
-
-        { getUserCountryFromMSISDN(user?.mobile) == "NG" ?
-          <WalletCard
-            // overlay
-            item={item}
-            onPressContentDisabled={disabled}
-            rates={rates}
-            onPressContent={() => setModalVisible(true)}
-          />
-          :
-          <WalletCard
-          // overlay
-          item={filteredOptionsUSD[0].value}
-          onPressContentDisabled={disabled}
-          rates={rates}
-          onPressContent={() => setModalVisible(true)}
-        />
-
-        }
+          {getUserCountryFromMSISDN(user?.mobile) == 'NG' ? (
+            <WalletCard
+              // overlay
+              item={item}
+              onPressContentDisabled={disabled}
+              rates={rates}
+              onPressContent={() => setModalVisible(true)}
+            />
+          ) : (
+            <WalletCard
+              // overlay
+              item={filteredOptionsUSD[0].value}
+              onPressContentDisabled={disabled}
+              rates={rates}
+              onPressContent={() => setModalVisible(true)}
+            />
+          )}
         </>
       )}
       <PopUpGeneral
@@ -195,27 +192,28 @@ export default function WalletSelector(props) {
                 />
               </View>
             )}
-  
+
             {/*
     
             optionsUSD.map((item, index) => (*/}
-             {getUserCountryFromMSISDN(user?.mobile) == "NG" && optionsNGN.map((item, index) => (
-              <View pb={1} key={item.key}>
-                <WalletCard
-                  item={item.value}
-                  currencies={currencies}
-                  rates={rates}
-                  onPressContent={() => {
-                    hideModal();
-                    onChange(item.value);
-                  }}
-                />
-              </View>
-            ))}
+            {getUserCountryFromMSISDN(user?.mobile) == 'NG' &&
+              optionsNGN.map((item, index) => (
+                <View pb={1} key={item.key}>
+                  <WalletCard
+                    item={item.value}
+                    currencies={currencies}
+                    rates={rates}
+                    onPressContent={() => {
+                      hideModal();
+                      onChange(item.value);
+                    }}
+                  />
+                </View>
+              ))}
 
-            { getUserCountryFromMSISDN(user?.mobile) == "NG" ?
+            {getUserCountryFromMSISDN(user?.mobile) == 'NG' ? (
               <></>
-              :
+            ) : (
               <View pb={1} key={filteredOptionsUSD[0].key}>
                 <WalletCard
                   item={filteredOptionsUSD[0].value}
@@ -227,11 +225,9 @@ export default function WalletSelector(props) {
                   }}
                 />
               </View>
-                }
+            )}
 
-
-              
-           {/* )) */}
+            {/* )) */}
           </View>
         ) : (
           <View>

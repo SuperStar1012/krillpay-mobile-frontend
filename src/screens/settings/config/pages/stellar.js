@@ -28,11 +28,11 @@ const formConfig = props => {
   const knownPublicAddresses = props?.context?.results ?? [];
 
   let hasTestnetSelector = false;
-  if (services['Stellar Service'] && services['Stellar Testnet Service']) {
+  if (services?.stellar_service && services?.stellar_testnet_service) {
     hasTestnetSelector = true;
   }
   const isMainnet =
-    services['Stellar Service'] && !services['Stellar Testnet Service'];
+    services?.stellar_service && !services?.stellar_testnet_service;
 
   let fields = ['account_name'];
 
@@ -81,7 +81,7 @@ const formConfig = props => {
       stellarAddressType === 'public' && !memoSkip,
   });
 
-  if (services['Stellar Service']) {
+  if (services?.stellar_service) {
     return {
       defaultValues: EMPTY_STELLAR_MAINNET,
       mapDefaultValues,
@@ -110,7 +110,7 @@ async function createData(values, control, props) {
       crypto_type: 'stellar',
     };
     if (!values?.network) {
-      data.network = props?.reduxData?.services?.['Stellar Service']
+      data.network = props?.reduxData?.services?.stellar_service
         ? 'mainnet'
         : 'testnet';
     }

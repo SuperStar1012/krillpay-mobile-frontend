@@ -101,19 +101,6 @@ export default function CheckoutPay(props) {
         <ErrorOutput>{error}</ErrorOutput>
       </PageContent>
 
-      {/* <AccountCurrencySelector
-        rates={rates}
-        // accountItems={[]}
-        // accountItem={n}
-        currencyItems={currencyItems}
-        currencyItem={wallet}
-        onAccountChange={item => setAccountRef(item.reference)}
-        onCurrencyChange={item => {
-          setCurrencyCode(item?.currency?.code);
-          setConversionQuote(null);
-        }}
-      /> */}
-
       <View ph={1.5}>
         <Button
           color={'primary'}

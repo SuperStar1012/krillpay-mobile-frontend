@@ -32,7 +32,7 @@ async function handleSubmit(props) {
   // setState('submitting');
 
   if (
-    services['Conversion Service'] &&
+    services?.conversion_service &&
     rates.rates &&
     rates.displayCurrency.code &&
     display

@@ -22,20 +22,15 @@ export default function WithdrawAmountInput(props) {
     tier,
     crypto,
   } = props;
-  const {
-    values,
-    setFieldValue,
-    setFieldTouched,
-    touched,
-    errors,
-  } = formikProps;
+  const { values, setFieldValue, setFieldTouched, touched, errors } =
+    formikProps;
 
   const field = { ...send.amount };
   const { colors } = useTheme();
   const isCrypto = checkIfCrypto({ currency: withdrawCurrency, crypto });
 
   const hasConversion =
-    services['Conversion Service'] &&
+    services?.conversion_service &&
     rates &&
     rates.rates &&
     rates.displayCurrency &&

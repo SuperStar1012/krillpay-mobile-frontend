@@ -25,20 +25,17 @@ import {
 //const profile = useSelector(userProfileSelector);
 //const user = profile?.data?.[0];
 
- 
-
 class _BankAccountForm extends Component {
   state = {
     fields: [],
   };
 
   componentDidMount() {
- 
     const fields = Object.keys(EMPTY_BANK_ACCOUNT).map(
       key => bank_account[key] ?? address[key],
     );
 
-     this.setState({ fields });
+    this.setState({ fields });
   }
 
   async handleFormSubmit(props) {
@@ -105,9 +102,9 @@ class _BankAccountForm extends Component {
         };
 
     const hasWyre = checkWyreService(context?.services ?? {});
-  
+
     //if (!hasWyre)
-    if(initialCurrency == "USD"){
+    if (initialCurrency == 'USD') {
       return (
         <WyreAddBankAccount
           reducedHeight
@@ -116,64 +113,58 @@ class _BankAccountForm extends Component {
         />
       );
     }
-      
-    if(initialCurrency == "NGN"){
 
-    return (
-      <Formik
-        ref={input => {
-          this.BankAccountForm = input;
-        }}
-        initialValues={initialValues}>
-        {props => (
-          <View>
-            <View bC={'surfaceCard'}>
-              <AccountCurrencySelector
-                setValue={value => props.setFieldValue('currencies', value)}
-                values={props.values?.currencies ?? []}
-                item={item}
+    if (initialCurrency == 'NGN') {
+      return (
+        <Formik
+          ref={input => {
+            this.BankAccountForm = input;
+          }}
+          initialValues={initialValues}>
+          {props => (
+            <View>
+              <View bC={'surfaceCard'}>
+                <AccountCurrencySelector
+                  setValue={value => props.setFieldValue('currencies', value)}
+                  values={props.values?.currencies ?? []}
+                  item={item}
+                />
+                {fields.map((field, index) =>
+                  field.id === 'currencies' ? null : (
+                    <FormikInput
+                      field={field}
+                      key={field.id}
+                      formikProps={props}
+                    />
+                  ),
+                )}
+                {props.status && props.status.error ? (
+                  <Text p={1} c={'error'} tA={'center'}>
+                    {props.status.error}
+                  </Text>
+                ) : null}
+              </View>
+
+              <CardActions
+                type="vertical"
+                actionTwo={{
+                  id: 'save',
+                  onPress: () => this.handleFormSubmit(props),
+                  disabled: !props.isValid || props.isSubmitting,
+                  loading: props.isSubmitting,
+                }}
+                actionOne={{
+                  id: 'cancel',
+                  type: 'text',
+                  onPress: onClose,
+                }}
+                borderRadius={design.cards.cornerRadius}
               />
-              {fields.map((field, index) =>
-                field.id === 'currencies' ? null : (
-                  <FormikInput
-                    field={field}
-                    key={field.id}
-                    formikProps={props}
-                  />
-                ),
-              )}
-              {props.status && props.status.error ? (
-                <Text p={1} c={'error'} tA={'center'}>
-                  {props.status.error}
-                </Text>
-              ) : null}
             </View>
-
-            <CardActions
-              type="vertical"
-              actionTwo={{
-                id: 'save',
-                onPress: () => this.handleFormSubmit(props),
-                disabled: !props.isValid || props.isSubmitting,
-                loading: props.isSubmitting,
-              }}
-              actionOne={{
-                id: 'cancel',
-                type: 'text',
-                onPress: onClose,
-              }}
-              borderRadius={design.cards.cornerRadius}
-            />
-          </View>
-        )}
-      </Formik>
-
-            
-    );
-            }
-          
- 
-    
+          )}
+        </Formik>
+      );
+    }
   }
 }
 

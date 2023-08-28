@@ -56,7 +56,6 @@ export default function ContactList(props) {
   useEffect(() => {
     setSearchTerm(recipient);
   }, [recipient]);
-
   const wyreCrypto = context?.wyreCurrency?.wyre_currency_code_for_deposit;
   const type = getRecipientType(searchTerm, wallet, wyreCrypto);
 

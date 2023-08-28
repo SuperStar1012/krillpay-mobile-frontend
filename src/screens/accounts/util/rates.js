@@ -211,7 +211,7 @@ export function useConversion(available, rates, currency, isRTL = false) {
         convAvailable = convAvailable.toFixed(displayCurrency.divisibility);
       }
       convAvailable = isRTL
-        ? `${getCurrencyCode(displayCurrency)} ${convAvailable} ~` 
+        ? `${getCurrencyCode(displayCurrency)} ${convAvailable} ~`
         : `~ ${convAvailable} ${getCurrencyCode(displayCurrency)}`;
     } else convAvailable = 'N/A ' + getCurrencyCode(displayCurrency);
   }
@@ -273,7 +273,7 @@ export function useConversionTransactionList(services, rates, currency, item) {
 
 function handleConversionServicesCheck(services, rates, currency) {
   return Boolean(
-    services['Conversion Service'] &&
+    services?.conversion_service &&
       rates &&
       rates.rates &&
       rates.displayCurrency &&

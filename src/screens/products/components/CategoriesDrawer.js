@@ -74,7 +74,7 @@ export default function CategoriesDrawer(props) {
       onDrawerOpen={handleDrawerOpen}
       onDrawerClose={handleDrawerClose}
       drawerWidth={SCREEN_WIDTH * 0.9}
-      drawerType="front"
+      drawerType="slide"
       drawerBackgroundColor="#ddd"
       renderNavigationView={renderNavigationView}>
       {children}

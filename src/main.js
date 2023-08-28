@@ -2,13 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import { LogBox, AppState, Image, ActivityIndicator } from 'react-native';
 import * as Updates from 'expo-updates';
 import SplashImage from '../assets/icons/splash.png';
+import NotFound404 from '../assets/not_found_404.png';
 import { StatusBar } from 'expo-status-bar';
 import * as SecureStore from 'expo-secure-store';
 import { View } from './components/layout/View';
 import Text from './components/outputs/Text';
 import App from './navigation';
 import { ToastProvider } from 'contexts/ToastContext';
-import { QueryClient, QueryClientProvider } from 'react-query';
 import * as SplashScreen from 'expo-splash-screen';
 
 import { ThemeProvider } from 'contexts/ThemeContext';
@@ -30,6 +30,8 @@ import Toast from 'components/layout/Toast';
 import { LanguageProvider } from 'utility/i18n';
 import { DirectionProvider } from 'utility/i18n/provider';
 import { BusinessProvider } from 'contexts/BusinessContext';
+import { useCompanyFetch } from 'hooks/company';
+import { CompanyProvider } from 'contexts/CompanyContext';
 LogBox.ignoreLogs(['Warning: ...', 'Remote', '']);
 
 // Keep the splash screen visible while we fetch resources in _loadAssetsAsync
@@ -38,6 +40,7 @@ SplashScreen.preventAutoHideAsync();
 const Main = () => {
   const [loading, setLoading] = useState(true);
   const [localAuth, setLocalAuth] = useState(null);
+  const { companyData, companyNotFound, isCompanyLoading } = useCompanyFetch();
 
   const appState = useRef(AppState.currentState);
   const [fetchingUpdate, setFetchingUpdate] = useState(false);
@@ -51,7 +54,7 @@ const Main = () => {
     async function prepare() {
       try {
         // Pre-load activities
-        console.log("loading")
+        console.log('loading');
         await _loadAssetsAsync();
       } catch (e) {
         console.warn(e);

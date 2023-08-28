@@ -17,7 +17,10 @@ export default function CountryInput(props) {
   } = useRehiveContext();
 
   async function handleSelect(item) {
-    await AsyncStorage.setItem('countryCodeOnboarding', item?.cca2 ?? item ?? '');
+    await AsyncStorage.setItem(
+      'countryCodeOnboarding',
+      item?.cca2 ?? item ?? '',
+    );
     setValue(item);
     typeof onBlur === 'function' && onBlur();
   }

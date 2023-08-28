@@ -98,10 +98,7 @@ export default function TransactionList(props) {
     [user?.id, 'payment-requests'],
     () => getRequests({ currency, user }), // pagination:'cursor',
     {
-      enabled:
-        enabled &&
-        (services?.['Payment Requests Service (beta)'] ||
-          services?.['Payment Requests Service']),
+      enabled: enabled && services?.payment_requests_service,
     },
   );
 
@@ -227,86 +224,6 @@ export default function TransactionList(props) {
     </View>
   );
 }
-// async function openBrowser(transaction) {
-//   const metadata = transaction.metadata;
-
-//   if (metadata && metadata.type) {
-//     switch (metadata.type) {
-//       case 'stellar':
-//         this.hideModal();
-//         await WebBrowser.openBrowserAsync(
-//           'http://stellarchain.io/tx/' + metadata.hash,
-//         );
-//         this.showModal(transaction);
-//         break;
-//       case 'bitcoin':
-//         this.hideModal();
-//         await WebBrowser.openBrowserAsync(
-//           'https://live.blockcypher.com/btc-testnet/tx/' + metadata.hash,
-//           // 'https://live.blockcypher.com/btc/tx/' + metadata.hash,
-//         );
-//         this.showModal(transaction);
-//         break;
-//       case 'ethereum':
-//         this.hideModal();
-//         await WebBrowser.openBrowserAsync(
-//           'https://etherscan.io/tx/' + metadata.hash,
-//         );
-//         this.showModal(transaction);
-//         break;
-//     }
-//   }
-// }
-
-// async function getTransactions(next) {
-//   // const { currency, onRefresh, services } = this.props;
-//   // const { filters, direction, field } = this.state;
-//   this.setState({ [next ? 'nextLoading' : 'loading']: true });
-
-//   // if (typeof onRefresh === 'function') onRefresh();
-
-//   // this.setState({ activeFilters: filters });
-
-//   // if (field) {
-//   //   data.orderby = (direction === 'asc' ? '' : '-') + field;
-//   // }
-
-//   try {
-//     const _transactions = next
-//       ? await getNextTransactions()
-//       : await getTransactions(data);
-
-//     const requests =
-//       services?.['Payment Requests Service (beta)'] ||
-//       services?.['Payment Requests Service']
-//         ? await this.getRequests({
-//             start: next && _transactions?.results?.[0]?.created,
-//             end:
-//               _transactions?.results.length >= 15 &&
-//               _transactions?.results?.[_transactions?.results?.length - 1]
-//                 ?.created,
-//           })
-//         : [];
-
-//     const tempTransactions = next ? this.state.transactions : [];
-
-//     this.setState({
-//       transactions: [
-//         ...tempTransactions,
-//         ...orderBy(
-//           [...(_transactions?.results ?? []), ...requests],
-//           ['created'],
-//           ['desc'],
-//         ),
-//       ],
-//       next: _transactions.next,
-//     });
-//   } catch (e) {
-//     console.log('getTransactions', e);
-//   } finally {
-//     this.setState({ nextLoading: false, loading: false });
-//   }
-// }
 async function getRequests({ user, currency }) {
   let filters = {
     request_currency: currency?.code,

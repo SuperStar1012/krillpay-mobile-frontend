@@ -7,7 +7,7 @@ import QRCode from 'components/outputs/QRCode';
 
 export default function MfaToken(props) {
   const { token, error, setModalVisible, onBack } = props;
-  const { issuer, account, key } = token;
+  const { issuer, account, key } = token?.details ?? {};
   const url =
     'otpauth://totp/' +
     issuer +
@@ -19,11 +19,6 @@ export default function MfaToken(props) {
     issuer;
   const encUrl = encodeURI(url);
 
-  async function enableAuth() {
-    // enableAuthToken();
-    setModalVisible(true);
-  }
-
   const outputs = [
     { label: 'issuer', value: issuer, copy: true },
     { label: 'account', value: account, copy: true },
@@ -31,13 +26,12 @@ export default function MfaToken(props) {
   ];
 
   const buttons = [
-    { id: 'enable', onPress: () => enableAuth() },
+    { id: 'enable', onPress: () => setModalVisible(true) },
     { id: 'back', onPress: onBack, type: 'text' },
   ];
 
   return (
     <View>
-      {/* <View style={{ height: 8 }} /> */}
       <ErrorOutput>{error}</ErrorOutput>
       <QRCode encUrl={encUrl} p={0.5} />
       <View pt={0.5} pb={0.75} w="100%">

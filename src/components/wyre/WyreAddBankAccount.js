@@ -14,14 +14,18 @@ import { useToast, useRehiveContext } from 'contexts';
 import { useQuery } from 'react-query';
 import PlaidLink from './PlaidLink';
 import ErrorPage from 'components/page/SuccessPage';
-import { plaid_client_id, plaid_client_secret, plaid_base_url_sandbox } from '../../../env';
+import {
+  plaid_client_id,
+  plaid_client_secret,
+  plaid_base_url_sandbox,
+} from '../../../env';
 
 export default function WyreAddBankAccount(props) {
   const {
     context = {},
     onSuccess,
     onBack,
-    isOnboardingComplete = true, 
+    isOnboardingComplete = true,
     reducedHeight,
   } = props;
 
@@ -74,21 +78,23 @@ export default function WyreAddBankAccount(props) {
   }
 
   async function handlePaymentMethodCreate(public_token, account, institution) {
-   //  account_id: account?.id ?? account?._id,
+    //  account_id: account?.id ?? account?._id,
     const data = {
-      "client_id":plaid_client_id,
-      "secret":plaid_client_secret,
-      "public_token":public_token
-    }; 
-  
-   
-     const exchangeTokenResp = await exchangePlaidPublicToken({
+      client_id: plaid_client_id,
+      secret: plaid_client_secret,
+      public_token: public_token,
+    };
+
+    const exchangeTokenResp = await exchangePlaidPublicToken({
       id,
       data,
     });
-    
+
     console.log(`exchangeTokenResp==== ${JSON.stringify(exchangeTokenResp)}`);
-    if (exchangeTokenResp?.access_token !=="" && exchangeTokenResp?.access_token !== null ) {
+    if (
+      exchangeTokenResp?.access_token !== '' &&
+      exchangeTokenResp?.access_token !== null
+    ) {
       const data = {
         type: 'LOCAL_TRANSFER',
         processor_token: exchangeTokenResp?.access_token, //exchangeTokenResp?.data?.processor_token,
@@ -96,28 +102,27 @@ export default function WyreAddBankAccount(props) {
         institution_name: institution?.name,
       };
 
-       /*const paymentMethodResp = await createWyrePaymentMethod({
+      /*const paymentMethodResp = await createWyrePaymentMethod({
         id,
         data,
       });
       console.log("creating payment method for::: ",id, "and ",data)
       */
 
-     const plaidResponseData =  {
-        "client_id": plaid_client_id,
-        "secret": plaid_client_secret,
-        "access_token": exchangeTokenResp?.access_token
-      }
+      const plaidResponseData = {
+        client_id: plaid_client_id,
+        secret: plaid_client_secret,
+        access_token: exchangeTokenResp?.access_token,
+      };
 
-      
       let myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append('Content-Type', 'application/json');
       let raw = JSON.stringify(plaidResponseData);
       let requestOptions = {
         method: 'POST',
         headers: myHeaders,
         body: raw,
-        redirect: 'follow'
+        redirect: 'follow',
       };
       fetch(`${plaid_base_url_sandbox}/auth/get`, requestOptions)
         .then(response => response.text())
@@ -125,59 +130,51 @@ export default function WyreAddBankAccount(props) {
           let parseResult = JSON.parse(result);
           console.log(`result******:::::`, JSON.stringify(result));
           //onSuccess();
-          setBankAccountInfoPlaid(result)
+          setBankAccountInfoPlaid(result);
 
-          //store in database 
-          
-          
-          //Store account details in database 
-          let dataBank =  {
-            "name": parseResult.accounts[0].name,
-            "number": parseResult.numbers.ach[0].account,
-            "type":  parseResult.accounts[0].type,
-            "bank_name": parseResult.accounts[0].name,
-            "bank_code": "",
-            "branch_code": "",
-            "swift": parseResult.numbers.ach[0].routing,
-            "iban": "",
-            "line_1": "",
-            "line_2": "",
-            "city": "",
-            "state_province": "",
-            "country": "",
-            "postal_code": "",
-            "branch_address": {
-              "name": "",
-              "number": parseResult.numbers.ach[0].account,
-              "type": parseResult.accounts[0].type,
-              "bank_name":  parseResult.accounts[0].name,
-              "bank_code": "",
-              "branch_code": "",
-              "swift": parseResult.numbers.ach[0].routing,
-              "iban": "",
-              "currencies": [],
-              "line_1": exchangeTokenResp?.access_token,
-              "line_2": parseResult.accounts[0].account_id,
-              "city": "",
-              "state_province": "",
-              "country": "",
-              "postal_code": ""
-            }
-          }
-         const resp =  updateItem('bank_account', dataBank);
-         console.log(`Bank account added`, JSON.stringify(resp));
-         onSuccess();
-         refreshTier();
-          
+          //store in database
+
+          //Store account details in database
+          let dataBank = {
+            name: parseResult.accounts[0].name,
+            number: parseResult.numbers.ach[0].account,
+            type: parseResult.accounts[0].type,
+            bank_name: parseResult.accounts[0].name,
+            bank_code: '',
+            branch_code: '',
+            swift: parseResult.numbers.ach[0].routing,
+            iban: '',
+            line_1: '',
+            line_2: '',
+            city: '',
+            state_province: '',
+            country: '',
+            postal_code: '',
+            branch_address: {
+              name: '',
+              number: parseResult.numbers.ach[0].account,
+              type: parseResult.accounts[0].type,
+              bank_name: parseResult.accounts[0].name,
+              bank_code: '',
+              branch_code: '',
+              swift: parseResult.numbers.ach[0].routing,
+              iban: '',
+              currencies: [],
+              line_1: exchangeTokenResp?.access_token,
+              line_2: parseResult.accounts[0].account_id,
+              city: '',
+              state_province: '',
+              country: '',
+              postal_code: '',
+            },
+          };
+          const resp = updateItem('bank_account', dataBank);
+          console.log(`Bank account added`, JSON.stringify(resp));
+          onSuccess();
+          refreshTier();
         })
         .catch(error => console.log('error', error));
 
-       
-
-
-     
-      
-      
       if (paymentMethodResp?.status === 'success') {
         refreshTier();
         setState('');
@@ -186,10 +183,9 @@ export default function WyreAddBankAccount(props) {
           : typeof onBack === 'function' && onBack();
       } else handleError(paymentMethodResp?.message);
     } else handleError(exchangeTokenResp?.message);
-  } 
+  }
 
   function generateTokenLink() {
-
     //console.log(`user.id`);
     //TODO:: Edit once gotten prod.
     let myHeaders = new Headers();
@@ -197,20 +193,21 @@ export default function WyreAddBankAccount(props) {
 
     let raw = JSON.stringify({
       client_id: plaid_client_id,
-      secret: plaid_client_secret, 
+      secret: plaid_client_secret,
       user: { client_user_id: user.id },
       client_name: 'KrillPay',
-      products: ['auth','transactions','identity'],
+      products: ['auth', 'transactions', 'identity'],
       country_codes: ['US'],
       language: 'en',
       webhook: 'https://ec2-54-245-202-115.us-west-2.compute.amazonaws.com/', //change this later
-      redirect_uri: 'https://ec2-54-245-202-115.us-west-2.compute.amazonaws.com/',
+      redirect_uri:
+        'https://ec2-54-245-202-115.us-west-2.compute.amazonaws.com/',
     });
     let requestOptions = {
       method: 'POST',
       headers: myHeaders,
       body: raw,
-      redirect: 'follow', 
+      redirect: 'follow',
     };
     fetch(`${plaid_base_url_sandbox}/link/token/create`, requestOptions)
       .then(response => response.text())
@@ -238,7 +235,7 @@ export default function WyreAddBankAccount(props) {
   }
 
   function handleSuccess(event) {
-     handlePaymentMethodCreate(
+    handlePaymentMethodCreate(
       event?.publicToken,
       event?.metadata?.accounts?.[0],
       event?.metadata?.institution,

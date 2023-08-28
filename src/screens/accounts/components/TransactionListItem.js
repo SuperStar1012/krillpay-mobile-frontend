@@ -47,7 +47,7 @@ export default function TransactionListItem(props) {
   const [tempRates, setTempRates] = useState(rates.rates);
 
   const hasConversion =
-    services['Conversion Service'] &&
+    services?.conversion_service &&
     rates &&
     rates.rates &&
     rates.displayCurrency &&

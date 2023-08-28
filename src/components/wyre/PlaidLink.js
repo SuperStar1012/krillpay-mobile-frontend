@@ -3,7 +3,7 @@ import { WebView } from 'react-native-webview';
 import queryString from 'query-string';
 import { PopUpGeneral } from 'components/layout/PopUpGeneral';
 import { View } from 'components/layout/View';
-import { Dimensions, Text, TouchableOpacity } from 'react-native';
+import { Dimensions } from 'react-native';
 import Constants from 'expo-constants';
 import { useKeyboard } from 'hooks/keyboard';
 const SCREEN_HEIGHT = Dimensions.get('window').height;

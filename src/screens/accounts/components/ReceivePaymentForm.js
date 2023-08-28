@@ -116,9 +116,7 @@ class _ReceivePaymentForm extends Component {
     let amountConvString = '';
     const { divisibility } = currency.currency;
     const hasConversion =
-      services['Conversion Service'] &&
-      rates.rates &&
-      rates.displayCurrency.code;
+      services?.conversion_service && rates.rates && rates.displayCurrency.code;
     if (amount) {
       if (hasConversion) {
         const convRate = calculateRate(

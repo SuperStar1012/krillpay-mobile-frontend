@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { MultiFactorAuthentication } from 'components';
-import { getMFA } from 'utility/rehive';
 import { useMfaSuccess } from 'hooks/useMfaSuccess';
 
 export default function MfaVerifyPage(props) {
@@ -15,7 +14,7 @@ export default function MfaVerifyPage(props) {
     tempAuth,
     setTempAuth,
   } = props;
-  const [mfa, setMfa] = useState('');
+  const { challenges } = tempAuth;
 
   const { setMfaStepCompleted } = useMfaSuccess({
     tempAuth,
@@ -27,19 +26,13 @@ export default function MfaVerifyPage(props) {
   if (initialUser) {
     ({ mobile } = initialUser);
   }
-
   useEffect(() => {
-    async function handleGetMfa() {
-      const mfa = await getMFA();
-      if (mfa.token || mfa.sms) {
-        setMfa(mfa.token ? 'token' : 'sms');
-        setLoading(false);
-      } else {
-        if (authConfig?.mfa) send('MFA_SET');
-        else setMfaStepCompleted(true);
-      }
+    if (challenges?.length > 0) {
+      setLoading(false);
+    } else {
+      if (authConfig?.mfa) send('MFA_SET');
+      else setMfaStepCompleted(true);
     }
-    handleGetMfa();
   }, []);
 
   if (loading) {
@@ -48,7 +41,7 @@ export default function MfaVerifyPage(props) {
   return (
     <MultiFactorAuthentication
       authScreen
-      type={mfa}
+      challenges={challenges}
       mobile={mobile}
       onSuccess={onSuccess}
       setMfaStepCompleted={setMfaStepCompleted}

@@ -49,14 +49,14 @@ function mapCards({
           //   type: 'featured_products',
           //   content:
           //     key === 'main' &&
-          //     services?.['Product Service'] &&
+          //     services?.product_service &&
           //     !cardsConfig?.home?.main?.featured?.hideProducts,
           // },
           // {
           //   type: 'featured_rewards',
           //   content:
           //     key === 'main' &&
-          //     services?.['Rewards Service'] &&
+          //     services?.rewards_service &&
           //     !cardsConfig?.home?.main?.featured?.hideRewards,
           // },
           {

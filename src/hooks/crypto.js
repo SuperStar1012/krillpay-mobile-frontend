@@ -45,12 +45,12 @@ function mapCryptoQueries(type, enabled) {
 
 export function useCrypto({ init, services, user }) {
   let cryptoServices = [];
-  if (services['Stellar Service']) cryptoServices.push('XLM');
-  if (services['Stellar Testnet Service']) cryptoServices.push('TXLM');
-  if (services['Bitcoin Service']) cryptoServices.push('XBT');
-  if (services['Ethereum Service']) cryptoServices.push('ETH');
-  if (services['Bitcoin Testnet Service']) cryptoServices.push('TXBT');
-  if (services['Ethereum Testnet Service']) cryptoServices.push('TETH');
+  if (services?.stellar_service) cryptoServices.push('XLM');
+  if (services?.stellar_testnet_service) cryptoServices.push('TXLM');
+  if (services?.bitcoin_service) cryptoServices.push('XBT');
+  if (services?.ethereum_service) cryptoServices.push('ETH');
+  if (services?.bitcoin_testnet_service) cryptoServices.push('TXBT');
+  if (services?.ethereum_testnet_service) cryptoServices.push('TETH');
 
   let cryptoQueryArray = [];
   const queryClient = useQueryClient();
@@ -125,7 +125,7 @@ export const CRYPTO_INITIAL_STATE = {
 //   }
 // }, [services, init]);
 
-// const enabledStellar = init&&services['Stellar Service']||services['Stellar Testnet Service'];
+// const enabledStellar = init&&services?.stellar_service||services?.stellar_testnet_service;
 // const queryStellar = useQuery(
 //   ['accounts', user?.id],
 //   async () => getAccounts(),

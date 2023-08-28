@@ -1,3 +1,4 @@
+/* eslint-disable import/namespace */
 import React from 'react';
 import * as Inputs from 'config/inputs';
 
@@ -102,7 +103,7 @@ export default function DetailLayout(props) {
                     key={index.toString()}
                     label={field.label}
                     value={field.value.map(
-                      (item, ind) => (ind > 0 ? ', ' : '') + item.code,
+                      (item, ind) => (ind > 0 ? ', ' : '') + item.display_code,
                     )}
                   />
                 );
