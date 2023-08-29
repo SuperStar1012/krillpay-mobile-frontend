@@ -181,24 +181,21 @@ const Main = () => {
   }
 };
 
-const queryClient = new QueryClient();
 const Providers = ({ children, localAuth }) => {
   return (
-    <QueryClientProvider client={queryClient}>
-      <ToastProvider>
-        <LocalAuthProvider initial={localAuth}>
-          <RehiveProvider>
-            <BusinessProvider>
-              <ThemeProvider>
-                <LanguageProvider>
-                  <DirectionProvider>{children}</DirectionProvider>
-                </LanguageProvider>
-              </ThemeProvider>
-            </BusinessProvider>
-          </RehiveProvider>
-        </LocalAuthProvider>
-      </ToastProvider>
-    </QueryClientProvider>
+    <ToastProvider>
+      <LocalAuthProvider initial={localAuth}>
+        <RehiveProvider>
+          <BusinessProvider>
+            <ThemeProvider>
+              <LanguageProvider>
+                <DirectionProvider>{children}</DirectionProvider>
+              </LanguageProvider>
+            </ThemeProvider>
+          </BusinessProvider>
+        </RehiveProvider>
+      </LocalAuthProvider>
+    </ToastProvider>
   );
 };
 

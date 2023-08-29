@@ -1,10 +1,10 @@
 import App from './src';
-import 'expo-dev-client';
+// import 'expo-dev-client';
 require('node-libs-react-native/globals');
-import Constants from 'expo-constants';
+// import Constants from 'expo-constants';
 
 //import * as Sentry from 'sentry-expo';
-//TODO:: Activate on golive 
+//TODO:: Activate on golive
 // TODO: This constants format will change when we upgrade to the new Expo SDK.
 // https://docs.expo.dev/guides/environment-variables/#reading-environment-variables
 /*Sentry.init({
@@ -13,4 +13,4 @@ import Constants from 'expo-constants';
   debug: true,
 });*/
 
-export default  App; //Sentry.Native.wrap(App);
+export default App; //Sentry.Native.wrap(App);

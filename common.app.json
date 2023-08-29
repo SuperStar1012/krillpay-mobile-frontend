@@ -1,71 +1,84 @@
 {
-  "expo": {
-		"privacy": "public",
+	"expo": {
+	  "privacy": "public",
+	  "userInterfaceStyle": "light",
+	  "orientation": "portrait",
+	  "icon": "./assets/icons/icon.png",
+	  "splash": {
+		"image": "./assets/icons/splash.png",
+		"primaryColor": "#ffffff",
+		"resizeMode": "contain"
+	  },
+	  "assetBundlePatterns": [
+		"./assets/icons/*"
+	  ],
+	  "hooks": {
+		"postPublish": []
+	  },
+	  "plugins": [
+			  [
+				  "expo-build-properties",
+				  {
+					  "android": {
+						  "kotlinVersion": "1.6.21"
+					  },
+					  "ios": {
+						  "deploymentTarget": "13.0"
+					  }
+				  }
+			  ],
+			  "expo-image-picker",
+		"sentry-expo"
+		  ],
+	  "updates": {
+		"checkAutomatically": "ON_ERROR_RECOVERY",
+		"fallbackToCacheTimeout": 60000
+	  },
+	  "ios": {
 		"userInterfaceStyle": "light",
-		"orientation": "portrait",
-		"icon": "./assets/icons/icon.png",
-		"splash": {
-			"image": "./assets/icons/splash.png",
-			"primaryColor": "#ffffff",
-			"resizeMode": "contain"
-		},
-		"assetBundlePatterns": ["./assets/icons/*"],
-		"hooks": {
-			"postPublish": []
-		},
-		"plugins": [
-			[
-				"expo-build-properties",
-				{
-					"android": {
-						"kotlinVersion": "1.6.21"
-					},
-					"ios": {
-						"deploymentTarget": "13.0"
-					}
-				}
-			],
-			"expo-image-picker"
+		"supportsTablet": false,
+		"infoPlist": {
+		  "NSContactsUsageDescription": "Allow access to contacts to easily make transactions to the recipient's email or mobile number.",
+		  "NSCameraUsageDescription": "Allow access to device's camera for QR scanning or uploading an image for KYC verification or profile image",
+		  "NSPhotoLibraryUsageDescription": "Allow access to upload an image for KYC verification or profile image from your device's storage",
+		  "NSFaceIDUsageDescription": "Allow access to FaceID to secure login session",
+		  "UIUserInterfaceStyle": "Light"
+		}
+	  },
+	  "android": {
+		"permissions": [
+		  "CAMERA",
+		  "CAMERA_ROLL",
+		  "MANAGE_DOCUMENTS",
+		  "READ_CONTACTS",
+		  "READ_EXTERNAL_STORAGE",
+		  "READ_PHONE_STATE",
+		  "USE_FINGERPRINT",
+		  "WRITE_EXTERNAL_STORAGE",
+		  "AUDIO_RECORDING"
 		],
-		"updates": {
-			"checkAutomatically": "ON_ERROR_RECOVERY",
-			"fallbackToCacheTimeout": 60000
-		},
-		"ios": {
-			"userInterfaceStyle": "light",
-			"supportsTablet": false,
-			"infoPlist": {
-				"NSContactsUsageDescription": "Allow access to contacts to easily make transactions to the recipient's email or mobile number.",
-				"NSCameraUsageDescription": "Allow access to device's camera for QR scanning or uploading an image for KYC verification or profile image",
-				"NSPhotoLibraryUsageDescription": "Allow access to upload an image for KYC verification or profile image from your device's storage",
-				"NSFaceIDUsageDescription": "Allow access to FaceID to secure login session",
-				"UIUserInterfaceStyle": "Light"
-			}
-		},
-		"android": {
-			"permissions": [
-				"CAMERA",
-				"CAMERA_ROLL",
-				"MANAGE_DOCUMENTS",
-				"READ_CONTACTS",
-				"READ_EXTERNAL_STORAGE",
-				"READ_PHONE_STATE",
-				"USE_FINGERPRINT",
-				"WRITE_EXTERNAL_STORAGE",
-				"AUDIO_RECORDING"
-			],
-			"userInterfaceStyle": "light"
-		},
-		"notification": {
-			"icon": "./assets/icons/push.png",
-			"color": "#B8B7C6",
-			"iosDisplayInForeground": true
-		},
-		"platforms": ["android", "ios"],
-		"packagerOpts": {
-			"config": "metro.config.js",
-			"sourceExts": ["js", "jsx", "svg", "ts", "tsx"]
-		},
-		"runtimeVersion": "exposdk:48.0.0"
+		"userInterfaceStyle": "light"
+	  },
+	  "notification": {
+		"icon": "./assets/icons/push.png",
+		"color": "#B8B7C6",
+		"iosDisplayInForeground": true
+	  },
+	  "platforms": [
+		"android",
+		"ios"
+	  ],
+	  "packagerOpts": {
+		"config": "metro.config.js",
+		"sourceExts": [
+		  "js",
+		  "jsx",
+		  "svg",
+		  "ts",
+		  "tsx"
+		]
+	  },
+	  
+	  "runtimeVersion": "exposdk:48.0.0"
+	}
   }
-}
