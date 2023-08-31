@@ -1,7 +1,7 @@
 {
-	"name": "rehive-wallet",
+	"name": "krillpay",
 	"version": "1.2.0",
-	"description": "A multi-currency wallet built on the Rehive platform.",
+	"description": "",
 	"author": "rehive",
 	"private": true,
 	"scripts": {
