@@ -30,8 +30,6 @@ import Toast from 'components/layout/Toast';
 import { LanguageProvider } from 'utility/i18n';
 import { DirectionProvider } from 'utility/i18n/provider';
 import { BusinessProvider } from 'contexts/BusinessContext';
-import { useCompanyFetch } from 'hooks/company';
-import { CompanyProvider } from 'contexts/CompanyContext';
 LogBox.ignoreLogs(['Warning: ...', 'Remote', '']);
 
 // Keep the splash screen visible while we fetch resources in _loadAssetsAsync
@@ -40,7 +38,6 @@ SplashScreen.preventAutoHideAsync();
 const Main = () => {
   const [loading, setLoading] = useState(true);
   const [localAuth, setLocalAuth] = useState(null);
-  const { companyData, companyNotFound, isCompanyLoading } = useCompanyFetch();
 
   const appState = useRef(AppState.currentState);
   const [fetchingUpdate, setFetchingUpdate] = useState(false);

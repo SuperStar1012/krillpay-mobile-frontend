@@ -2202,6 +2202,11 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
+"@onfido/react-native-sdk@^10.1.0":
+  version "10.1.0"
+  resolved "https://registry.yarnpkg.com/@onfido/react-native-sdk/-/react-native-sdk-10.1.0.tgz#d43ff183d550e58211ae5735c72fb63ebdef4d94"
+  integrity sha512-PUuRuKAd0LDDFlQCDH8XD5XQBkgEksA5IVZWR4eHuwWsgNbKx53uDjQGE38TV+k91d68gLzGBi3YN1EcmInM7A==
+
 "@react-native-async-storage/async-storage@^1.17.11":
   version "1.19.3"
   resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-1.19.3.tgz#ad5fe3ed0a82d4624aa4500321c1e09c02daeb46"
