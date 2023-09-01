@@ -624,6 +624,10 @@ export default function TransactionListDetail(props) {
                   closeModal();
                 }}
                 close={() => setModal(false)}
+                closeAll={() => {
+                  setModal(false);
+                  closeModal();
+                }}
                 setItem={setItem}
                 user={item.partner?.user}
                 navigation={navigation}
