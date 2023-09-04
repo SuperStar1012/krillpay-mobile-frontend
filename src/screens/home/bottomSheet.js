@@ -27,6 +27,7 @@ import { useRehive } from 'hooks/rehive';
 import { checkWyreKYC } from 'extensions/wyre/util';
 import { useRehiveContext } from 'contexts';
 import BottomSheet from '@gorhom/bottom-sheet';
+import ContactUtil from 'utility/contacts';
 
 function mapCards({
   cardsConfig,
@@ -193,6 +194,10 @@ export default function _BottomSheet(props) {
 
   const selectedCurrency = get(currencies, ['data', selectedCurrencyIndex]);
   let newCardsConfig = { ...cardsConfig };
+
+  useEffect(() => {
+    ContactUtil.getAllContacts(['email', 'mobile', 'crypto'], false);
+  }, []);
 
   if (cardsConfig?.home?.custom || cardsConfig?.home?.general) {
     const welcomeCard = cardsConfig?.home?.custom?.find(

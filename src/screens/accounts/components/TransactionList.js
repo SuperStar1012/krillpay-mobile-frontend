@@ -23,8 +23,6 @@ import { fetchAccounts } from '../redux/actions';
 import { useDispatch } from 'react-redux';
 import { orderBy, isEmpty } from 'lodash';
 import EmptyListPlaceholder from 'components/images/empty';
-import { useContacts } from 'contexts/ContactsContext';
-import ContactUtil from 'utility/contacts';
 
 export default function TransactionList(props) {
   const {
@@ -38,10 +36,6 @@ export default function TransactionList(props) {
   const {
     context: { user, services },
   } = useRehiveContext();
-
-  useEffect(() => {
-    ContactUtil.getAllContacts(['email', 'mobile', 'crypto'], false);
-  }, []);
 
   const { account, currency } = wallet;
 
