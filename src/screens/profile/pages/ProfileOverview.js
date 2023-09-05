@@ -199,14 +199,13 @@ export default function ProfileOverview(props) {
                   {...sharedProps}
                   {...item}
                   ns="profile"
-                  onPress={() =>
-                    navigation.navigate(
+                  onPress={() => {
+                    const name =
                       item?.label === 'settings'
-                        ? navigation.navigate('Settings')
-                        : item?.page ?? 'ProfilePage',
-                      item,
-                    )
-                  }
+                        ? 'Settings'
+                        : item?.page ?? 'ProfilePage';
+                    navigation.navigate(name, item);
+                  }}
                 />
               )}
               // refreshControl={
