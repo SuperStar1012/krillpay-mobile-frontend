@@ -46,6 +46,8 @@ export default function SendNaira(navigationProps) {
                   show
                   onSelect={e => setFieldValue('bankDetails', e)}
                   banks={data}
+                  formValues={values}
+                  setAccountName={e => setFieldValue('accountName', e)}
                   header={
                     <OutlinedTextField
                       label="Beneficiary Account Number"

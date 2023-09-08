@@ -2,10 +2,10 @@ import { CONSTANTS } from 'config/constants';
 
 /**
  *
- * @param {import('../useReviewTransaction').ReviewTransactionRouteParams} body
  * @returns { Promise<NIPAccountModel> }
  */
 export default async function getNIPAccount(body) {
+  console.log(body);
   const requestBody = {
     beneficiaryBank: body.bankDetails.bankCode,
     accountNumber: body.accountNumber,

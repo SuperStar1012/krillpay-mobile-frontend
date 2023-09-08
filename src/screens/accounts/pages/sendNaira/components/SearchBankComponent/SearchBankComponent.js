@@ -4,13 +4,22 @@ import { View, Text, StyleSheet, FlatList, ScrollView } from 'react-native';
 import { OutlinedTextField } from 'rn-material-ui-textfield';
 import BankButton from './components';
 import useSearchBankComponent from './useSearchBankComponent';
+import useGetNipAccount from './useGetNipAccount';
+import { EvilIcons } from '@expo/vector-icons';
 
 /**
  *
  * @param {{show: boolean, banks: import('../../api/getBankCodes').NIPBank[]}} param0
  * @returns
  */
-const SearchBankComponent = ({ banks = [], header, footer, onSelect }) => {
+const SearchBankComponent = ({
+  banks = [],
+  header,
+  footer,
+  onSelect,
+  formValues,
+  setAccountName,
+}) => {
   const {
     onSelectBank,
     searchBankText,
@@ -22,6 +31,11 @@ const SearchBankComponent = ({ banks = [], header, footer, onSelect }) => {
     onBlur,
   } = useSearchBankComponent({ banks, onSelect });
 
+  const { isLoading, data } = useGetNipAccount({
+    beneficiaryDetail: formValues,
+    setAccountName,
+  });
+
   return (
     <FlatList
       keyboardShouldPersistTaps="handled"
@@ -30,7 +44,7 @@ const SearchBankComponent = ({ banks = [], header, footer, onSelect }) => {
       ListFooterComponent={footer}
       ListFooterComponentStyle={{ marginTop: 8 }}
       ListHeaderComponentStyle={{ backgroundColor: 'white' }}
-      initialNumToRender={15}
+      initialNumToRender={10}
       ListHeaderComponent={
         <>
           {header}
@@ -47,6 +61,13 @@ const SearchBankComponent = ({ banks = [], header, footer, onSelect }) => {
               setSearchBankText(e);
             }}
           />
+          <View style={{ alignItems: 'flex-end' }}>
+            {isLoading ? (
+              <EvilIcons name="spinner-3" size={24} color="blue" />
+            ) : (
+              <Text style={{ color: 'blue' }}>{data?.accountName}</Text>
+            )}
+          </View>
         </>
       }
       data={filteredBanks}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useMutation, useQuery } from 'react-query';
-import getNIPAccount from './api/getNIPAccount';
+import getNIPAccount from '../sendNaira/api/getNIPAccount';
 import transferFunds from './api/transferNaira';
 /**
  * @typedef {{bankName: string, bankCode: string}} BankDetails
@@ -9,11 +9,6 @@ import transferFunds from './api/transferNaira';
  * @returns
  */
 export default function useReviewTransaction({ route, navigation }) {
-  const { data, isLoading, isError } = useQuery(
-    ['GET_NIP_ACCOUNT', route.params],
-    async () => await getNIPAccount(route.params),
-  );
-
   const transferFundsMutation = useMutation(transferFunds, {
     mutationKey: 'TRANSFER_FUNDS',
   });
@@ -26,8 +21,8 @@ export default function useReviewTransaction({ route, navigation }) {
     const payload = {
       currencyCode: 'NGN',
       narration: route.params.narration,
-      beneficiaryAccountName: data?.accountName,
-      beneficiaryAccountNumber: data?.accountNumber,
+      beneficiaryAccountName: route?.params?.accountName,
+      beneficiaryAccountNumber: route?.params?.accountNumber,
       transactionAmount: route.params.amount,
       beneficiaryBank: route.params.bankDetails?.bankName,
       sourceAccountName: 'Account Name',
@@ -45,12 +40,8 @@ export default function useReviewTransaction({ route, navigation }) {
   }
 
   return {
-    data: {
-      ...data,
-      ...route.params,
-    },
+    data: route.params,
     transferNairaFunds,
-    isLoading: isLoading || transferFundsMutation.isLoading,
-    isError,
+    isLoading: transferFundsMutation.isLoading,
   };
 }
