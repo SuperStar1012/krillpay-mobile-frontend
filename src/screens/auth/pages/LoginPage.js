@@ -161,7 +161,7 @@ export default function LoginPage(props) {
   return (
     <Formik
       initialValues={{
-        email,
+        email: '',
         mobile: '',
         company: company.id,
         password: '',

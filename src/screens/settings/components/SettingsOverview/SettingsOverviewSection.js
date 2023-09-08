@@ -23,7 +23,7 @@ export default function SettingsOverviewSection(props) {
         </Text>
       </View>
       {/* {children} */}
-      <View style={[viewStyleChildren]}>
+      <View style={viewStyleChildren}>
         {keys.map(key => {
           const item = children?.[key];
           const { value, status, renderItem, label, condition } = item;

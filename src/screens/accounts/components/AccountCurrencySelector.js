@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { uniq } from 'lodash';
+import { uniqBy } from 'lodash';
 import { View, Output, Button } from 'components';
 
 import { ModalFullscreen } from 'components/modals/ModalFullscreen';
@@ -37,17 +37,31 @@ export default function AccountCurrencySelector(props) {
   const {
     context: { wallets },
   } = useAccounts();
-
-  const codes = uniq(wallets?.data.map(item => item?.currency?.code));
+  const codes = uniqBy(
+    wallets?.data
+      // .filter(currency => !currency.crypto)
+      .map(currency => ({
+        label: currency?.currency?.display_code,
+        value: currency?.currency?.code,
+      })),
+    'value',
+  );
   const items = codes.map(item => {
     return {
-      label: item,
-      value: item,
-      checked: tempValues?.findIndex(val => val === item) !== -1,
+      ...item,
+      checked: tempValues?.findIndex(val => val === item.value) !== -1,
     };
   });
 
-  const valuesString = (values?.length > 0 ? values : []).join(', ');
+  const valuesString = (
+    values?.length > 0
+      ? values.map(code => {
+          const codeItem = items?.find(item => item.value === code);
+          return codeItem ? codeItem.label : code;
+        })
+      : []
+  ).join(', ');
+  console.log(valuesString);
 
   const handleChange = item => {
     if (!item.checked) {

@@ -69,6 +69,7 @@ export default function WyreAccounts(props) {
     () => getWyrePaymentMethods(), //{ search: '?status=ACTIVE' }),
     {
       enabled: !!user?.id,
+      staleTime: 5000,
     },
   );
   const isEmpty = !paymentMethods?.results?.length > 0;

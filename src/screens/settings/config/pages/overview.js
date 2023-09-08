@@ -3,9 +3,6 @@ import {
   concatCryptoAccount,
   getCurrencyCode,
 } from 'utility/general';
-// import CryptoAccountsOverview from '../../components/CryptoAccountsOverview';
-// import SettingsOverview from '../../components/SettingsOverview';
-import { getMFA } from 'utility/rehive';
 
 function checkMFA(mfa) {
   if (mfa?.token) {
@@ -17,23 +14,10 @@ function checkMFA(mfa) {
   }
 }
 
-async function fetchData(cnt, event) {
-  try {
-    let resp = await getMFA();
-    return { mfa: resp };
-  } catch (e) {
-    console.log('fetchData -> e', e);
-  }
-}
-
 export default {
   id: 'overview',
   title: 'Settings',
   value: '',
-  // renderDetail: SettingsOverview,
-  // services: {
-  //   fetchData,
-  // },
   sections: [
     {
       id: 'externalAccounts',
@@ -77,7 +61,7 @@ export default {
         displayCurrency: {
           page: 'DisplayCurrency',
           value: data => data?.code ?? 'None',
-          condition: props => props?.services?.['Conversion Service'],
+          condition: props => props?.services?.conversion_service,
         },
         primaryCurrency: {
           page: 'PrimaryCurrency',
@@ -103,7 +87,7 @@ export default {
         return !(
           hidePrimaryCurrency &&
           hideNotifications &&
-          !services['Conversion Service']
+          !services?.conversion_service
         );
       },
     },
@@ -139,7 +123,7 @@ export default {
         return !(
           hidePrimaryCurrency &&
           hideNotifications &&
-          !services['Conversion Service']
+          !services?.conversion_service
         );
       },
     },

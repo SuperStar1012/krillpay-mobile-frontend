@@ -98,4 +98,3 @@ const WalletBalanceList = props => {
 };
 
 export default WalletBalanceList;
-

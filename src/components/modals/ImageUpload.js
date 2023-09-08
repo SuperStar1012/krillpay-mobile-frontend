@@ -48,7 +48,7 @@ function ImageUpload(props) {
   }
 
   function handleImagePicker(result) {
-    if (!result.cancelled) {
+    if (!result.canceled) {
       setState('confirm');
       setImage(result);
     }
@@ -81,7 +81,7 @@ function ImageUpload(props) {
   }
 
   function handleUpload() {
-    const parts = image?.uri?.split('/');
+    const parts = image?.assets?.[0]?.uri?.split('/');
     const name = parts[parts.length - 1];
     const file = {
       ...image,
@@ -128,17 +128,20 @@ function ImageUpload(props) {
       viewStyleImageContainer,
     } = styles;
     const width = SCREEN_WIDTH - 64;
-    const height = Math.min(image.height * (width / image.width), width);
+    const height = Math.min(
+      image?.assets?.[0]?.height * (width / image?.assets?.[0]?.width),
+      width,
+    );
 
     return (
       <View style={viewStyleContent}>
         <View style={viewStyleImageContainer}>
-          {image.type !== 'image' ? (
+          {image?.assets?.[0]?.type !== 'image' ? (
             <Text p={1}></Text>
           ) : (
             <Image
               style={{ height, width, borderRadius: 4 }}
-              source={{ uri: image.uri }}
+              source={{ uri: image?.assets?.[0]?.uri }}
               resizeMode={'contain'}
             />
           )}

@@ -7,6 +7,7 @@ import { PopUpGeneral } from '../layout/PopUpGeneral';
 import { View } from '../layout/View';
 import PaginationListFooter from '../layout/PaginationListFooter';
 import EmptyListPlaceholderImage from '../outputs/CustomImage/empty/EmptyListPlaceholderImage';
+import { uuidv4 } from 'utility/general';
 
 class CardList extends Component {
   state = {
@@ -163,7 +164,8 @@ class CardList extends Component {
               data={items}
               renderItem={({ item, index }) => this.renderItem(item, index)}
               keyExtractor={item => {
-                const keyExtractorId = keyExtractor ? keyExtractor(item) : null;
+                const keyExtractorId =
+                  (keyExtractor ? keyExtractor(item) : null) ?? uuidv4();
                 return keyExtractorId
                   ? keyExtractorId
                   : item.id

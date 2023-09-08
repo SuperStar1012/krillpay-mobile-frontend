@@ -8,14 +8,8 @@ import { Icon } from '../outputs/Icon';
 import { shiftToStart } from 'utility/general';
 
 const DropdownSelector = props => {
-  let {
-    data,
-    item,
-    renderItem,
-    onValueChange,
-    keyExtractor,
-    ...restProps
-  } = props;
+  let { data, item, renderItem, onValueChange, keyExtractor, ...restProps } =
+    props;
   const [valueDimensions, setValueDimensions] = useState({
     x: 0,
     y: 0,

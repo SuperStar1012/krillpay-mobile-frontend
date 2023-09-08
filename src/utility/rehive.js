@@ -125,21 +125,55 @@ export const submitOTP = otp => r.auth.mobile.verify({ otp });
 /* MULTI FACTOR AUTHENTICATION */
 export const getMFA = () => r.auth.mfa.status.get();
 
-export const getMFA_SMS = () => r.auth.mfa.sms.get();
-
 export const enableAuthSMS = mobile => r.auth.mfa.sms.enable({ mobile });
 
 export const disableAuthSMS = () => r.auth.mfa.sms.disable();
 
 export const sendAuthSMS = () => r.auth.mfa.sms.send();
 
-export const getMFA_Token = () => r.auth.mfa.token.get();
-
 export const enableAuthToken = () => r.auth.mfa.token.enable();
 
 export const disableAuthToken = () => r.auth.mfa.token.disable();
 
-export const verifyMFA = token => r.auth.mfa.verify({ token });
+export const verifyMFA = (payload, customToken) =>
+  callApi('POST', rehive_base_url + '/auth/mfa/verify/', payload, {
+    customToken,
+    doThrow: true,
+  });
+
+// Start - NEW MFA helper method added
+
+export const getMFAAuthenticators = (query = '') =>
+  // @param query // example: verified=1
+  // alternate to getMFA
+  callApi('GET', `${rehive_base_url}/auth/mfa/authenticators/?${query}`);
+
+export const createMFAAuthenticator = (type, details = {}) => {
+  // alternate to enableSMS, enableToken
+  // type: "totp", "sms", "static"
+
+  const payload = { type, details };
+  return callApi(
+    'POST',
+    rehive_base_url + '/auth/mfa/authenticators/',
+    payload,
+    { doThrow: true },
+  );
+};
+
+export const deleteMfaAuthenticator = identifier =>
+  // alternate to disable sms/token
+  callApi(
+    'DELETE',
+    `${rehive_base_url}/auth/mfa/authenticators/${identifier}/`,
+  );
+
+export const deliverTokenForMFA = payload => {
+  // alternate to sendAuthSMS
+  return callApi('POST', rehive_base_url + '/auth/mfa/deliver/', payload);
+};
+
+// End - NEW MFA helper method added
 
 /* USERS */
 // Profile
@@ -171,10 +205,13 @@ export const updateAddress = data => r.user.addresses.update(data);
 
 export const deleteAddress = id => r.user.addresses.delete(id);
 
-export const listAddress = () => r.user.addresses.get();
-
 // Bank Accounts
+
+export const listAddress = () => r.user.addresses.get();
 export const getBankAccount = id => r.user.bankAccounts.get(id);
+
+export const getBankAccountsByFilter = (filter = '') =>
+  callApi('GET', `${rehive_base_url}/user/bank-accounts/?${filter}`);
 
 export const getBankAccounts = id => r.user.bankAccounts.get(id);
 
@@ -296,6 +333,9 @@ export const createTransfer = data => r.transactions.createTransfer(data);
 
 export const createTransactionCollection = transactions =>
   r.transaction_collections.create({ transactions });
+
+export const getTransactionMessages = id =>
+  callApi('GET', `${rehive_base_url}/transactions/${id}/messages/`);
 
 export const getSubtypes = () =>
   callApi('GET', rehive_base_url + '/subtypes/', null, { doThrow: true });
@@ -435,6 +475,16 @@ export const getPublicCompanyGroup = (company, group) =>
   callApi(
     'GET',
     rehive_base_url + '/public/companies/' + company + '/groups/' + group + '/',
+  );
+
+export const getPublicWalletCompany = (bundleId, isAndroid) =>
+  callApi(
+    'GET',
+    `${wallet_service_url}/public/company?${
+      isAndroid ? 'android_package' : 'ios_bundle_identifier'
+    }=${bundleId}`,
+    null,
+    { doThrow: true },
   );
 
 /* CHIPLESS CARD */

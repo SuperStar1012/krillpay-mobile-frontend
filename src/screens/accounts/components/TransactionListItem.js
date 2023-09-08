@@ -7,7 +7,6 @@ import {
   addCommas,
   displayFormatDivisibility,
 } from 'utility/general';
-import { useContacts } from 'contexts/ContactsContext';
 import { Text, Spinner, CustomIcon, View } from 'components';
 import { getConversionRate, getOtherUserProfile } from 'utility/rehive';
 import { calculateRate, formatDecimals, getCurrencyCode } from '../util/rates';
@@ -29,7 +28,6 @@ export default function TransactionListItem(props) {
   } = props;
 
   const recipientTypes = intersection(['email', 'mobile']);
-  const { context: contacts } = useContacts(recipientTypes);
 
   const recipientDetails = async () => await getOtherUserProfile(recipient);
 
@@ -49,7 +47,7 @@ export default function TransactionListItem(props) {
   const [tempRates, setTempRates] = useState(rates.rates);
 
   const hasConversion =
-    services['Conversion Service'] &&
+    services?.conversion_service &&
     rates &&
     rates.rates &&
     rates.displayCurrency &&

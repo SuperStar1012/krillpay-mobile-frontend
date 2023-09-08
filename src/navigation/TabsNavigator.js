@@ -29,10 +29,10 @@ export default function TabNavigator(props) {
   } = useRehiveContext();
 
   let hiddenRoutes = [];
-  if (!services['Rewards Service']) {
+  if (!services?.rewards_service) {
     hiddenRoutes.push('Rewards');
   }
-  if (!services['Product Service']) {
+  if (!services?.product_service) {
     hiddenRoutes.push('Product');
   }
 

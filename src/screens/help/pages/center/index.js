@@ -17,7 +17,6 @@ const config = {
 export default function HelpCenterPage(props) {
   const { navigation, route } = props;
 
-
   const rehiveContext = useRehiveContext();
 
   const [tabId, setTabId] = useState(

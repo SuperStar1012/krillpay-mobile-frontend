@@ -16,7 +16,7 @@ const BusinessContext = React.createContext(initialContext);
 
 function useBusinessSettings() {
   const { company, services } = useRehiveContext();
-  const hasBusinessService = services?.['Business Service (beta)'];
+  const hasBusinessService = services?.business_service;
   const queryBusinessServiceSettings = useQuery(
     ['businessServiceSettings', company?.id],
     getBusinessServiceSettings,

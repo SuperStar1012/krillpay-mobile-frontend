@@ -224,10 +224,11 @@
   "available_balance_prefix": "Available balance: ",
 
   "deposit_funds": "Deposit funds",
-  "deposit_funds_description": "Select an account to deposit from",
-  "deposit_funds_accounts_description": "Select an account to deposit from",
+  "deposit_funds_description": "Select an account to deposit to",
+  "deposit_funds_accounts_description": "Select an account to deposit to",
   "deposit_method": "Deposit method",
   "deposit_method_description": "How do you want to deposit funds?",
+  "deposit_not_available": "Deposit not available",
 
   "manual_deposit": "Manual deposit",
   "plaid": "Plaid",
@@ -271,5 +272,7 @@
   "kyc_pending": "KYC Pending",
   "kyc_pending_description": "Please wait for the identity verification process to complete before initiating a deposit. If you have not yet submitted your KYC information, use the following link.",
   "go_to_kyc": "Go to KYC",
-  "wyre_buy_success": "Your transaction is being processed by Wyre"
+  "wyre_buy_success": "Your transaction is being processed by Wyre",
+  "message": "Message",
+  "messages": "Messages"
 }

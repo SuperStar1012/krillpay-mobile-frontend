@@ -32,7 +32,6 @@ export default function SettingsOverview(props) {
     dispatch(logoutUser());
     hideModal();
     if (navigation) navigation.replace('Public', { screen: 'Auth' });
-    
   }
 
   const buttonActions = [
@@ -61,7 +60,6 @@ export default function SettingsOverview(props) {
     <SettingsProviders>
       <View screen scrollView jC="space-between">
         <Header navigation={navigation} back title="settings" />
-
         <View f={1}>
           {filteredSections.map((item, index) => (
             <SettingsOverviewSection

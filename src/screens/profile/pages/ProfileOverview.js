@@ -199,14 +199,13 @@ export default function ProfileOverview(props) {
                   {...sharedProps}
                   {...item}
                   ns="profile"
-                  onPress={() =>
-                    navigation.navigate(
+                  onPress={() => {
+                    const name =
                       item?.label === 'settings'
-                        ? navigation.navigate('Settings')
-                        : item?.page ?? 'ProfilePage',
-                      item,
-                    )
-                  }
+                        ? 'Settings'
+                        : item?.page ?? 'ProfilePage';
+                    navigation.navigate(name, item);
+                  }}
                 />
               )}
               // refreshControl={
@@ -217,7 +216,7 @@ export default function ProfileOverview(props) {
               // }
               ListHeaderComponent={<IncreaseKycLimitCard m={1} />}
               ListFooterComponent={
-                services?.['Rewards Service'] &&
+                services?.rewards_service &&
                 profileConfig?.referral?.enabled ? (
                   <Button onPress={() => navigation.navigate('Referral')}>
                     <View
@@ -264,7 +263,7 @@ export default function ProfileOverview(props) {
   );
 }
 
-// services?.['Rewards Service'] &&
+// services?.rewards_service &&
 // profileConfig?.referral?.enabled ? (
 //   <View mh={1} w="100%">
 //     <ReferRewardBanner

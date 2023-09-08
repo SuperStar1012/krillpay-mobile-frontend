@@ -26,7 +26,7 @@ function* fetchAccounts() {
   try {
     const services = yield select(currentCompanyServicesSelector);
 
-    // if (services['Conversion Service']) {
+    // if (services?.conversion_service) {
     //   yield all([
     //     yield put({
     //       type: FETCH_RATES_ASYNC.pending,
@@ -39,7 +39,7 @@ function* fetchAccounts() {
     const response = yield call(Rehive.getAccounts);
 
     if (response.results) {
-      if (services['Conversion Service']) {
+      if (services?.conversion_service) {
         yield all([
           yield put({
             type: FETCH_RATES_ASYNC.pending,

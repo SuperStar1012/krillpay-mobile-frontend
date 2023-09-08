@@ -15,9 +15,7 @@ import { userTierSelector } from '@redux/rehive/selectors';
 import CompanyStatusBanner from 'components/auth/CompanyStatusBanner';
 import { useConversionTimer } from '../hooks/conversion';
 import { useSelector } from 'react-redux';
-import {
-  userProfileSelector,
-} from '@redux/rehive/reducer';
+import { userProfileSelector } from '@redux/rehive/reducer';
 
 function ExchangeScreen(props) {
   let { currencies, navigation, route } = props;
@@ -26,7 +24,7 @@ function ExchangeScreen(props) {
   const [currencyIndex, setCurrencyIndex] = currencyIndexHook;
   const profile = useSelector(userProfileSelector);
   const user = profile?.data?.[0];
-  
+
   const [data, setData] = useState(null);
   const [formState, setFormState] = useState('');
 
@@ -61,7 +59,7 @@ function ExchangeScreen(props) {
   return (
     <View screen bC={bC}>
       <CompanyStatusBanner />
-     {/* <Header
+      {/* <Header
         navigation={navigation}
         title={formState === '' ? 'exchange' : ''}
         back

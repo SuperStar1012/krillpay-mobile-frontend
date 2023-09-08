@@ -271,7 +271,6 @@ export default function RequestPaymentActivity(props) {
       <View ml={1} pv={0.5} bC={'white'}>
         <Text s={18} fW={'500'} id={filters?.type} />
       </View>
-
       <FlatList
         stickySectionHeadersEnabled={true}
         keyboardShouldPersistTaps="always"

@@ -4,7 +4,7 @@ import { formatAmountString, renderRate } from '../util/rates';
 import { View, Spinner, Text, Button } from 'components';
 import OutputList from 'components/outputs/OutputList';
 import TransactionListCryptoDetails from './TransactionListCryptoDetails';
-import { getCampaign } from 'utility/rehive';
+import { getCampaign, getTransactionMessages } from 'utility/rehive';
 import ErrorOutput from 'components/outputs/ErrorOutput';
 import CampaignCard from '../../rewards/components/CampaignCard';
 import SendRecipient from '../components/SendRecipient';
@@ -17,6 +17,9 @@ import QuickActionConfig from '../config/quickActions';
 import ReceiptInfoPage from './ReceiptInfoPage';
 import { ModalFullscreen } from 'components/modals/ModalFullscreen';
 import { TextInput, TouchableOpacity } from 'react-native';
+import { useQuery } from 'react-query';
+import { Icon } from 'components/outputs/Icon';
+import moment from 'moment';
 
 const config = {
   send: {
@@ -57,6 +60,12 @@ const config = {
   },
 };
 
+const messageColorConfig = {
+  info: { icon: 'info-outline', set: 'MaterialIcons', color: '#4C83FF' }, // object key is same as API] message data `level` value
+  warning: { icon: 'warning-outline', set: 'Ionicons', color: '#F0975C' },
+  error: { icon: 'error-outline', set: 'MaterialIcons', color: '#FF4C6F' },
+};
+
 export default function TransactionListDetail(props) {
   const {
     open,
@@ -89,6 +98,7 @@ export default function TransactionListDetail(props) {
     partner,
     tx_type,
     created,
+    status,
   } = item;
 
   const [loading, setLoading] = useState(true);
@@ -109,6 +119,15 @@ export default function TransactionListDetail(props) {
       (metadata.service_reward ||
         metadata.service_product ||
         metadata.service_crypto),
+  );
+
+  const { data: transactionMessages, isLoading: messageIsLoading } = useQuery(
+    ['transaction', 'messages', id],
+    () => getTransactionMessages(id),
+    {
+      enabled: open && status !== 'Pending',
+      staleTime: 300 * 1000,
+    },
   );
 
   useEffect(() => {
@@ -300,6 +319,16 @@ export default function TransactionListDetail(props) {
       });
     });
   }
+
+  // if (transactionMessages?.data?.results?.length > 0) {
+  //   transactionMessages.data.results.forEach(messageItem =>
+  //     items.push({
+  //       id: 'message', // language key
+  //       value: messageItem.message,
+  //       horizontal: true,
+  //     }),
+  //   );
+  // }
 
   function renderQuickActions() {
     let actions = get(
@@ -595,6 +624,10 @@ export default function TransactionListDetail(props) {
                   closeModal();
                 }}
                 close={() => setModal(false)}
+                closeAll={() => {
+                  setModal(false);
+                  closeModal();
+                }}
                 setItem={setItem}
                 user={item.partner?.user}
                 navigation={navigation}

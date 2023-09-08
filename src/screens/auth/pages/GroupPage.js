@@ -35,8 +35,18 @@ export default function GroupPage(props) {
     async function handleGetGroups() {
       const response = await getPublicCompanyGroups(company.id);
       if (response && response.status === 'success') {
-       // const results = get(response, ['data', 'results']);
-        const results =  [{"name":"individual","label":"Individual","section":"user","description":"Select this to create an account for your personal wallet. Easily store, send, receive funds.","icon":null,"default":true}]; //get(response, ['data', 'results']);
+        // const results = get(response, ['data', 'results']);
+        const results = [
+          {
+            name: 'individual',
+            label: 'Individual',
+            section: 'user',
+            description:
+              'Select this to create an account for your personal wallet. Easily store, send, receive funds.',
+            icon: null,
+            default: true,
+          },
+        ]; //get(response, ['data', 'results']);
 
         setGroups(results);
 

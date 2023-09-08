@@ -49,47 +49,46 @@ export default function MobileVerifyPage(props) {
   }, [user]);
 
   async function handleGetProfile() {
-    // setLoading(true);
-    // const resp = await getProfile();
-    const tempUser = {
-      ...user,
-      verification: { email: true, mobile: true },
-      status: 'verified',
-    };
-    setTempAuth({ ...tempAuth, user: tempUser });
-    setUser(tempUser);
-    // setLoading(false);
+    setLoading(true);
+    const resp = await getProfile();
+    setTempAuth({ ...tempAuth, user: resp });
+    setUser(resp);
+    setLoading(false);
   }
 
   async function handleSubmitOTP(code) {
-		// setLoading(true);
-		try {
-			// await submitOTP(code);
-			// showToast({
-			//   text: 'Mobile number verified successfully',
-			// });
-			handleGetProfile();
-		} catch (e) {
-			console.log(e);
-			setError(e.message);
-			setLoading(false);
-			refPinInput.current?.clear();
-		}
+    setLoading(true);
+    try {
+      await submitOTP(code);
+      showToast({
+        text: 'Mobile number verified successfully',
+      });
+      handleGetProfile();
+    } catch (e) {
+      console.log(e);
+      setError(e.message);
+      setLoading(false);
+      refPinInput.current.clear();
+    }
   }
 
   async function handleResend() {
-		setLoadingResend(true);
-		try {
-			await resendVerification("mobile", { number: mobile }, { id: company?.id ?? company });
-			showToast({
-				text: "An SMS containing an OTP has been sent to " + mobile,
-			});
-		} catch (e) {
-			console.log(e);
-			setError(e.message);
-			refPinInput.current?.clear();
-		}
-		setLoadingResend(false);
+    setLoadingResend(true);
+    try {
+      await resendVerification(
+        'mobile',
+        { number: mobile },
+        { id: company?.id ?? company },
+      );
+      showToast({
+        text: 'An SMS containing an OTP has been sent to ' + mobile,
+      });
+    } catch (e) {
+      console.log(e);
+      setError(e.message);
+      refPinInput.current.clear();
+    }
+    setLoadingResend(false);
   }
   if (loadingMain) {
     return null;

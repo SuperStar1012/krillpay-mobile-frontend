@@ -39,7 +39,7 @@ export default function RequestPaymentForm(props) {
     setState('submitting');
 
     if (
-      services['Conversion Service'] &&
+      services?.conversion_service &&
       rates.rates &&
       rates.displayCurrency.code &&
       display
@@ -208,7 +208,7 @@ export default function RequestPaymentForm(props) {
     let conversionRate = 1;
 
     const hasConversion =
-      services['Conversion Service'] &&
+      services?.conversion_service &&
       rates.rates &&
       rates.displayCurrency.code &&
       rates.displayCurrency.code !== selectedCurrency.currency.code;

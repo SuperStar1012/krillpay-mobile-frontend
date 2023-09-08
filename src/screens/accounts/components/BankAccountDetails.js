@@ -156,7 +156,7 @@ export default BankAccountDetails;
 //     // Calculate conversion rate
 //     let convRate = 1;
 //     const hasConversion =
-//       services['Conversion Service'] &&
+//       services?.conversion_service &&
 //       rates.rates &&
 //       rates.displayCurrency.code &&
 //       rates.displayCurrency.code !== currency.currency.code;
@@ -308,7 +308,7 @@ export default BankAccountDetails;
 //   let amountConvString = '';
 
 //   if (
-//     services['Conversion Service'] &&
+//     services?.conversion_service &&
 //     rates.rates &&
 //     rates.displayCurrency.code
 //   ) {
@@ -382,7 +382,7 @@ export default BankAccountDetails;
 //   let response = null;
 //   amount = new Big(amount);
 //   if (
-//     services['Conversion Service'] &&
+//     services?.conversion_service &&
 //     rates.rates &&
 //     rates.displayCurrency.code &&
 //     display

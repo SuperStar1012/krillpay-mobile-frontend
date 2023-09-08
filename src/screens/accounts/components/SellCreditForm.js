@@ -3,12 +3,7 @@ import { get } from 'lodash';
 import moment from 'moment';
 
 import * as Inputs from 'config/inputs';
-import {
-  View,
-  Button,
-  LocalAuthentication,
-  Checkbox,
-} from 'components';
+import { View, Button, LocalAuthentication, Checkbox } from 'components';
 import context from 'components/context';
 import { standardizeString } from 'utility/general';
 import { createCryptoTransfer, createTransfer } from 'utility/rehive';
@@ -18,11 +13,7 @@ import Big from 'big.js';
 import { Formik } from 'formik';
 
 import { MaterialIcons } from '@expo/vector-icons';
-import {
-  validateMobile,
-  validateCrypto,
-  cryptoName,
-} from 'utility/validation';
+import { validateMobile, validateCrypto, cryptoName } from 'utility/validation';
 import QRCodeScanner from './QRCodeScanner';
 import RadioSelector from 'components/inputs/RadioSelector';
 import ConfirmPage from 'components/layout/ConfirmPage';
@@ -51,13 +42,8 @@ class SellCreditForm extends Component {
   };
 
   async handleFormSubmit(props) {
-    const {
-      onSendSuccess,
-      currencyHook,
-      currencies,
-      rates,
-      services,
-    } = this.props;
+    const { onSendSuccess, currencyHook, currencies, rates, services } =
+      this.props;
     const currency = currencies.data[currencyHook[0]];
     const { values, setSubmitting } = props; // FormikProps
     let { amount, recipient, note, memo, recipientType, display } = values;
@@ -65,7 +51,7 @@ class SellCreditForm extends Component {
     let response = null;
     amount = new Big(amount);
     if (
-      services['Conversion Service'] &&
+      services?.conversion_service &&
       rates.rates &&
       rates.displayCurrency.code &&
       display
@@ -729,7 +715,7 @@ class SellCreditForm extends Component {
       // Calculate conversion rate
       let convRate = 1;
       const hasConversion =
-        services['Conversion Service'] &&
+        services?.conversion_service &&
         rates.rates &&
         rates.displayCurrency.code &&
         rates.displayCurrency.code !== currency.currency.code;
@@ -769,20 +755,15 @@ class SellCreditForm extends Component {
         },
       ];
 
-      const {
-        totalString,
-        feeString,
-        fee,
-        feeConvString,
-        totalConvString,
-      } = useFeeWithConversion(
-        amountValue,
-        tier,
-        currency.currency,
-        'sell_credit',
-        convRate,
-        rates.displayCurrency,
-      );
+      const { totalString, feeString, fee, feeConvString, totalConvString } =
+        useFeeWithConversion(
+          amountValue,
+          tier,
+          currency.currency,
+          'sell_credit',
+          convRate,
+          rates.displayCurrency,
+        );
       if (fee) {
         items.push({
           id: 'fee',
@@ -881,7 +862,7 @@ class SellCreditForm extends Component {
     let amountConvString = '';
 
     if (
-      services['Conversion Service'] &&
+      services?.conversion_service &&
       rates.rates &&
       rates.displayCurrency.code
     ) {
@@ -987,7 +968,7 @@ class SellCreditForm extends Component {
 
       let convRate = 1;
       const hasConversion =
-        services['Conversion Service'] &&
+        services?.conversion_service &&
         rates.rates &&
         rates.displayCurrency.code;
       if (hasConversion) {

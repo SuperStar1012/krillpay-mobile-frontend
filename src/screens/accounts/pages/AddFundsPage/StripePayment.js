@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { get } from 'lodash';
-import {
-  setupStripeSession,
-  getStripeCompany,
-} from 'utility/rehive';
+import { setupStripeSession, getStripeCompany } from 'utility/rehive';
 import client from 'config/client';
 import { Spinner } from 'components';
 import { useTheme } from 'components/context';

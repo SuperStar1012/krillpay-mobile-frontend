@@ -4,22 +4,34 @@ import FormikInput from 'components/inputs/FormikInput';
 import { Formik } from 'formik';
 import { mobile_mfa } from 'config/inputs/inputs';
 import { validateMobile } from 'utility/validation';
-import { enableAuthSMS } from 'utility/rehive';
+import { createMFAAuthenticator, deleteMfaAuthenticator } from 'utility/rehive';
 
 export default function MfaSms(props) {
-  const { profile, onBack, setModalVisible, setMobile } = props;
+  const { profile, onBack, setModalVisible, setMobile, sms, setSms } = props;
 
   async function enableAuth(mobile) {
-    enableAuthSMS(mobile);
-    setModalVisible(true);
-    setMobile(mobile);
+    /*
+    sms is the authenticator object. when sms is exist and mobile is the same as sms mobile then we don't need
+    to create new authenticator, we just show the verify modal. But, if the user update the mobile number then
+    we delete the previous authenticator and create a new one.
+    */
+    try {
+      if (mobile !== sms?.details?.mobile) {
+        if (sms) {
+          await deleteMfaAuthenticator(sms.id);
+        }
+        const _sms = await createMFAAuthenticator('sms', { mobile });
+        setSms(_sms);
+        setMobile(mobile);
+      }
+      setModalVisible(true);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   function validate(values) {
     const { mobile_mfa } = values;
-    // if (mobile.indexOf('+') === -1) {
-    //   mobile = '+' + mobile;
-    // }
     let error = validateMobile(mobile_mfa);
     if (error) {
       return { mobile_mfa: error };

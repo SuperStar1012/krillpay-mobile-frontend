@@ -27,30 +27,32 @@ const WalletBalance = props => {
   } = props;
   const { design, colors } = useTheme();
   const [dwollaBalance, setDwollaBalance] = useState(0);
-  const dwolla_plaid_integration_service_getBalance='https://dwolla.krillpay.com/dwolla/get-dwolla-balance'
+  const dwolla_plaid_integration_service_getBalance =
+    'https://dwolla.krillpay.com/dwolla/get-dwolla-balance';
   const {
     context: { user },
   } = useRehiveContext();
 
-  useEffect(()=>{
+  useEffect(() => {
     getDwollaBalance();
-   },[1])
+  }, [1]);
 
-  const getDwollaBalance = async () =>{ 
+  const getDwollaBalance = async () => {
     var requestOptions = {
       method: 'GET',
-      redirect: 'follow'
+      redirect: 'follow',
     };
-   
-    fetch(`${dwolla_plaid_integration_service_getBalance}?email=${user?.email}`, requestOptions)
-      .then(response => response.text())
-      .then(result =>{
-         setDwollaBalance(JSON.parse(result).data.balance || 0);
-        })
-      .catch(error => console.log('error', error));
 
-  
-  }
+    fetch(
+      `${dwolla_plaid_integration_service_getBalance}?email=${user?.email}`,
+      requestOptions,
+    )
+      .then(response => response.text())
+      .then(result => {
+        setDwollaBalance(JSON.parse(result).data.balance || 0);
+      })
+      .catch(error => console.log('error', error));
+  };
   if (!currency) {
     return (
       <Card
@@ -59,7 +61,7 @@ const WalletBalance = props => {
           marginHorizontal: 12,
         }}
         design={design.wallets}
-        noPadding> 
+        noPadding>
         <View
           style={[
             {
@@ -100,7 +102,7 @@ const WalletBalance = props => {
     navigation.navigate(
       single ? 'Wallets' : 'CurrencyDetail',
       single
-        ? { currency,  dwollaBalance: dwollaBalance }
+        ? { currency, dwollaBalance: dwollaBalance }
         : {
             currencyCode: get(currency, ['currency', 'code']),
             accountRef: get(currency, 'account'),
@@ -172,7 +174,6 @@ const WalletBalance = props => {
             adjustsFontSizeToFit
             numberOfLines={1}>
             {addCommas(displayBalance)}
-             {/* {currency.currency.code === 'NGN' ? addCommas(displayBalance) : addCommas(dwollaBalance) } */}
           </Text>
           <Text
             c={'primaryContrast'}

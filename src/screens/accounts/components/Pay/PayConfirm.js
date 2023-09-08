@@ -30,7 +30,7 @@ export default function PayConfirm(props) {
     // Calculate conversion rate
     let convRate = 1;
     const hasConversion =
-      services['Conversion Service'] &&
+      services?.conversion_service &&
       rates.rates &&
       rates.displayCurrency.code &&
       rates.displayCurrency.code !== currency.currency.code;

@@ -41,7 +41,7 @@ import {
   checkBlocked,
 } from 'screens/accounts/util/accounts';
 
-import { Machine } from 'xstate';
+import { createMachine } from 'xstate';
 import { Icon } from 'components/outputs/Icon';
 import { Pressable } from 'react-native';
 import { useWyreCurrency } from 'extensions/wyre/hooks';
@@ -77,7 +77,10 @@ export default function AccountFlow(props) {
     refresh,
   } = props;
   const { onSubmit, configs, id, initialFilters = {} } = config;
-  const machine = Machine(config.machine);
+  const machine = createMachine({
+    predictableActionArguments: true,
+    ...config.machine,
+  });
   const [state, send] = useMachine(machine);
 
   const {

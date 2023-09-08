@@ -58,27 +58,27 @@ function* checkCryptoServices() {
     let temp = {};
 
     services.map(service => {
-      temp[service.name] = true;
-      return { [service.name]: true };
+      temp[service.slug] = true;
+      return { [service.slug]: true };
     });
 
     yield all([
-      temp['Stellar Service']
+      temp?.stellar_service
         ? put({ type: FETCH_CRYPTO_ASYNC.pending, payload: 'XLM' })
         : null,
-      temp['Stellar Testnet Service']
+      temp?.stellar_testnet_service
         ? put({ type: FETCH_CRYPTO_ASYNC.pending, payload: 'TXLM' })
         : null,
-      temp['Bitcoin Service']
+      temp?.bitcoin_service
         ? put({ type: FETCH_CRYPTO_ASYNC.pending, payload: 'XBT' })
         : null,
-      temp['Bitcoin Testnet Service']
+      temp?.bitcoin_testnet_service
         ? put({ type: FETCH_CRYPTO_ASYNC.pending, payload: 'TXBT' })
         : null,
-      temp['Ethereum Service']
+      temp?.ethereum_service
         ? put({ type: FETCH_CRYPTO_ASYNC.pending, payload: 'ETH' })
         : null,
-      temp['Ethereum Testnet Service']
+      temp?.ethereum_testnet_service
         ? put({ type: FETCH_CRYPTO_ASYNC.pending, payload: 'TETH' })
         : null,
     ]);

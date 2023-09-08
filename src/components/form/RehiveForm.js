@@ -64,7 +64,7 @@ export default function RehiveForm(props) {
               }
               return (
                 <Input
-                  key={field.id}
+                  key={field.id ?? field.name}
                   formikProps={formikProps}
                   field={field}
                   initialValues={initialValues}

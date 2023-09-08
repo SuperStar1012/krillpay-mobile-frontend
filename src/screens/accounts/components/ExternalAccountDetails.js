@@ -47,7 +47,7 @@ export default function ExternalAccountDetails(props) {
     : color
     ? number
     : concatBankAccount(item, false, true);
-  const badge = currency?.code;
+  const badge = currency?.display_code;
 
   const wyreAccount = useWyreAccount();
 

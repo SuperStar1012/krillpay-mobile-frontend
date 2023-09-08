@@ -1,5 +1,6 @@
-import React, { useEffect, createRef, useState } from 'react';
+import React, { useEffect, createRef, useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
+import * as Contacts from 'expo-contacts';
 import {
   SectionList,
   StyleSheet,
@@ -8,6 +9,7 @@ import {
   RefreshControl,
   TouchableOpacity,
   Alert,
+  Linking,
 } from 'react-native';
 import { intersection } from 'lodash';
 import { View, Text, TextField } from 'components';
@@ -54,7 +56,6 @@ export default function ContactList(props) {
   useEffect(() => {
     setSearchTerm(recipient);
   }, [recipient]);
-
   const wyreCrypto = context?.wyreCurrency?.wyre_currency_code_for_deposit;
   const type = getRecipientType(searchTerm, wallet, wyreCrypto);
 
@@ -72,6 +73,28 @@ export default function ContactList(props) {
   useEffect(() => {
     fetchingContacts(null);
   }, []);
+  const openSettingsHandler = useCallback(() => {
+    Alert.alert(
+      '',
+      'We could not fetch your contacts. Please allow contacts permission from Settings to send money',
+      [
+        {
+          text: 'Go Back',
+          onPress: () => {
+            navigation.goBack();
+          },
+        },
+        {
+          text: 'Open Settings',
+          onPress: () => {
+            navigation.goBack();
+            Linking.openSettings();
+          },
+        },
+      ],
+      { cancelable: false },
+    );
+  }, []);
 
   const fetchingContacts = async handleRefresh => {
     try {
@@ -83,17 +106,22 @@ export default function ContactList(props) {
         setcontacts(response);
         setRefreshing(false);
       } else {
-        Alert.alert(
-          'Invalid Token',
-          'Your token has expired or is invalid. Please log in again.',
-          [
-            {
-              text: 'OK',
-              onPress: () => navigation.goBack(),
-            },
-          ],
-          { cancelable: false },
-        );
+        const { status } = await Contacts.getPermissionsAsync();
+        if (status !== 'granted') {
+          openSettingsHandler();
+        } else {
+          Alert.alert(
+            'Invalid Token',
+            'Your token has expired or is invalid. Please log in again.',
+            [
+              {
+                text: 'OK',
+                onPress: () => navigation.goBack(),
+              },
+            ],
+            { cancelable: false },
+          );
+        }
       }
     } catch (e) {
       //setError

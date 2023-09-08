@@ -4,11 +4,8 @@ import { ModalFullscreen } from 'components/modals/ModalFullscreen';
 import { TouchableOpacity } from 'react-native';
 import { DynamicCard } from 'components/cards';
 import { useSelector } from 'react-redux';
-import {
-  userProfileSelector,
-} from '@redux/rehive/reducer';
+import { userProfileSelector } from '@redux/rehive/reducer';
 import { getUserCountryFromMSISDN } from 'utility/general';
-
 
 const CurrencySelectorCard = props => {
   let {
@@ -29,19 +26,15 @@ const CurrencySelectorCard = props => {
   const profile = useSelector(userProfileSelector);
   const user = profile?.data?.[0];
 
-
   const optionsUSD = items.map(item => {
-    if(item.value.currency.code =="USD")
-    {
+    if (item.value.currency.code == 'USD') {
       return item;
     }
   });
 
-
   const filteredOptionsUSD = optionsUSD.filter(function (el) {
     return el != null;
   });
-
 
   function handleSelect(item) {
     updateCurrency(item?.value);
@@ -91,48 +84,45 @@ const CurrencySelectorCard = props => {
         title={title ? title : 'Select currency'}
         onDismiss={hideModal}
         docked>
-
- 
-    {  getUserCountryFromMSISDN(user?.mobile) == "US" ? 
-
-         <DynamicCard
-         type={cardType}
-         simple
-         item={filteredOptionsUSD[0].value || filteredOptionsUSD[0]}
-         currencies={currencies}
-         rates={rates}
-         onPressContent={() => {
-           // const fullIndex = filtered.data.findIndex(
-           //   curr =>
-           //     curr.account === item.value || item.account &&
-           //     curr.currency.code === item.value || item.currency.code,
-           // );
-           //updateCurrency(item?.value);
-           hideModal();
-         }}
-       />
-          : 
-        items.map((item, index) => (
-              <View pb={1} key={item.key}>
-                <DynamicCard
-                  type={cardType}
-                  simple
-                  item={item.value || item}
-                  currencies={currencies}
-                  rates={rates}
-                  onPressContent={() => {
-                    // const fullIndex = filtered.data.findIndex(
-                    //   curr =>
-                    //     curr.account === item.value || item.account &&
-                    //     curr.currency.code === item.value || item.currency.code,
-                    // );
-                    updateCurrency(item?.value);
-                    hideModal();
-                  }}
-                />
-              </View>
-            ))
-      }   
+        {getUserCountryFromMSISDN(user?.mobile) == 'US' ? (
+          <DynamicCard
+            type={cardType}
+            simple
+            item={filteredOptionsUSD[0].value || filteredOptionsUSD[0]}
+            currencies={currencies}
+            rates={rates}
+            onPressContent={() => {
+              // const fullIndex = filtered.data.findIndex(
+              //   curr =>
+              //     curr.account === item.value || item.account &&
+              //     curr.currency.code === item.value || item.currency.code,
+              // );
+              //updateCurrency(item?.value);
+              hideModal();
+            }}
+          />
+        ) : (
+          items.map((item, index) => (
+            <View pb={1} key={item.key}>
+              <DynamicCard
+                type={cardType}
+                simple
+                item={item.value || item}
+                currencies={currencies}
+                rates={rates}
+                onPressContent={() => {
+                  // const fullIndex = filtered.data.findIndex(
+                  //   curr =>
+                  //     curr.account === item.value || item.account &&
+                  //     curr.currency.code === item.value || item.currency.code,
+                  // );
+                  updateCurrency(item?.value);
+                  hideModal();
+                }}
+              />
+            </View>
+          ))
+        )}
         {/*items.map((item, index) => (
           <View pb={1} key={item.key}>
             <DynamicCard

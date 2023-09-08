@@ -28,14 +28,19 @@ export default function RootNavigator() {
   // } = useRehiveContext();
 
   return (
-		<>
-			<Stack.Navigator initialRouteName="Public" screenOptions={{ headerShown: false, animationEnabled: false }}>
-				<Stack.Screen name="Public" component={PublicNavigator} />
-				<Stack.Screen name="Private" component={PrivateNavigator} />
-				{help?.pages && Object.keys(help?.pages).map((key) => <Stack.Screen key={key} name={key} component={help?.pages?.[key]} />)}
-			</Stack.Navigator>
-			<LanguageRestartModal />
-		</>
+    <>
+      <Stack.Navigator
+        initialRouteName="Public"
+        screenOptions={{ headerShown: false, animationEnabled: false }}>
+        <Stack.Screen name="Public" component={PublicNavigator} />
+        <Stack.Screen name="Private" component={PrivateNavigator} />
+        {help?.pages &&
+          Object.keys(help?.pages).map(key => (
+            <Stack.Screen key={key} name={key} component={help?.pages?.[key]} />
+          ))}
+      </Stack.Navigator>
+      <LanguageRestartModal />
+    </>
   );
 }
 

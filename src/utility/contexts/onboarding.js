@@ -37,11 +37,6 @@ function useOnboarding() {
   );
   const { document: docs, address, bankAccount, cryptoAccount } = context;
 
-  // const { context, refresh } = useRehive(['address'], Boolean(user && init), {
-  //   user,
-  // });
-  // const { document: address } = context;
-
   const hasWyreService = checkWyreService(services);
 
   const {
@@ -93,8 +88,6 @@ function useOnboarding() {
     services,
     wyrePaymentMethods,
   });
-  // console.log('USerCOnfig');
-  // console.log(context);
   return {
     data: {
       userConfig,

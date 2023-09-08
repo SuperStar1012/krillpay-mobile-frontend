@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { osVersion } from 'expo-device';
 import PropTypes from 'prop-types';
+import { TextInputPropTypes } from 'deprecated-react-native-prop-types';
 import {
   View,
   TextInput,
@@ -31,7 +32,7 @@ class CodeInput extends Component {
     inactiveColor: PropTypes.string,
     ignoreCase: PropTypes.bool,
     autoFocus: PropTypes.bool,
-    codeInputStyle: TextInput.propTypes.style,
+    codeInputStyle: TextInputPropTypes.style,
     containerStyle: viewPropTypes.style,
     onFulfill: PropTypes.func,
   };
@@ -85,11 +86,15 @@ class CodeInput extends Component {
       else if (this.codeInputRefs[0]) this.codeInputRefs[0].focus();
     } catch (e) {}
 
-    AppState.addEventListener('change', this._handleAppStateChange);
+    this.listener = AppState.addEventListener(
+      'change',
+      this._handleAppStateChange,
+    );
   }
 
   // componentWillUnmount() {
-  //   AppState.removeEventListener('change', this._handleAppStateChange);
+  //   // AppState.removeEventListener('change', this._handleAppStateChange);
+  //   this.listener.remove();
   // }
 
   _handleAppStateChange = nextAppState => {
@@ -251,7 +256,7 @@ class CodeInput extends Component {
   _onKeyPress(e) {
     if (e.nativeEvent.key === 'Backspace') {
       // Return if duration between previous key press and backspace is less than 20ms
-      if (Math.abs(this.lastKeyEventTimestamp - e.timeStamp) < 20) return;
+      if (Math.abs(this.lastKeyEventTimestamp - e.timeStamp) < 200) return;
 
       const { currentIndex } = this.state;
       const nextIndex = currentIndex > 0 ? currentIndex - 1 : 0;

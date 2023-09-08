@@ -22,6 +22,8 @@ import { useWyreCurrencies } from 'extensions/wyre/hooks';
 import { checkWyreService } from 'extensions/wyre/util';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getUserCountryFromMSISDN, standardizeString } from 'utility/general';
+import { useQuery } from 'react-query';
+import { getBankAccountsByFilter } from 'utility/rehive';
 
 // export const hideCurrency = (action, actionsConfig, currency, profile) => {
 //   const condition = get(actionsConfig, [action, 'condition'], '');
@@ -121,18 +123,11 @@ const actionsConfig = [
     iconSet: 'MaterialIcons',
     label: 'Requests',
     condition: ({ actionsConfig, currency, profile, services }) => {
-      if (
-        !(
-          services['Payment Requests Service (beta)'] ||
-          services['Payment Requests Service']
-        )
-      )
-        return false;
+      if (!services?.payment_requests_service) return false;
       const hide = hideAction('request', { actionsConfig, currency, profile });
       return !hide;
     },
   },
-
   {
     id: 'transfer',
     condition: ({ currency, currencies, actionsConfig, profile }) => {
@@ -151,7 +146,6 @@ const actionsConfig = [
       );
     },
   },
-
   {
     id: 'prepaid',
     label: 'Add funds',
@@ -194,7 +188,7 @@ const actionsConfig = [
       if (wyreCurrencies?.[currency?.currency?.code]?.is_crypto) return true;
       if (
         currency?.account === currencies.primaryAccount &&
-        services['Conversion Service'] &&
+        services?.conversion_service &&
         conversionPairs
       ) {
         return (
@@ -225,7 +219,7 @@ const actionsConfig = [
       if (hide) return !hide;
       if (
         currency?.account === currencies.primaryAccount &&
-        services['Conversion Service'] &&
+        services?.conversion_service &&
         conversionPairs
       ) {
         return (
@@ -241,7 +235,7 @@ const actionsConfig = [
   // {
   //   id: 'quick_buy',
   //   condition: ({ services }) => {
-  //     return services['Wyre Testnet (beta)'];
+  //     return services?.wyre_service;
   //   },
   // },
   // {
@@ -287,24 +281,23 @@ export default function WalletActionList(props) {
   const company = useSelector(currentCompanySelector);
   let { actionVariant: variant } = useSelector(configAccountsSelector);
 
+  const { data: userBankAccounts } = useQuery(
+    [user?.id, currency?.currency?.code, 'deposit-bank-accounts'],
+    () =>
+      getBankAccountsByFilter(
+        `currency=${currency?.currency?.code}&action=deposit`,
+      ),
+    {
+      staleTime: 60 * 1000,
+    },
+  );
+
   const user = profile?.data?.[0];
   const {
     context: { businessServiceSettings },
   } = useRehive(['businessServiceSettings'], true, {
     user,
   });
-
-  //  useEffect(()=>{
-  //      //for hide deposit sakes
-  //   let actions =  user?.mobile && getUserCountryFromMSISDN(user?.mobile) == 'US'
-  //   && currency.currency.code == 'USD' ?
-  //   [{"id":"deposit"},{"id":"withdraw"},{"id":"send"},{"id":"more","label":"More"}]
-  //   :
-  //   [{"id":"send"},{"id":"more","label":"More"},{"id":"receive_payment","label":"Recieve"}];
-
-  //   setWalletActions(actions)
-
-  //   })
 
   function hideModal() {
     setModalVisible(false);
@@ -410,6 +403,7 @@ export default function WalletActionList(props) {
           currency,
           wyreCurrencies,
           companyBankAccounts,
+          userBankAccounts,
           isHome,
           currencies,
           conversionPairs,

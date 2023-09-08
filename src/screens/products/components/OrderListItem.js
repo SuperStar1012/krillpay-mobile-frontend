@@ -8,7 +8,6 @@ import {
 } from 'utility/general';
 import { Icon } from 'components/outputs/Icon';
 import { formatVariantsString } from '../util';
-import { getCurrencyCode } from 'utility/rates';
 
 class OrderListItem extends Component {
   render() {
