@@ -300,7 +300,6 @@ const styles = {
     fontWeight: 'normal',
     // flex: 1,
     fontSize: 16,
-
     flexWrap: 'wrap',
   },
   textStyleValue2: {

@@ -176,9 +176,7 @@ export default function Upload(props) {
     });
 
   const selectImage = async () => {
-    const { status } = await ImagePicker.requestCameraRollPermissionsAsync();
-    // if (status !== 'granted')
-    //   alert('Sorry, we need camera roll permissions to make this work!');
+    await ImagePicker.requestCameraPermissionsAsync();
 
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -187,11 +185,13 @@ export default function Upload(props) {
       quality: 1,
     });
 
-    if (!result?.cancelled) onSelect(result);
+    if (!result?.canceled) onSelect(result?.assets?.[0]);
   };
 
   const selectDocument = async () => {
-    let result = await DocumentPicker.getDocumentAsync();
+    let result = await DocumentPicker.getDocumentAsync({
+      type: 'application/pdf',
+    });
 
     if (result?.type !== 'cancel') onSelect(result);
   };
@@ -232,17 +232,21 @@ export default function Upload(props) {
             createDocument(_file, type?.id, JSON.stringify(metadata))
               // .then(resp => refresh('document'))
               .catch(error => {
-                uploadErrors.push(error?.non_field_errors?.[0]);
+                // console.log(error);
+                uploadErrors.push(
+                  error?.non_field_errors?.[0] ??
+                    error?.data?.non_field_errors?.[0],
+                );
               })
               .finally(() => resolve());
           });
         }),
     );
 
-    setErrors(uniq(uploadErrors));
-
-    if (uploadErrors?.length) setLoading(false);
-    else onDismiss && onDismiss();
+    if (uploadErrors?.length) {
+      setLoading(false);
+      setErrors(uploadErrors);
+    } else onDismiss && onDismiss();
   }
 
   const { fields } = config[uploadIndex] ?? {};

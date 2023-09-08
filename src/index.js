@@ -12,6 +12,7 @@ import EmptyListPlaceholderImage from './components/outputs/CustomImage/empty/Em
 import { LogBox, View, AppState } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { navigationRef } from 'navigation';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 export default function App(props) {
   LogBox.ignoreAllLogs();
@@ -45,6 +46,8 @@ export default function App(props) {
     },
   };
 
+  const queryClient = new QueryClient();
+
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <NavigationContainer theme={MyTheme} ref={navigationRef}>
@@ -57,7 +60,9 @@ export default function App(props) {
                   text="Please check your internet connection"></EmptyListPlaceholderImage>
               </View>
             ) : (
-              <Main />
+              <QueryClientProvider client={queryClient}>
+                <Main />
+              </QueryClientProvider>
             )}
           </PersistGate>
         </Provider>

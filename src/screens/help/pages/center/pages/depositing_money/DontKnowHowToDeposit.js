@@ -8,7 +8,7 @@ import Links from 'screens/help/components/Links';
 
 export default function DontKnowHowToDeposit(props) {
   const { context } = props;
-  
+
   const { companyBankAccounts, services } = context;
   const hasWyreService = true; // checkWyreService(services)
   const hasCompanyBankAccounts = companyBankAccounts?.items?.length > 0;

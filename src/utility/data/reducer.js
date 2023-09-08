@@ -29,7 +29,8 @@ const INITIAL_STATE = Object.assign(
 export { INITIAL_STATE };
 
 export default (state = INITIAL_STATE, action) => {
- 
+  // console.log('reducer state', state);
+  // console.log('reducer action', action);
   switch (action.type) {
     case FETCH_DATA_ASYNC.pending:
       return {

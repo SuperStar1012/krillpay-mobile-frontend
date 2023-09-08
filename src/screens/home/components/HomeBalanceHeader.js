@@ -11,7 +11,7 @@ export default function HomeBalanceHeader(props) {
     setHomeHeaderHeight,
   } = props;
   const { multipleAccounts, data, loading } = currencies;
-  
+
   return (
     <View
       style={{ paddingTop: 12 }}
@@ -29,18 +29,18 @@ export default function HomeBalanceHeader(props) {
               height,
             },
           ]}> */}
-    {/* {
+      {/* {
       selectedCurrency && multipleAccounts && setSelectedCurrencyIndex && data?.length > 0 &&( */}
-        <WalletBalanceList
-          currencies={data}
-          loading={loading}
-          activeCurrency={selectedCurrency}
-          multipleAccounts={multipleAccounts}
-          navigation={props.navigation}
-          setIndex={setSelectedCurrencyIndex}
-          // scrollY={scrollY}
-          // HEADER_SCROLL_DISTANCE={HEADER_MID_SCROLL}
-        />
+      <WalletBalanceList
+        currencies={data}
+        loading={loading}
+        activeCurrency={selectedCurrency}
+        multipleAccounts={multipleAccounts}
+        navigation={props.navigation}
+        setIndex={setSelectedCurrencyIndex}
+        // scrollY={scrollY}
+        // HEADER_SCROLL_DISTANCE={HEADER_MID_SCROLL}
+      />
       {/* )
     }
              */}
@@ -48,10 +48,9 @@ export default function HomeBalanceHeader(props) {
         <WalletActionList
           navigation={props.navigation}
           currency={selectedCurrency}
-          
           currencies={currencies}
           isHome
-        />  
+        />
       ) : (
         <View style={{ minHeight: 122 }} />
       )}

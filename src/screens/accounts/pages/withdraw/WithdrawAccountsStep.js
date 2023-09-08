@@ -8,7 +8,6 @@ import { checkIfCrypto, checkIfStellar } from 'screens/accounts/util/crypto';
 import { useWyreCurrency } from 'extensions/wyre/hooks';
 import { union } from 'lodash';
 import { Text } from 'react-native';
- 
 
 export default function WithdrawAccountsStep(props) {
   const { config = {}, form, context } = props;
@@ -51,8 +50,6 @@ export default function WithdrawAccountsStep(props) {
           <WalletSelector {...props} />
         </ContentLayout>
 
-        
-
         <ContentLayout>
           <ExternalAccountSelector
             {...props}
@@ -70,8 +67,6 @@ export default function WithdrawAccountsStep(props) {
           />
         </ContentLayout>
       </View>
-
-   
 
       <ContentLayout pb={1.5}>
         <Button

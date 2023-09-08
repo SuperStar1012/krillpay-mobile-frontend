@@ -27,7 +27,7 @@ const INITIAL_STATE = {
 };
 
 export function useAccounts({ init, services, config, tier, user }) {
-  const hasConversion = services['Conversion Service'];
+  const hasConversion = services?.conversion_service;
   // refetchInterval
   const enabled = init && Boolean(user?.id);
   const queryAccounts = useQuery(
@@ -295,7 +295,7 @@ export const conversionRatesSelector = (
   if (ratesState.rates) {
     try {
       let totalBalance = 0.0;
-      const hasConversion = Boolean(services['Conversion Service']);
+      const hasConversion = Boolean(services?.conversion_service);
       if (hasConversion) {
         try {
           accounts.map(account =>

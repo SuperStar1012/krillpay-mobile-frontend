@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
-  enableAuthToken,
-  getMFA,
-  disableAuthSMS,
-  disableAuthToken,
+  getMFAAuthenticators,
+  deleteMfaAuthenticator,
+  createMFAAuthenticator,
 } from 'utility/rehive';
 
 import {
@@ -26,7 +25,8 @@ function MfaForm(props) {
   const { showToast } = useToast();
   const [modalVisible, setModalVisible] = useState(false);
   const [formState, setFormState] = useState('');
-  const [token, setToken] = useState('');
+  const [token, setToken] = useState();
+  const [sms, setSms] = useState();
   const [error, setError] = useState('');
   const [mobile, setMobile] = useState('');
   const [loading, setLoading] = useState(false);
@@ -41,13 +41,35 @@ function MfaForm(props) {
     authConfig,
     settingsMFA,
   } = props;
-  const { data: mfa, error: mfaError } = useQuery(
+
+  const { data } = useQuery(
     ['mfa', tempAuth?.token],
-    getMFA,
+    () => getMFAAuthenticators(),
     {
-      enabled: !!authConfig?.mfa || settingsMFA,
+      enabled: Boolean(settingsMFA || authConfig?.mfa),
     },
   );
+  const authenticators = data?.data;
+  const verifiedAuthenticator = useMemo(
+    () => authenticators?.results?.find(item => item.verified === true),
+    [authenticators],
+  );
+  const unverifiedAuthenticators = useMemo(
+    () =>
+      authenticators?.results?.filter(
+        item => item.verified === false && item.id !== token?.id,
+      ),
+    [authenticators],
+  );
+
+  useEffect(() => {
+    // removing unverified authenticators, otherwise new authenticator can't be created.
+    if (unverifiedAuthenticators?.length) {
+      unverifiedAuthenticators?.forEach(async item => {
+        await deleteMfaAuthenticator(item.id);
+      });
+    }
+  }, [unverifiedAuthenticators]);
 
   const { setMfaStepCompleted } = useMfaSuccess({
     tempAuth,
@@ -60,33 +82,36 @@ function MfaForm(props) {
   }, []);
 
   useEffect(() => {
-    if (mfa) {
-      setFormState(mfa.token || mfa.sms ? 'enabled' : 'landing');
+    // show landing when authenticators available and no verified auth exists
+    if (authenticators) {
+      setFormState(verifiedAuthenticator ? 'enabled' : 'landing');
     }
-  }, [mfa]);
+  }, [authenticators, verifiedAuthenticator]);
 
-  useEffect(() => {
-    if (mfaError) {
-      setModalVisible(true);
-      setError(mfaError?.message);
-    }
-  }, [mfaError]);
+  // useEffect(() => {
+  //   if (mfaError) {
+  //     setModalVisible(true);
+  //     setError(mfaError?.message);
+  //   }
+  // }, [mfaError]);
 
   const getToken = async () => {
-    setLoading(true);
-    try {
-      const token = await enableAuthToken();
-      setToken(token);
-    } catch (e) {
-      console.log(e);
-      setError(e.message);
+    if (!token) {
+      setLoading(true);
+      try {
+        const _token = await createMFAAuthenticator('totp');
+        setToken(_token);
+      } catch (e) {
+        console.log(e);
+        setError(e.message);
+      }
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const handleButton = type => {
     setFormState(type);
-    if (type !== 'sms') {
+    if (type === 'token') {
       getToken();
     }
   };
@@ -107,14 +132,10 @@ function MfaForm(props) {
     );
   };
 
-  const disableMFA = () => {
+  const disableMFA = async () => {
     setModalLoading(true);
     try {
-      if (mfa.token) {
-        disableAuthToken();
-      } else if (mfa.sms) {
-        disableAuthSMS();
-      }
+      await deleteMfaAuthenticator(verifiedAuthenticator?.id);
       setModalError('');
       setModalVisible(false);
       setFormState('landing');
@@ -136,8 +157,6 @@ function MfaForm(props) {
   };
 
   const renderModal = () => {
-    const type =
-      formState === 'enabled' ? (mfa.sms ? 'sms' : 'token') : formState;
     return (
       <PopUpGeneral
         visible={modalVisible}
@@ -157,12 +176,9 @@ function MfaForm(props) {
         }>
         {formState === 'enabled' ? null : (
           <MultiFactorAuthentication
+            authenticator={formState === 'token' ? token : sms}
             onSuccess={onSuccessMFA}
-            issuer={tempAuth?.company}
-            account={tempAuth?.email}
-            secret={token ? token?.key : ''}
             error={modalError}
-            type={type}
             mobile={mobile}
           />
         )}
@@ -172,8 +188,8 @@ function MfaForm(props) {
 
   const renderContent = () => {
     const onBack = () => handleButton('landing');
-    const onSms = () => handleButton('sms');
     const onToken = () => handleButton('token');
+    const onSms = () => handleButton('sms');
 
     switch (formState) {
       case 'landing':
@@ -186,7 +202,8 @@ function MfaForm(props) {
         return (
           <MfaSms
             {...{
-              token,
+              sms,
+              setSms,
               error,
               onBack,
               setModalVisible,
@@ -203,7 +220,7 @@ function MfaForm(props) {
   return (
     <View>
       {loading ? <Spinner size={'large'} /> : renderContent()}
-      {!!modalVisible && renderModal()}
+      {modalVisible && renderModal()}
     </View>
   );
 }

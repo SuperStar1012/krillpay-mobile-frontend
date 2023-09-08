@@ -5,7 +5,11 @@ import WalletListHeader from '../components/WalletListHeader';
 import { WalletCard, AccountCard } from 'components/cards';
 import { View } from 'components';
 import ContentList from 'components/to_remove/ContentList';
-import { objectToArray, standardizeString, getUserCountryFromMSISDN } from 'utility/general';
+import {
+  objectToArray,
+  standardizeString,
+  getUserCountryFromMSISDN,
+} from 'utility/general';
 
 import { useSelector } from 'react-redux';
 
@@ -13,15 +17,11 @@ import Header from 'components/layout/header';
 import { calculateAccountTotal } from '../util/accounts';
 import { getWallet } from 'utility/wallet';
 import { useRehiveContext, useAccounts } from 'contexts';
-import {
-  userProfileSelector,
-} from '@redux/rehive/reducer';
+import { userProfileSelector } from '@redux/rehive/reducer';
 
 export default function WalletList(props) {
   const { route } = props;
   const initialCurrency = route?.params?.currency;
-
- 
 
   const {
     context: { wallets, rates },
@@ -89,8 +89,7 @@ function AccountsList(props) {
 
   const { accounts, error, loading } = wallets;
   const data = objectToArray(accounts);
-   
-   
+
   return (
     <View screen ph={1}>
       <ContentList
@@ -101,7 +100,7 @@ function AccountsList(props) {
         onRefresh={fetchAccounts}
         renderItem={(item, index) => (
           <View pb={1}>
-             <AccountCard
+            <AccountCard
               onPress={item => setAccountRef(item.reference)}
               item={item}
               index={index}
@@ -114,7 +113,7 @@ function AccountsList(props) {
         keyExtractor={item => item.reference.toString()}
         emptyListMessage={'No active accounts'}
         header={
-          services['Conversion Service'] ? (
+          services?.conversion_service ? (
             {
               component: (
                 <View mb={0.75}>
@@ -144,34 +143,30 @@ function CurrencyList(props) {
   const data =
     accountRef && account ? objectToArray(account.currencies) : wallets.data;
 
- 
-    const optionsNGN = data.map(item => {
-      if(item.currency.code =="NGN")
-      {
-        return {
-          item
-        };
-      }
-    });
-  
-    const optionsUSD = data.map(item => {
-      if(item.currency.code =="USD")
-      {
-        return {
-          item
-        };
-      }
-    });
+  const optionsNGN = data.map(item => {
+    if (item.currency.code == 'NGN') {
+      return {
+        item,
+      };
+    }
+  });
 
-    const filteredOptionsNGN = optionsNGN.filter(function (el) {
-      return el != null;
-    });
-  
-    const filteredOptionsUSD = optionsUSD.filter(function (el) {
-      return el != null;
-    }); 
+  const optionsUSD = data.map(item => {
+    if (item.currency.code == 'USD') {
+      return {
+        item,
+      };
+    }
+  });
 
- 
+  const filteredOptionsNGN = optionsNGN.filter(function (el) {
+    return el != null;
+  });
+
+  const filteredOptionsUSD = optionsUSD.filter(function (el) {
+    return el != null;
+  });
+
   let totalBalance = 0.0;
   if (account) {
     totalBalance = calculateAccountTotal(account, rates);
@@ -210,71 +205,67 @@ function CurrencyList(props) {
           />
 
   */}
-     
-     { getUserCountryFromMSISDN(user?.mobile) == "NG" ? 
-      <ContentList
-        data={data}
-        type="currency"
-        error={error}
-        loading={loading}
-        onRefresh={fetchAccounts}
-        renderItem={(item, index) => (
-          <View pb={1}>
-             <WalletCard
-              onPress={handleCurrencySelect}
-              navigation={navigation}
-              rates={rates}
-              item={item}
-              noBorder
-            />
-          </View>
-        )}
-        keyExtractor={item => (item.account + item.currency.code).toString()}
-        emptyListMessage={'No active currencies'}
-        renderHeader={
-          services['Conversion Service'] ? (
-            <View mb={0.75}>
-              <WalletListHeader
-                title={title}
+
+      {getUserCountryFromMSISDN(user?.mobile) == 'NG' ? (
+        <ContentList
+          data={data}
+          type="currency"
+          error={error}
+          loading={loading}
+          onRefresh={fetchAccounts}
+          renderItem={(item, index) => (
+            <View pb={1}>
+              <WalletCard
+                onPress={handleCurrencySelect}
+                navigation={navigation}
                 rates={rates}
-                totalBalance={totalBalance}
+                item={item}
+                noBorder
               />
             </View>
-          ) : (
-            <View p={0.5} />
-          )
-        }
-        header={
-          !!title && {
-            component: (
-              <View mh={-1}>
-                <Header
-                  inverted
-                  noPadding
-                  noShadow
-                  back={!oneAccount}
-                  customBackFunc={handleBack}
-                  customBack
+          )}
+          keyExtractor={item => (item.account + item.currency.code).toString()}
+          emptyListMessage={'No active currencies'}
+          renderHeader={
+            services?.conversion_service ? (
+              <View mb={0.75}>
+                <WalletListHeader
                   title={title}
+                  rates={rates}
+                  totalBalance={totalBalance}
                 />
               </View>
-            ),
+            ) : (
+              <View p={0.5} />
+            )
           }
-        }
-      /> 
-
-      :
-      <WalletCard
-      onPress={handleCurrencySelect}
-      navigation={navigation}
-      rates={rates}
-      item={filteredOptionsUSD[0].item}
-      noBorder
-          />
-
-       }
-
-
+          header={
+            !!title && {
+              component: (
+                <View mh={-1}>
+                  <Header
+                    inverted
+                    noPadding
+                    noShadow
+                    back={!oneAccount}
+                    customBackFunc={handleBack}
+                    customBack
+                    title={title}
+                  />
+                </View>
+              ),
+            }
+          }
+        />
+      ) : (
+        <WalletCard
+          onPress={handleCurrencySelect}
+          navigation={navigation}
+          rates={rates}
+          item={filteredOptionsUSD[0].item}
+          noBorder
+        />
+      )}
     </View>
   );
 }

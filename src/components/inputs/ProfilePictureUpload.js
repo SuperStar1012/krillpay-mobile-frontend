@@ -34,7 +34,7 @@ export default function ProfilePictureUpload(props) {
       mediaTypes: 'Images',
     });
 
-    if (!response.cancelled) {
+    if (!response.canceled) {
       const compressedFile = await compressImage({
         file: response,
         factor: 0.3,
@@ -63,7 +63,7 @@ export default function ProfilePictureUpload(props) {
       quality: 0.7,
     });
 
-    if (!response.cancelled) {
+    if (!response.canceled) {
       const compressedFile = await compressImage({
         file: response,
         factor: 0.3,

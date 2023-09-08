@@ -151,7 +151,7 @@ export function mapFieldsToInputs({ fields, user, props }) {
       inputs.city,
       inputs.country,
       inputs.state_province,
-      inputs.postal_code
+      inputs.postal_code,
     ],
   };
 

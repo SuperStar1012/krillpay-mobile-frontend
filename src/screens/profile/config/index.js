@@ -82,7 +82,6 @@ const config = {
       },
     },
   },
-
   profile: {
     title: 'Profile pic',
     label: 'profile_pic',
@@ -102,7 +101,6 @@ const config = {
       },
     },
   },
-
   mobile: {
     title: 'mobile_numbers',
     label: 'mobile_number',
@@ -130,7 +128,6 @@ const config = {
       },
     },
   },
-
   email: {
     title: 'Email addresses',
     label: 'email',

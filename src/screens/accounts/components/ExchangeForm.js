@@ -267,21 +267,26 @@ class ExchangeForm extends Component {
   }
 
   render() {
-    const { currency, conversionPairs, currencies, formState, user } = this.props;
+    const { currency, conversionPairs, currencies, formState, user } =
+      this.props;
 
-   const conversionPairsx  =  getUserCountryFromMSISDN(user?.mobile) == "US" ? 
-   [{
-      "id": "4fea572c-bea3-4e96-bcc9-c5f33399fe6d",
-      "key": "USD:USD",
-      "created": 1675192353700,
-      "updated": 1675192353700
-    }, {
-      "id": "4fea572c-bea3-4e96-bcc9-c5f33399fe6d",
-      "key": "USD:USD",
-      "created": 1675192345406,
-      "updated": 1675192345406
-    }] : 
-    conversionPairs.items;
+    const conversionPairsx =
+      getUserCountryFromMSISDN(user?.mobile) == 'US'
+        ? [
+            {
+              id: '4fea572c-bea3-4e96-bcc9-c5f33399fe6d',
+              key: 'USD:USD',
+              created: 1675192353700,
+              updated: 1675192353700,
+            },
+            {
+              id: '4fea572c-bea3-4e96-bcc9-c5f33399fe6d',
+              key: 'USD:USD',
+              created: 1675192345406,
+              updated: 1675192345406,
+            },
+          ]
+        : conversionPairs.items;
 
     const items = conversionPairsx.filter(
       pair => pair.key.split(':')[0] === currency.currency.code,
@@ -511,7 +516,7 @@ function SellAmount(props) {
     );
 
     const title = t('select_sell_account');
-        
+
     return (
       <CurrencySelectorCard
         cardType={'wallet'}
@@ -561,7 +566,7 @@ function SellAmount(props) {
             }}>
             {getCurrencyCode(currency.currency)}
           </Text>
-            
+
           <Icon
             name="chevron-down"
             size={20}

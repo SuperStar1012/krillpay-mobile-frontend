@@ -301,7 +301,7 @@ export const conversionRatesSelector = createSelector(
     if (ratesState.rates) {
       try {
         let totalBalance = 0.0;
-        const hasConversion = Boolean(services['Conversion Service']);
+        const hasConversion = Boolean(services?.conversion_service);
         if (hasConversion) {
           try {
             accounts.map(account =>

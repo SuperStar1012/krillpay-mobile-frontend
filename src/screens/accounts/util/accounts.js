@@ -348,7 +348,7 @@ export async function handleConversionQuoteCreate(props) {
     ? currency?.code + ':' + convCurrency?.code
     : convCurrency?.code + ':' + currency?.code;
   const hasConversion =
-    services['Conversion Service'] && convCurrency?.code !== currency?.code;
+    services?.conversion_service && convCurrency?.code !== currency?.code;
 
   const amountValue = parseInt(
     parseFloat(amount) * 10 ** currency?.divisibility,

@@ -12,12 +12,6 @@ import {
 } from 'utility/rehive';
 import { checkWyreService } from 'extensions/wyre/util';
 
-function mapFields(item, inputs) {
-  let fields = Object.keys(item).map(key => inputs?.[key]);
-  fields = fields.filter(item => item);
-  return fields;
-}
-
 function mapDefaultValues(values) {
   const { currencies = [] } = values;
   return {
@@ -202,20 +196,14 @@ export default {
         const { services } = context;
         let options = [];
         if (
-          services?.['Stellar Testnet Service'] ||
-          services?.['Stellar Service'] ||
+          services?.stellar_testnet_service ||
+          services?.stellar_service ||
           checkWyreService(services)
         )
           options.push('stellar');
-        if (
-          services?.['Bitcoin Testnet Service'] ||
-          services?.['Bitcoin Service']
-        )
+        if (services?.bitcoin_testnet_service || services?.bitcoin_service)
           options.push('bitcoin');
-        if (
-          services?.['Ethereum Testnet Service'] ||
-          services?.['Ethereum Service']
-        )
+        if (services?.ethereum_testnet_service || services?.ethereum_service)
           options.push('ethereum');
 
         return options;

@@ -107,13 +107,11 @@ function useInputs(authConfig, company) {
     inputs.push({ name: 'confirm_password' });
   }
 
-  if (services?.['Rewards Service'] && profileConfig?.referral?.enabled)
+  if (services?.rewards_service && profileConfig?.referral?.enabled)
     inputs.push({ name: 'referral' });
 
-  // console.log(inputs);
   let fields = inputs.map(input => {
     const temp = authInputs[input.name];
-
     return { ...temp, value: '' };
   });
   fields.push({ id: 'terms', type: 'terms', ...termsConfig });
@@ -285,7 +283,6 @@ export default function RegisterPage(props) {
     const { setStatus, setFieldValue, setFieldTouched, values, setSubmitting } =
       formikProps;
     setSubmitting(true);
-
     const {
       email,
       password,
@@ -319,7 +316,6 @@ export default function RegisterPage(props) {
 
     try {
       let response;
-
       let data = {
         company,
         email,
@@ -390,7 +386,6 @@ export default function RegisterPage(props) {
       });
     });
   }
-
   const { keyboardHeight } = useKeyboard();
 
   return (
@@ -420,7 +415,6 @@ export default function RegisterPage(props) {
           // footer={
 
           // }
-
           id="register"
           headerProps={{
             rightAction: <CompanyIconAboutButton {...props} />,

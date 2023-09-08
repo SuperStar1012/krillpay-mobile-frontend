@@ -6,12 +6,10 @@ export default function MobileInput(props) {
   const [value, setValue] = useState('');
   const [formattedValue, setFormattedValue] = useState('');
   const [valid, setValid] = useState(false);
-  
+
   const phoneInput = useRef();
 
-  useEffect(() => {
-    
-  }, [value]);
+  useEffect(() => {}, [value]);
 
   return (
     <PhoneInput

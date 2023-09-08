@@ -96,6 +96,7 @@ export default function ReceiptInfoPage(props) {
     rates,
     crypto,
     setItem,
+    closeAll,
   } = props;
 
   let tempConvRate = 0;
@@ -176,7 +177,8 @@ export default function ReceiptInfoPage(props) {
                   currency: c,
                   recipient: user?.identifier || '',
                 });
-                // setModal(false);
+                setModal(false);
+                closeAll();
               }}
             />
             <Button
@@ -188,7 +190,8 @@ export default function ReceiptInfoPage(props) {
                   currency: c,
                   recipient: user?.identifier || '',
                 });
-                // setModal(false);
+                setModal(false);
+                closeAll();
               }}
             />
           </View>

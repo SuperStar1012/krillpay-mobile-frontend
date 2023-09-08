@@ -274,7 +274,7 @@ export function useConversionTransactionList(services, rates, currency, item) {
 
 function handleConversionServicesCheck(services, rates, currency) {
   return Boolean(
-    services['Conversion Service'] &&
+    services?.conversion_service &&
       rates &&
       rates.rates &&
       rates.displayCurrency &&

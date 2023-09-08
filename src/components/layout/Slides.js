@@ -77,7 +77,7 @@ const Slides = props => {
       }}>
       <Carousel
         ref={carouselRef}
-        currentIndex={index}
+        // currentIndex={index}
         data={items}
         autoplayDelay={6000}
         renderItem={renderItem}
@@ -86,8 +86,9 @@ const Slides = props => {
         inactiveSlideScale={0.7}
         inactiveSlideOpacity={0.3}
         itemWidth={width}
-        enableMomentum
-        onBeforeSnapToItem={index => setIndex(index)}
+        // enableMomentum
+        useExperimentalSnap
+        onScrollIndexChanged={index => setIndex(index)}
         {...otherProps}
       />
 
@@ -131,108 +132,3 @@ const Slides = props => {
 };
 
 export { Slides };
-
-// class _Slides extends Component {
-//   scrollX = new Animated.Value(0);
-
-//   renderSlides() {
-//     const { width = SCREEN_WIDTH, data } = this.props;
-//     let position = Animated.divide(this.scrollX, width);
-
-//     return data.map((slide, i) => {
-//       let opacity = position.interpolate({
-//         inputRange: [i - 0.7, i, i + 0.7],
-//         outputRange: [0.05, 1, 0.05],
-//         extrapolate: 'clamp',
-//       });
-//       // console.log('TCL: renderSlides -> slide', slide);
-//       return (
-//         <Animated.View
-//           key={slide.id}
-//           style={{
-//             opacity,
-//             width,
-//             justifyContent: 'center',
-//             alignItems: 'center',
-//           }}>
-//           <View
-//             style={{
-//               // flex: 1,
-//               justifyContent: 'center',
-//             }}>
-//             <CustomImage
-//               name={slide.image}
-//               backgroundColor={'authScreen'}
-//               height={SCREEN_WIDTH / 2}
-//               width={SCREEN_WIDTH / 2}
-//             />
-//           </View>
-//           <View p={0.5}>
-//             <Text
-//               c={'authScreenContrast'}
-//               t={'h5'}
-//               fW={'600'}
-//               tA={'center'}
-//               p={0.5}>
-//               {slide.title}
-//             </Text>
-//             <Text c={'authScreenContrast'} t={'s1'} tA={'center'} p={0.5}>
-//               {slide.description}
-//             </Text>
-//           </View>
-//         </Animated.View>
-//       );
-//     });
-//   }
-
-//   render() {
-//     const { width, data, colors } = this.props;
-//     let position = Animated.divide(this.scrollX, width);
-//     return (
-//       <View
-//         style={{
-//           justifyContent: 'space-around',
-//           alignItems: 'center',
-//         }}>
-//         <ScrollView
-//           horizontal
-//           pagingEnabled
-//           showsHorizontalScrollIndicator={false}
-//           onScroll={Animated.event([
-//             { nativeEvent: { contentOffset: { x: this.scrollX } } },
-//           ])}
-//           scrollEventThrottle={16}>
-//           {this.renderSlides()}
-//         </ScrollView>
-//         {data && data.length > 1 ? (
-//           <View
-//             style={{
-//               flexDirection: 'row',
-//             }}>
-//             {data.map((_, i) => {
-//               let opacity = position.interpolate({
-//                 inputRange: [i - 1, i, i + 1],
-//                 outputRange: [0.3, 1, 0.3],
-//                 extrapolate: 'clamp',
-//               });
-//               return (
-//                 <Animated.View
-//                   key={i}
-//                   style={{
-//                     opacity,
-//                     height: 6,
-//                     width: 6,
-//                     backgroundColor: colors['authScreenContrast'],
-//                     marginVertical: 2,
-//                     marginHorizontal: 8,
-//                     borderRadius: 3,
-//                   }}
-//                 />
-//               );
-//             })}
-//           </View>
-//         ) : null}
-//       </View>
-//     );
-//   }
-// }

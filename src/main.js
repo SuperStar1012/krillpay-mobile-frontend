@@ -2,13 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import { LogBox, AppState, Image, ActivityIndicator } from 'react-native';
 import * as Updates from 'expo-updates';
 import SplashImage from '../assets/icons/splash.png';
+import NotFound404 from '../assets/not_found_404.png';
 import { StatusBar } from 'expo-status-bar';
 import * as SecureStore from 'expo-secure-store';
 import { View } from './components/layout/View';
 import Text from './components/outputs/Text';
 import App from './navigation';
 import { ToastProvider } from 'contexts/ToastContext';
-import { QueryClient, QueryClientProvider } from 'react-query';
 import * as SplashScreen from 'expo-splash-screen';
 
 import { ThemeProvider } from 'contexts/ThemeContext';
@@ -51,7 +51,7 @@ const Main = () => {
     async function prepare() {
       try {
         // Pre-load activities
-        console.log("loading")
+        console.log('loading');
         await _loadAssetsAsync();
       } catch (e) {
         console.warn(e);
@@ -178,24 +178,21 @@ const Main = () => {
   }
 };
 
-const queryClient = new QueryClient();
 const Providers = ({ children, localAuth }) => {
   return (
-    <QueryClientProvider client={queryClient}>
-      <ToastProvider>
-        <LocalAuthProvider initial={localAuth}>
-          <RehiveProvider>
-            <BusinessProvider>
-              <ThemeProvider>
-                <LanguageProvider>
-                  <DirectionProvider>{children}</DirectionProvider>
-                </LanguageProvider>
-              </ThemeProvider>
-            </BusinessProvider>
-          </RehiveProvider>
-        </LocalAuthProvider>
-      </ToastProvider>
-    </QueryClientProvider>
+    <ToastProvider>
+      <LocalAuthProvider initial={localAuth}>
+        <RehiveProvider>
+          <BusinessProvider>
+            <ThemeProvider>
+              <LanguageProvider>
+                <DirectionProvider>{children}</DirectionProvider>
+              </LanguageProvider>
+            </ThemeProvider>
+          </BusinessProvider>
+        </RehiveProvider>
+      </LocalAuthProvider>
+    </ToastProvider>
   );
 };
 

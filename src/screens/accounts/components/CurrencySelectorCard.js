@@ -8,11 +8,8 @@ import { getCurrencyCode } from '../util/rates';
 import { PopUpGeneral } from 'components/layout/PopUpGeneral';
 import { useIsRTL } from 'hooks/general';
 import { useSelector } from 'react-redux';
-import {
-  userProfileSelector,
-} from '@redux/rehive/reducer';
+import { userProfileSelector } from '@redux/rehive/reducer';
 import { getUserCountryFromMSISDN } from 'utility/general';
-
 
 const CurrencySelectorCard = props => {
   let {
@@ -35,7 +32,7 @@ const CurrencySelectorCard = props => {
   const [modalVisible, setModalVisible] = useState(false);
   const profile = useSelector(userProfileSelector);
   const user = profile?.data?.[0];
-  
+
   const items =
     filteredItems ||
     filtered?.data?.map(item => {
@@ -57,18 +54,15 @@ const CurrencySelectorCard = props => {
     });
 
   const optionsUSD = items.map(item => {
-      if(item.value.currency.code =="USD")
-      {
-        return item;
-      }
+    if (item.value.currency.code == 'USD') {
+      return item;
+    }
   });
 
-  
   const filteredOptionsUSD = optionsUSD.filter(function (el) {
     return el != null;
   });
 
-   
   const hideModal = () => setModalVisible(false);
 
   const handleCurrencySelection = item => {
@@ -132,9 +126,7 @@ const CurrencySelectorCard = props => {
         iconTitleLeft={isRTL ? 'chevron-right' : 'chevron-left'}
         titleIconContent={props.titleIconContent}
         titleTextAlign={props.titleTextAlign}>
-          
-          {  getUserCountryFromMSISDN(user?.mobile) == "US" ? 
-            
+        {getUserCountryFromMSISDN(user?.mobile) == 'US' ? (
           <View pb={1} key={filteredOptionsUSD.key}>
             <DynamicCard
               type={cardType}
@@ -144,20 +136,19 @@ const CurrencySelectorCard = props => {
               onPressContent={() => handleCurrencySelection(filteredOptionsUSD)}
             />
           </View>
-          :
-        items.map((item, index) => (
-          <View pb={1} key={item.key}>
-            <DynamicCard
-              type={cardType}
-              item={item.value}
-              currencies={currencies}
-              rates={rates}
-              onPressContent={() => handleCurrencySelection(item)}
-            />
-          </View>
-        ))     
-
-          }
+        ) : (
+          items.map((item, index) => (
+            <View pb={1} key={item.key}>
+              <DynamicCard
+                type={cardType}
+                item={item.value}
+                currencies={currencies}
+                rates={rates}
+                onPressContent={() => handleCurrencySelection(item)}
+              />
+            </View>
+          ))
+        )}
 
         {/*items.map((item, index) => (
           <View pb={1} key={item.key}>

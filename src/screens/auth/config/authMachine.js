@@ -1,4 +1,4 @@
-import { Machine } from 'xstate';
+import { createMachine } from 'xstate';
 
 // Constants (actions / states)
 const LOGIN = 'LOGIN';
@@ -19,12 +19,12 @@ const EMAIL_VERIFY = 'EMAIL_VERIFY';
 const MOBILE_VERIFY = 'MOBILE_VERIFY';
 const AUTH_SUCCESS = 'AUTH_SUCCESS';
 const GROUP = 'GROUP';
-// const ADDRESS = 'ADDRESS';
 
 const ABOUT = 'ABOUT';
 const DISCLAIMER = 'DISCLAIMER';
 
-const authMachine = Machine({
+const authMachine = createMachine({
+  predictableActionArguments: true,
   id: 'auth',
   initial: AUTH_INIT,
   states: {

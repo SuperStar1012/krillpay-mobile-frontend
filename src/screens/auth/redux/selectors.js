@@ -122,8 +122,8 @@ export const currentCompanyServicesSelector = createSelector(
   company => {
     let services = {};
     company.services.map(service => {
-      services[service.name] = true;
-      return { [service.name]: true };
+      services[service.slug] = true;
+      return { [service.slug]: true };
     });
     return services;
   },

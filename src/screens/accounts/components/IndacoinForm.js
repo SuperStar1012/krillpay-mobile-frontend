@@ -273,14 +273,8 @@ const PrepaidBankConfirm = props => {
 };
 
 const PrepaidCardConfirm = props => {
-  const {
-    formikProps,
-    config,
-    currency,
-    setPayment,
-    setState,
-    setResult,
-  } = props;
+  const { formikProps, config, currency, setPayment, setState, setResult } =
+    props;
   const { values, setSubmitting } = formikProps;
   const { voucher, paymentMethod } = values;
   const currencyCode = get(currency, ['currency', 'code']);

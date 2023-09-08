@@ -1,7 +1,5 @@
 export function checkWyreService(services) {
-  return Boolean(
-    services?.['Wyre Service (beta)'] || services?.['Wyre Service'],
-  );
+  return Boolean(services?.wyre_service);
 }
 
 export function checkWyreModeUsers(services, config) {

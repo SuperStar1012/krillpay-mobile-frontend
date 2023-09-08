@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { TextPropTypes } from 'deprecated-react-native-prop-types';
 import React, { PureComponent } from 'react';
 import { View, Text } from 'react-native';
 
@@ -16,20 +17,12 @@ export default class Counter extends PureComponent {
     baseColor: PropTypes.string.isRequired,
     errorColor: PropTypes.string.isRequired,
 
-    style: Text.propTypes.style,
+    style: TextPropTypes.style,
   };
 
   render() {
-    let {
-      count,
-      min,
-      max,
-      error,
-      baseColor,
-      errorColor,
-      fontSize,
-      style,
-    } = this.props;
+    let { count, min, max, error, baseColor, errorColor, fontSize, style } =
+      this.props;
 
     let textStyle = {
       color: (count > max || count < min) && error ? errorColor : baseColor,

@@ -34,7 +34,7 @@ export default function AmountInput(props) {
 
   const hasConversion =
     !hideConversion &&
-    services['Conversion Service'] &&
+    services?.conversion_service &&
     rates &&
     rates.rates &&
     rates.displayCurrency &&

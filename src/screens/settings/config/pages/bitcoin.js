@@ -14,7 +14,7 @@ function mapFields(item, inputs) {
 export const formConfig = props => {
   const services = props?.reduxContext?.services;
   let hasTestnetSelector = false;
-  if (services['Bitcoin Service'] && services['Bitcoin Testnet Service']) {
+  if (services?.bitcoin_service && services?.bitcoin_testnet_service) {
     hasTestnetSelector = true;
   }
 
@@ -33,7 +33,7 @@ export const formConfig = props => {
     condition: ({ network }) => network !== 'mainnet',
   });
 
-  if (services['Bitcoin Service']) {
+  if (services?.bitcoin_service) {
     return {
       defaultValues: EMPTY_CRYPTO_MAINNET,
       submitLabel: 'SAVE',
@@ -59,7 +59,7 @@ async function createData(values, control, props) {
       crypto_type: 'bitcoin',
     };
     if (!values?.network) {
-      data.network = props?.reduxData?.services?.['Bitcoin Service']
+      data.network = props?.reduxData?.services?.bitcoin_service
         ? 'mainnet'
         : 'testnet';
     }

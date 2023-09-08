@@ -103,7 +103,7 @@ export default function PayResult(props) {
 //     sentenceString = amountString;
 
 //     if (
-//       services['Conversion Service'] &&
+//       services?.conversion_service &&
 //       rates.rates &&
 //       rates.displayCurrency.code
 //     ) {

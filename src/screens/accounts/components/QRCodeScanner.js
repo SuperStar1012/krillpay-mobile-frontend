@@ -129,7 +129,7 @@ class QRCodeScanner extends Component {
             </View>
           </View>
         ) : (
-          <EmptyListMessage idOveride="no_access_to_camera" />
+          <EmptyListMessage idOverride="no_access_to_camera" />
         )}
       </View>
     );

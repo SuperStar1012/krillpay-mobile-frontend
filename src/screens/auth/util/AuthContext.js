@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
-import * as SecureStore from 'expo-secure-store';
-import AsyncStorage  from '@react-native-async-storage/async-storage';
+// import * as SecureStore from 'expo-secure-store';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const SET_COMPANY = 'set_company';
 export const CACHE_COMPANY = 'cache_company';

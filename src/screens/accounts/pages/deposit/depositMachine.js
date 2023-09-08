@@ -9,7 +9,13 @@ const depositMachine = {
       on: { MANUAL: 'manual', WYRE: 'wyre' },
     },
     manual: {
-      on: { BACK: 'type' },
+      on: { BACK: 'manualMethodSelection' },
+    },
+    manualMethodSelection: {
+      on: { NEXT: 'manual' },
+    },
+    depositNotAvailable: {
+      on: {},
     },
     wyre: {
       on: { NEXT: 'amount', BACK: 'type', ADD: 'link_account' },

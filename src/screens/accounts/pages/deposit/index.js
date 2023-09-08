@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import depositMachine from './depositMachine';
-import { View } from 'components';
-import { createWyreTransfer } from 'utility/rehive';
+import { Spinner, View } from 'components';
+import { createWyreTransfer, getBankAccountsByFilter } from 'utility/rehive';
 import AccountFlow from '../../components/AccountFlow';
 import { useRehiveContext } from 'contexts/RehiveContext';
 import { toDivisibility } from 'utility/general';
@@ -17,6 +17,10 @@ import WyreHeader from './WyreHeader';
 import { useRehive } from 'hooks/rehive';
 import WyreDetails from './WyreDetails';
 import { checkWyreService } from 'extensions/wyre/util';
+import { useQuery } from 'react-query';
+import { concat } from 'lodash';
+import ManualDepositMethodSelection from './ManualDepositMethodSelection';
+import DepositNotAvailable from './DepositNotAvailable';
 
 async function handleSubmit(props) {
   const { form, wallet, setSubmitting, context } = props;
@@ -51,14 +55,8 @@ function useAccountFlow(props, context) {
     asset_code,
     accountRef,
   } = props?.route?.params ?? {};
-
-  const {
-    context: { services },
-  } = useRehiveContext();
-  const { companyBankAccounts } = context;
-
-  const hasCompanyBankAccounts = companyBankAccounts?.items?.length > 0;
-  const hasWyreService = checkWyreService(services);
+  const { hasWyre, combinedManualAccounts } = context;
+  const hasCompanyBankAccounts = combinedManualAccounts?.length > 0;
 
   let configs = {
     accounts: {
@@ -70,7 +68,17 @@ function useAccountFlow(props, context) {
     },
     manual: {
       component: ManualDeposit,
-      backgroundColor: 'background',
+    },
+    manualMethodSelection: {
+      component: ManualDepositMethodSelection,
+      help: {
+        center: {
+          tab: 'depositing_money',
+        },
+      },
+    },
+    depositNotAvailable: {
+      component: DepositNotAvailable,
     },
     type: {
       component: DepositList,
@@ -81,34 +89,6 @@ function useAccountFlow(props, context) {
         center: {
           tab: 'depositing_money',
         },
-        // items: [
-        //   {
-        //     id: 'mobile',
-        //     title: 'send_to_mobile',
-        //     description: 'send_to_mobile_description',
-        //   },
-        //   {
-        //     id: 0,
-        //     title: 'what_is_a_memo',
-        //     condition: ({ context }) =>
-        //       context?.wallet?.crypto?.includes('XLM'),
-        //     description: 'what_is_a_memo_desciption',
-        //   },
-        //   {
-        //     id: 1,
-        //     title: 'what_is_a_federation_address',
-        //     condition: ({ context }) =>
-        //       context?.wallet?.crypto?.includes('XLM'),
-        //     description: 'what_is_a_federation_address_description',
-        //   },
-        //   {
-        //     id: 2,
-        //     title: 'how_do_on_chain_transactions_work',
-        //     condition: ({ context }) =>
-        //       context?.wallet?.crypto?.includes('XLM'),
-        //     description: 'how_do_on_chain_transactions_work_description',
-        //   },
-        // ],
       },
     },
     link_account: { component: WyreAddBankAccount },
@@ -120,31 +100,27 @@ function useAccountFlow(props, context) {
         condensed: true,
       },
     },
-    post: { title: 'send', header: WyreHeader, detail: WyreDetails }, //
+    post: { title: 'send', header: WyreHeader, detail: WyreDetails },
   };
 
   let machine = { ...depositMachine };
 
-  const flags = { hasCompanyBankAccounts, hasWyreService };
+  const flags = { hasCompanyBankAccounts, hasWyre };
 
-  if (hasCompanyBankAccounts && !hasWyreService) {
-    machine.initial = 'manual';
-    delete machine.states.manual.on.BACK;
-    // machine.states.accounts.on.NEXT = 'manual';
-    // machine.states.manual.on.BACK = 'accounts';
-  } else if (!hasCompanyBankAccounts && hasWyreService) {
+  if (hasCompanyBankAccounts && !hasWyre) {
+    if (combinedManualAccounts?.length > 1) {
+      machine.initial = 'manualMethodSelection';
+      machine.states.manual.on.BACK = 'manualMethodSelection';
+    } else {
+      machine.initial = 'manual';
+      delete machine.states.manual.on.BACK;
+    }
+  } else if (hasWyre) {
     machine.initial = 'wyre';
     delete machine.states.wyre.on.BACK;
-    // machine.states.accounts.on.NEXT = 'wyre';
-    // machine.states.wyre.on.BACK = 'accounts';
+  } else {
+    machine.initial = 'depositNotAvailable';
   }
-  // if (hasCompanyBankAccounts && !hasWyreService) {
-  //   machine.states.accounts.on.NEXT = 'manual';
-  //   machine.states.manual.on.BACK = 'accounts';
-  // } else if (!hasCompanyBankAccounts && hasWyreService) {
-  //   machine.states.accounts.on.NEXT = 'wyre';
-  //   machine.states.wyre.on.BACK = 'accounts';
-  // }
 
   return {
     id: 'deposit',
@@ -162,21 +138,65 @@ function useAccountFlow(props, context) {
 }
 
 export default function DepositPage(props) {
+  const {
+    context: { services },
+  } = useRehiveContext();
+  const hasWyre = checkWyreService(services);
+  const currencyCode = props?.route?.params?.currency?.currency?.code;
   const companyBankAccounts = useSelector(companyBankAccountsSelector);
+  const [combinedManualAccounts, setCombinedManualAccounts] = useState(null);
+  const [selectedManualAccount, setSelectedManualAccount] = useState();
 
   const {
     context: { user, init },
   } = useRehiveContext();
-
   const {
     context: { document: documents },
     refresh: refreshDocuments,
   } = useRehive(['document'], init, { user });
+  const bankAccounts = useMemo(
+    () =>
+      companyBankAccounts?.items?.filter(
+        acc =>
+          acc.currencies.findIndex(curr => curr.code === currencyCode) !== -1,
+      ),
+    [currencyCode],
+  );
+
+  const { data: userBankAccounts } = useQuery(
+    [user?.id, currencyCode, 'deposit-bank-accounts'],
+    () => getBankAccountsByFilter(`currency=${currencyCode}&action=deposit`),
+    {
+      enabled: !hasWyre,
+      staleTime: 2500,
+    },
+  );
+
+  useEffect(() => {
+    if (userBankAccounts?.data) {
+      const combinedAccounts = concat(bankAccounts, userBankAccounts?.data);
+      if (combinedAccounts.length === 1) {
+        setSelectedManualAccount(combinedAccounts[0]);
+      }
+      setCombinedManualAccounts(combinedAccounts);
+    }
+  }, [userBankAccounts]);
 
   const context = {
     companyBankAccounts,
     documents,
+    hasWyre,
+    combinedManualAccounts,
+    selectedManualAccount,
+    setSelectedManualAccount,
   };
+  if (!hasWyre && !combinedManualAccounts)
+    return (
+      <View screen bC="background">
+        <Spinner />
+      </View>
+    );
+
   const config = useAccountFlow(props, context);
 
   return (

@@ -47,7 +47,7 @@ const ExchangeWithdrawConfirm = props => {
       const { code, divisibility } = fromCurrency.currency;
       const key = code + ':' + toCode;
       const hasConversion =
-        services['Conversion Service'] &&
+        services?.conversion_service &&
         toCurrency.currency.code !== code &&
         values.display;
       let data = {};

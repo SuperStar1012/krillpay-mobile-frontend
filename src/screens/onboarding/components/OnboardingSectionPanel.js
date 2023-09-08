@@ -76,11 +76,11 @@ export default function OnboardingSectionPanel(props) {
         showsHorizontalScrollIndicator={false}>
         {sections.map((section, index) => (
           <View
-          w={SCREEN_WIDTH / (length > 5 ? 6.5 : 6)}
-          aI="center"
-          mr={index === sections.length - 1 ? 1 : 0.25}
-          ml={index === 0 ? 1 : 0.25}
-          key={section.id}>
+            w={SCREEN_WIDTH / (length > 5 ? 6.5 : 6)}
+            aI="center"
+            mr={index === sections.length - 1 ? 1 : 0.25}
+            ml={index === 0 ? 1 : 0.25}
+            key={section.id}>
             <TouchableOpacity
               disabled={
                 !canSkip && index > currentSection && completedSections < index
@@ -90,7 +90,7 @@ export default function OnboardingSectionPanel(props) {
             </TouchableOpacity>
           </View>
         ))}
-      </ScrollView> 
+      </ScrollView>
     </View>
   );
 }

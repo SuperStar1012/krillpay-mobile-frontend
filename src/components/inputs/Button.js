@@ -20,7 +20,7 @@ const _Button = props => {
     label,
     reference,
     animation,
-    disabled,
+    disabled: disabledData,
     size,
     icon,
     iconSet,
@@ -45,6 +45,7 @@ const _Button = props => {
     textStyle,
     ...restProps
   } = props;
+  const disabled = Boolean(disabledData);
 
   function _buttonStyle() {
     let backgroundColor = 'transparent';
@@ -245,7 +246,7 @@ _Button.propTypes = {
   label: PropTypes.string, // Text displayed on button
   reference: PropTypes.func, // For animations
   animation: PropTypes.string, // Animation type
-  disabled: PropTypes.bool, // Disable touchable component
+  disabled: PropTypes.any, // Disable touchable component
   onPress: PropTypes.func, // Function to execute on press
   icon: PropTypes.string, // Icon displayed on left of button
   size: PropTypes.string, // Size of button (small / default or '' / large)

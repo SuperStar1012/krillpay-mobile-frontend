@@ -22,6 +22,7 @@ import Counter from '../counter';
 import { useToast } from 'contexts/ToastContext';
 import Text from 'components/outputs/Text';
 import { useTranslation } from 'react-i18next';
+import { TextInputPropTypes } from 'deprecated-react-native-prop-types';
 
 export default class TextField extends PureComponent {
   static defaultProps = {
@@ -56,7 +57,7 @@ export default class TextField extends PureComponent {
   };
 
   static propTypes = {
-    ...TextInput.propTypes,
+    ...TextInputPropTypes,
 
     animationDuration: PropTypes.number,
 
@@ -611,7 +612,6 @@ export default class TextField extends PureComponent {
     let helperContainerStyle = {
       flexDirection: 'row',
       height: helper || min || max || error ? helperFontSize * 2 : 0,
-
       // paddingHorizontal: inputContainerPadding,
       // focus.interpolate({
       //     inputRange: [-1, 0, 1],
