@@ -413,9 +413,7 @@ export default function TransactionListDetail(props) {
             ph={0.125}
             pv={1.15}>
             <Text style={{ color: '#ffffff' }} s={30} fW={'700'}>
-              {subtype == 'buy'
-                ? '-' + amountConvString.slice(1)
-                : '+' + amountString}
+              {subtype == 'buy' ? '+ ' + amountString : '- ' + amountString}
             </Text>
 
             <Text style={{ color: '#ffffff' }} o={0.87} s={16}>
