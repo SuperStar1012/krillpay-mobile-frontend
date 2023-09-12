@@ -23,6 +23,7 @@ import { useToast } from 'contexts/ToastContext';
 import Text from 'components/outputs/Text';
 import { useTranslation } from 'react-i18next';
 import { TextInputPropTypes } from 'deprecated-react-native-prop-types';
+import { PasswordSupportiveText } from '../helper/PasswordSupportiveText';
 
 export default class TextField extends PureComponent {
   static defaultProps = {
@@ -786,12 +787,11 @@ export default class TextField extends PureComponent {
               {error}
             </Helper>
             {type === 'password' ? (
-              <Helper
+              <PasswordSupportiveText
+                textColor={textColor}
+                value={value}
                 style={[helperStyle, helperTextStyle]}
-                numberOfLines={5}
-                helperWrapperStyle={helperWrapperStyle}>
-                {helper}
-              </Helper>
+              />
             ) : (
               <Helper
                 style={[helperStyle, helperTextStyle]}
