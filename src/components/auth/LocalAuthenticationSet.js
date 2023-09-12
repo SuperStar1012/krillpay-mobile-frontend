@@ -139,7 +139,7 @@ class _LocalAuthenticationSet extends Component {
         {hasBiometrics && (
           <Button
             id={
-              hasFaceId
+              hasFaceId && Platform.OS === 'ios'
                 ? 'use_face_id'
                 : hasFingerprint
                 ? 'use_fingerprint'
@@ -159,7 +159,7 @@ class _LocalAuthenticationSet extends Component {
             {error}
           </Text>
         ) : null}
-        <Button
+        {/* <Button
           id="use_pin"
           color="authScreenContrast"
           type={hasBiometrics ? 'text' : 'contained'}
@@ -170,7 +170,7 @@ class _LocalAuthenticationSet extends Component {
           wide
           onPress={() => this.setState({ state: 'pin', error: '' })}
           // animation="slideInRight"
-        />
+        /> */}
       </View>
     );
   }

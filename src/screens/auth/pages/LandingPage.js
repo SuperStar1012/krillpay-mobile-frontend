@@ -130,16 +130,18 @@ export default function LandingPage(props) {
             s={16}
             c="primary"
             onPress={() => {
-              Linking.openURL('https://www.dwolla.com/legal/tos/');
+              Linking.openURL(
+                'https://cybrid.xyz/hubfs/20592480/Legal/Cybrid-User-Agreement_COMBINED.pdf',
+              );
             }}>
-            Dwolla’s Terms of Service
+            Cybrid’s User Agreement
           </Text>{' '}
           and{' '}
           <Text
             s={16}
             c="primary"
             onPress={() => {
-              Linking.openURL('https://www.dwolla.com/legal/privacy/');
+              Linking.openURL('https://www.cybrid.xyz/en/privacy-policy');
             }}>
             Privacy Policy
           </Text>

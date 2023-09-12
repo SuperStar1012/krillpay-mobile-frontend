@@ -17,6 +17,9 @@ import FormLayout from 'components/layout/Form';
 import { FlatList } from 'react-native-gesture-handler';
 import RefreshControl from 'components/outputs/RefreshControl';
 import { useRehive } from 'hooks/rehive';
+import * as SecureStore from 'expo-secure-store';
+import { v4 as uuidv4 } from 'uuid';
+import * as Application from 'expo-application';
 
 export default function DevicesScreen(props) {
   const { setTempItem, state, setState, tempItem: item } = props;
@@ -75,14 +78,39 @@ export default function DevicesScreen(props) {
     handleRefresh();
   }
 
+  async function getDeviceId() {
+    let deviceId = '';
+    if (Platform.OS === 'android') {
+      deviceId = await Application.androidId;
+    } else {
+      try {
+        // SecureStore.deleteItemAsync('secure_deviceid');
+        deviceId = await SecureStore.getItemAsync('secure_deviceid');
+
+        if (!deviceId) {
+          deviceId = await Application.getIosIdForVendorAsync();
+        }
+      } catch (e) {
+        console.log('Error deviceId', e);
+      }
+      // deviceId neither in storage nor getIosIdForVendorAsync(as per doc it may be null)
+      if (!deviceId) {
+        deviceId = uuidv4();
+      }
+      deviceId && (await SecureStore.setItemAsync('secure_deviceid', deviceId));
+    }
+    return deviceId;
+  }
+
   async function handleAddDevice() {
+    const deviceId = await getDeviceId();
     const token = await registerForPushNotificationsAsync();
     // console.log(token);
     if (token) {
       setError('');
       try {
         const dataDevice = {
-          imei: Constants.deviceId,
+          imei: deviceId,
           name: Device.deviceName,
           metadata: {
             brand: Device.brand,
