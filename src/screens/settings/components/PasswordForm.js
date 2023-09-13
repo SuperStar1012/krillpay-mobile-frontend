@@ -71,7 +71,7 @@ class _PasswordForm extends Component {
         min={min}
         max={max}
         value={value}
-        error={touch && error}
+        error={id !== 'new_password' && touch && error}
         type={item.type}
         onBlur={() => setFieldTouched(item.id)}
         onChangeText={value => setFieldValue(item.id, value)}
@@ -111,9 +111,25 @@ class _PasswordForm extends Component {
           : 'Password is required',
       );
 
+    const newPasswordSchema = yup
+      .string()
+      .min(12, 'Password must be at least 12 characters')
+      .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
+      .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
+      .matches(
+        /[a-zA-Z]+\d+|\d+[a-zA-Z]+/,
+        'Password must contain a mixture of letters and numbers',
+      )
+      .matches(/[!@#?]/, 'Password must contain at least one special character')
+      .required(
+        fields.error && fields.password.error
+          ? fields.password.error
+          : 'Password is required',
+      );
+
     let schemaObject = {
       old_password: passwordSchema,
-      new_password: passwordSchema,
+      new_password: newPasswordSchema,
     };
 
     if (authConfig?.confirm_password) {
@@ -135,6 +151,7 @@ class _PasswordForm extends Component {
 
     return (
       <Formik
+        validateOnMount={true}
         ref={input => {
           this.passwordForm = input;
         }}

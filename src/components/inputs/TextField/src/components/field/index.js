@@ -787,11 +787,13 @@ export default class TextField extends PureComponent {
               {error}
             </Helper>
             {type === 'password' ? (
-              <PasswordSupportiveText
-                textColor={textColor}
-                value={value}
-                style={[helperStyle, helperTextStyle]}
-              />
+              helper ? (
+                <PasswordSupportiveText
+                  textColor={textColor}
+                  value={value}
+                  style={[helperStyle, helperTextStyle]}
+                />
+              ) : null
             ) : (
               <Helper
                 style={[helperStyle, helperTextStyle]}

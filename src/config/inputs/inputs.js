@@ -236,7 +236,7 @@ export const old_password = {
   id: 'old_password',
   label: 'old_password',
   type: 'password',
-  helper: 'password_helper',
+  helper: '',
   validation: { required: 'true', min: 8 },
   autoCompleteType: 'off',
 };
