@@ -774,7 +774,7 @@ export default class TextField extends PureComponent {
                         ? helperFontSize * 2
                         : 0
                       : helper || min || max || error
-                      ? helperFontSize * 8
+                      ? helperFontSize * 11
                       : 0,
                   },
                 ]
@@ -792,6 +792,7 @@ export default class TextField extends PureComponent {
                   textColor={textColor}
                   value={value}
                   style={[helperStyle, helperTextStyle]}
+                  hideHelper={hideHelper}
                 />
               ) : null
             ) : (

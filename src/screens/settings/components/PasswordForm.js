@@ -81,6 +81,7 @@ class _PasswordForm extends Component {
         spellCheck={false}
         name={item.id}
         key={item.id}
+        hideHelper={item.helper === ''}
       />
     );
   }
