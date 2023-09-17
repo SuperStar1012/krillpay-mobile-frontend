@@ -13,6 +13,7 @@ import RewardDetail from 'screens/rewards/pages/RewardDetail';
 import CampaignDetail from 'screens/rewards/pages/CampaignDetail';
 import WebView from 'screens/webview';
 import OnfidoVerification from 'screens/auth/pages/OnfidoVerification';
+import SendNairaNavigator from './privateNavigationFlows/SendNairaNavigator';
 
 const Stack = createStackNavigator();
 
@@ -38,6 +39,7 @@ export default function PrivateNavigator(props) {
       <Stack.Screen name="CampaignDetail" component={CampaignDetail} />
       <Stack.Screen name="WebView" component={WebView} />
       <Stack.Screen name="PoS" component={PoSNavigator} />
+      <Stack.Screen name="SendNairaNav" component={SendNairaNavigator} />
       {accounts?.pages &&
         Object.keys(accounts?.pages).map(key => (
           <Stack.Screen

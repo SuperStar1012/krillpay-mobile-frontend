@@ -258,34 +258,3 @@ function Button(props) {
     </Pressable>
   );
 }
-
-// export default function Numpad(props) {
-//   return (
-//     <NumberPad>
-//       <View fD="row">
-//         <Text>MAX</Text>
-//         <Display
-//           key={0}
-//           cursor
-//           value={0.0}
-//           autofocus
-//           textStyle={{
-//             // backgroundColor: 'transparent',
-//             color: colors?.fontDark,
-//             fontColor: colors?.fontDark,
-//             fontSize: 65,
-//             opacity: 1,
-//           }}
-//           blinkOnStyle={{}}
-//           activeStyle={{
-//             opacity: 1,
-//             backgroundColor: 'transparent',
-//             color: colors?.font,
-//           }}
-//         />
-//         <Text>MAX</Text>
-//       </View>
-//       <Input hideIcon={null} />
-//     </NumberPad>
-//   );
-// }
