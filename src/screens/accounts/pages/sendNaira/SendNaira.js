@@ -39,7 +39,8 @@ export default function SendNaira(navigationProps) {
           <Formik
             onSubmit={values => navigateToAmountSection(values)}
             initialValues={initialValues}
-            validationSchema={validationSchema}>
+            // validationSchema={validationSchema}
+            >
             {({ handleSubmit, setFieldValue, values, isValid }) => (
               <>
                 <SearchBankComponent
@@ -104,18 +105,18 @@ export default function SendNaira(navigationProps) {
   );
 }
 
-const validationSchema = yup.object().shape({
-  accountNumber: yup
-    .string()
-    .required('Account number is required')
-    .length(10, 'Not a valid account number'),
-  narration: yup.string(),
-  bankDetails: yup
-    .object()
-    .nonNullable()
-    .typeError('Please select receipient bank')
-    .shape({
-      bankCode: yup.string().required('Bank code is required'),
-      bankName: yup.string().required('Bank name is required'),
-    }),
-});
+// const validationSchema = yup.object().shape({
+//   accountNumber: yup
+//     .string()
+//     .required('Account number is required')
+//     .length(10, 'Not a valid account number'),
+//   narration: yup.string(),
+//   bankDetails: yup
+//     .object()
+//     .nonNullable()
+//     .typeError('Please select receipient bank')
+//     .shape({
+//       bankCode: yup.string().required('Bank code is required'),
+//       bankName: yup.string().required('Bank name is required'),
+//     }),
+// });
