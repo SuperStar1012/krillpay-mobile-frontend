@@ -283,13 +283,12 @@ function DepositDetail(props) {
       account_name: name,
     };
     const CreateProvidusAccount = await createDynamicAccount(dataBankapi);
-    // console.log(await CreateProvidusAccount.data, 'tesr');
-     let dataBank = {
+      let dataBank = {
       name: CreateProvidusAccount?.data?.account_name,
       number: CreateProvidusAccount?.data?.account_number,
-      type: user.groups[0].name,
+      type: 'individual',
       currencies: 'NGN',
-      beneficiary_type: user.groups[0].name,
+      beneficiary_type: 'individual',
       clabe: 'string',
       owner: {
         first_name: user.first_name,
@@ -333,7 +332,7 @@ function DepositDetail(props) {
     console.log(final);
   }
   catch(e){
-    console.log(`Bank Account error === ${e}`)
+    console.log(`Bank Account error === ${JSON.stringify(e)}`)
   }
   }
   return (
