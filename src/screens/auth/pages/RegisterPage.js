@@ -476,19 +476,7 @@ export default function RegisterPage(props) {
                             loading={formikProps.isSubmitting}
                           />
                         )}
-                        {currentStep == 0 && (
-                          <Button
-                            id={useEmailToRegister ? 'Use Mobile' : 'Use Email'}
-                            color="primary"
-                            size="medium"
-                            onPress={() => {
-                              formikProps.setFieldValue('mobile', '');
-                              formikProps.setFieldValue('email', '');
-                              setUseEmailToRegister(!useEmailToRegister);
-                            }}
-                            loading={formikProps.isSubmitting}
-                          />
-                        )}
+                        {currentStep == 0 && <Text />}
                         {currentStep < steps.length - 1 && (
                           <Button
                             id={'Next'}

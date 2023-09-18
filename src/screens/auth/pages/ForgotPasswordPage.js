@@ -86,7 +86,9 @@ export default function ForgotPasswordPage(props) {
         email,
         mobile: '',
       }}
-      validate={values => validate(values, authConfig)}
+      validate={values =>
+        validate(values, { ...authConfig, identifier: 'email' })
+      }
       onSubmit={formikProps => handleSubmit(formikProps)}>
       {formikProps => (
         <React.Fragment>
@@ -98,7 +100,7 @@ export default function ForgotPasswordPage(props) {
             <FormikInput
               formikProps={formikProps}
               onSubmitEditing={() => handleSubmit(formikProps)}
-              field={inputs?.[identifier === 'mobile' ? identifier : 'email']}
+              field={inputs?.['email']}
             />
 
             <ErrorOutput>
