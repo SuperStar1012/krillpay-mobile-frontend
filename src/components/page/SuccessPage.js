@@ -129,7 +129,20 @@ export default function SuccessPage(props) {
             <Text style={[styles.text, styles.marginTop]} s={23} fW={700}>
               You have successfully sent to
             </Text>
-            <Header {...props} isSuccess={true} />
+            <View
+              mh={1.5}
+              mt={1}
+              p={1.5}
+              bC={isConfirm ? 'primary' : state}
+              style={{
+                borderTopLeftRadius: 20,
+                borderTopRightRadius: 20,
+                ...(!hasDetail
+                  ? { borderBottomLeftRadius: 20, borderBottomRightRadius: 20 }
+                  : {}),
+              }}>
+              <Header {...props} isSuccess={true} />
+            </View>
           </View>
         )}
         {!hasNote && !isRequesting && (
