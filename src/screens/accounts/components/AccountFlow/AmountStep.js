@@ -48,7 +48,9 @@ export default function AmountStep(props) {
       )}
       <ContentLayout pb={1.5}>
         <Button
-          disabled={(!parseFloat(amount) || insufficientBalance) && validation}
+          //   disabled={(!parseFloat(amount) || insufficientBalance) && validation}
+          //   !Change amount step
+          disabled={false}
           id="next"
           wide
           onPress={props.onNext}

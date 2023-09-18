@@ -321,7 +321,12 @@ export default function WalletActionList(props) {
         navigation.navigate('Request', { currency });
         break;
       case 'withdraw':
-        restrictUSDAccess(user, currency, navigation, 'Withdraw');
+        // restrictUSDAccess(user, currency, navigation, 'Withdraw');
+        // navigation.navigate('', { currency });
+        navigation.navigate('SendNairaNav', {
+          screen: 'SendNaira',
+          params: { currency },
+        });
         break;
       case 'deposit':
         restrictUSDAccess(user, currency, navigation, 'Deposit');

@@ -228,7 +228,9 @@ function useAccountFlow(props) {
 }
 
 export default function SendPage(props) {
+  console.log({ myProps: props.route.params });
   const config = useAccountFlow(props);
+  console.log({ config });
   return (
     <View screen>
       <AccountFlow {...props} config={config} />
