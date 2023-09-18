@@ -45,6 +45,7 @@ import { createMachine } from 'xstate';
 import { Icon } from 'components/outputs/Icon';
 import { Pressable } from 'react-native';
 import { useWyreCurrency } from 'extensions/wyre/hooks';
+import SuccessPagePaymentRequest from 'components/page/SuccessPagePaymentRequest';
 
 const components = {
   amount: AmountStep,
@@ -319,8 +320,13 @@ export default function AccountFlow(props) {
         />
       );
     } else if (isSuccess && typeof configs?.post === 'object') {
+      const SuccessComponent =
+        pageProps.screenConfig?.id == 'request'
+          ? SuccessPagePaymentRequest
+          : SuccessPage;
+
       return (
-        <SuccessPage
+        <SuccessComponent
           {...pageProps}
           variant="new"
           state={state.value}
@@ -330,7 +336,6 @@ export default function AccountFlow(props) {
           isRequesting={pageProps.screenConfig?.id == 'request'}
           hasResultConfig={hasResultConfig}
           {...(hasResultConfig ? configs?.result : configs?.post)}
-          // {...stepConfig}
         />
       );
     } else if (isConfirm && typeof configs?.post === 'object') {

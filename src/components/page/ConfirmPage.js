@@ -44,6 +44,8 @@ export default function ConfirmPage(props) {
     context,
     configs,
   } = props;
+  const [isRecipientDetailsLoading, setIsRecipientDetailsLoading] =
+    useState(true);
 
   const test = JSON.stringify(props.config);
 
@@ -67,7 +69,7 @@ export default function ConfirmPage(props) {
     {
       onPress: onNext,
       loading: submitting,
-      id: isConfirm ? 'Send Now' : 'close',
+      id: isConfirm ? 'confirm' : 'close',
       ...primaryAction,
     },
   ];
@@ -104,9 +106,11 @@ export default function ConfirmPage(props) {
   const nonKrillPayUser = contacts?.phone?.contacts?.some(
     contact => contact?.contact === recipientDetails?.contact,
   );
-
+  console.log('Confirm', isRecipientDetailsLoading);
   useEffect(() => {
+    setTimeout(() => setIsRecipientDetailsLoading(false), 500);
     if (recipientDetails) {
+      setIsRecipientDetailsLoading(false);
       setRecipientDetails(recipientDetails);
     }
   }, [recipientDetails]);
@@ -148,60 +152,19 @@ export default function ConfirmPage(props) {
     },
   });
 
-  return (
-    <View f={1} bC={bC}>
-      <View f={1} scrollView>
-        {!hasNote && (
-          <View
-            mh={1.5}
-            mt={1}
-            p={1.5}
-            bC={isConfirm ? 'primary' : state}
-            style={{
-              borderTopLeftRadius: 20,
-              borderTopRightRadius: 20,
-              ...(!hasDetail
-                ? { borderBottomLeftRadius: 20, borderBottomRightRadius: 20 }
-                : {}),
-            }}>
-            <Header {...props} />
-          </View>
-        )}
-
-        {!hasNote && hasDetail ? (
-          <View
-            mh={1.5}
-            p={1.5}
-            bC="white"
-            style={{ borderBottomLeftRadius: 20, borderBottomRightRadius: 20 }}>
-            <Button
-              disabled={hasResultConfig}
-              onPress={() => setShowDetail(!showDetail)}>
-              <View fD="row" jC="space-between">
-                <Text fW="700" s={16} id="details" capitalize />
-                {!hasResultConfig && (
-                  <AntDesign
-                    name={showDetail ? 'caretup' : 'caretdown'}
-                    size={18}
-                    color="black"
-                  />
-                )}
-              </View>
-            </Button>
-            {(showDetail || hasResultConfig) && (
-              <View mt={1}>
-                <Detail {...props} />
-              </View>
-            )}
-          </View>
-        ) : null}
-
-        {hasNote && (
-          <>
+  const getBody = () => {
+    let view = null;
+    if (isRecipientDetailsLoading) {
+      view = <Spinner />;
+    } else if (recipientDetails) {
+      view = (
+        <View f={1} scrollView>
+          {!hasNote && (
             <View
               mh={1.5}
               mt={1}
               p={1.5}
+              bC={isConfirm ? 'primary' : state}
               style={{
                 borderTopLeftRadius: 20,
                 borderTopRightRadius: 20,
@@ -209,154 +172,273 @@ export default function ConfirmPage(props) {
                   ? { borderBottomLeftRadius: 20, borderBottomRightRadius: 20 }
                   : {}),
               }}>
-              <Header {...props} recipientDetails={recipientDetails} />
+              <Header {...props} />
             </View>
+          )}
 
-            {recipientDetails && !nonKrillPayUser && (
-              <View f={1}>
-                <PageContent>
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, onBlur, value } }) => (
-                      <TextInput
-                        style={styles.input}
-                        label=""
-                        // multiline={true}
-                        tintColor={colors.primary}
-                        // style={styles.input}
-                        placeholder="Type a short message here"
-                        onBlur={onBlur}
-                        onChangeText={value => onChange(value)}
-                        value={value}
-                        // maxLength={100}
-                      />
-                    )}
-                    name="note"
-                    // rules={{ required: true }}
-                    defaultValue=""
-                  />
-                </PageContent>
-                {Boolean(config) && (
-                  <>
-                    <PageContent dense>
-                      <View pb={0.5}>
-                        <Text
-                          s={12}
-                          fW="500"
-                          id={pageId + '_note_recipient_label'}
-                        />
-                      </View>
-                    </PageContent>
-                    <CustomRecipient
-                      {...props}
-                      label=""
-                      value={recipient}
-                      type={type}
-                      // onSelect={handleContactSelect}
-                      wallet={wallet}
-                    />
-                  </>
-                )}
-
-                {showMemo ? (
-                  <View>
-                    {!Boolean(memoSkip) && (
-                      <PageContent dense>
-                        <Controller
-                          control={control}
-                          render={({ field: { onChange, onBlur, value } }) => (
-                            <TextField
-                              {...(send?.memo ?? {})}
-                              tintColor={colors.primary}
-                              //   style={styles.input}
-                              onBlur={onBlur}
-                              onChangeText={value => onChange(value)}
-                              value={value}
-                            />
-                          )}
-                          name="memo"
-                          // rules={{ required: true }}
-                          defaultValue=""
-                        />
-                      </PageContent>
-                    )}
-                    {requiresMemo ? (
-                      <Info variant="warning" mb={1}>
-                        This is a third party wallet or exchange that requires a
-                        memo, sometimes referred to as a tag or reference.
-                        Failing to provide the correct memo could result in
-                        losing your funds or a significant delay from the third
-                        party while they confirm your identity before they
-                        allocate the funds to your account.
-                      </Info>
-                    ) : (
-                      !Boolean(memo) && (
-                        <PageContent style={{ minHeight: 70 }} pl={1}>
-                          <Checkbox
-                            containerStyle={{
-                              paddingBottom: 0,
-                              marginVertical: 0,
-                            }}
-                            label={'memo_skip_transaction_label'}
-                            onPress={() => form.setValue('memoSkip', !memoSkip)}
-                            value={memoSkip}
-                            key={'memoSkip'}
-                            centerAlign
-                          />
-                        </PageContent>
-                      )
-                    )}
-                  </View>
-                ) : null}
-              </View>
-            )}
-          </>
-        )}
-        {recipientDetails &&
-          (!nonKrillPayUser ? (
-            <Text p={1.5} style={styles.text}>
-              Please review the info above to make sure this is your intended
-              recipient. Once you send, your transaction cannot be reversed.
-            </Text>
-          ) : (
+          {!hasNote && hasDetail ? (
             <View
-              f={1}
+              mh={1.5}
+              p={1.5}
+              bC="white"
               style={{
-                margin: 20,
-                paddingTop: 20,
-                paddingBottom: 20,
+                borderBottomLeftRadius: 20,
+                borderBottomRightRadius: 20,
               }}>
-              <Text
+              <Button
+                disabled={hasResultConfig}
+                onPress={() => setShowDetail(!showDetail)}>
+                <View fD="row" jC="space-between">
+                  <Text fW="700" s={16} id="details" capitalize />
+                  {!hasResultConfig && (
+                    <AntDesign
+                      name={showDetail ? 'caretup' : 'caretdown'}
+                      size={18}
+                      color="black"
+                    />
+                  )}
+                </View>
+              </Button>
+              {(showDetail || hasResultConfig) && (
+                <View mt={1}>
+                  <Detail {...props} />
+                </View>
+              )}
+            </View>
+          ) : null}
+
+          {hasNote && (
+            <>
+              <View
+                mh={1.5}
+                mt={1}
                 p={1.5}
                 style={{
-                  ...styles.text,
-                  color: '#ff0000',
-                  borderColor: '#ff0000',
-                  borderWidth: 2,
+                  borderTopLeftRadius: 20,
+                  borderTopRightRadius: 20,
+                  ...(!hasDetail
+                    ? {
+                        borderBottomLeftRadius: 20,
+                        borderBottomRightRadius: 20,
+                      }
+                    : {}),
                 }}>
-                Since{' '}
+                <Header
+                  {...props}
+                  recipientDetails={recipientDetails}
+                  isRecipientDetailsLoading={isRecipientDetailsLoading}
+                />
+              </View>
+
+              {recipientDetails && !nonKrillPayUser && (
+                <View f={1}>
+                  <PageContent>
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, onBlur, value } }) => (
+                        <TextInput
+                          style={styles.input}
+                          label=""
+                          // multiline={true}
+                          tintColor={colors.primary}
+                          // style={styles.input}
+                          placeholder="Type a short message here"
+                          onBlur={onBlur}
+                          onChangeText={value => onChange(value)}
+                          value={value}
+                          // maxLength={100}
+                        />
+                      )}
+                      name="note"
+                      // rules={{ required: true }}
+                      defaultValue=""
+                    />
+                  </PageContent>
+                  {Boolean(config) && (
+                    <>
+                      <PageContent dense>
+                        <View pb={0.5}>
+                          <Text
+                            s={12}
+                            fW="500"
+                            id={pageId + '_note_recipient_label'}
+                          />
+                        </View>
+                      </PageContent>
+                      <CustomRecipient
+                        {...props}
+                        label=""
+                        value={recipient}
+                        type={type}
+                        // onSelect={handleContactSelect}
+                        wallet={wallet}
+                      />
+                    </>
+                  )}
+
+                  {showMemo ? (
+                    <View>
+                      {!Boolean(memoSkip) && (
+                        <PageContent dense>
+                          <Controller
+                            control={control}
+                            render={({
+                              field: { onChange, onBlur, value },
+                            }) => (
+                              <TextField
+                                {...(send?.memo ?? {})}
+                                tintColor={colors.primary}
+                                //   style={styles.input}
+                                onBlur={onBlur}
+                                onChangeText={value => onChange(value)}
+                                value={value}
+                              />
+                            )}
+                            name="memo"
+                            // rules={{ required: true }}
+                            defaultValue=""
+                          />
+                        </PageContent>
+                      )}
+                      {requiresMemo ? (
+                        <Info variant="warning" mb={1}>
+                          This is a third party wallet or exchange that requires
+                          a memo, sometimes referred to as a tag or reference.
+                          Failing to provide the correct memo could result in
+                          losing your funds or a significant delay from the
+                          third party while they confirm your identity before
+                          they allocate the funds to your account.
+                        </Info>
+                      ) : (
+                        !Boolean(memo) && (
+                          <PageContent style={{ minHeight: 70 }} pl={1}>
+                            <Checkbox
+                              containerStyle={{
+                                paddingBottom: 0,
+                                marginVertical: 0,
+                              }}
+                              label={'memo_skip_transaction_label'}
+                              onPress={() =>
+                                form.setValue('memoSkip', !memoSkip)
+                              }
+                              value={memoSkip}
+                              key={'memoSkip'}
+                              centerAlign
+                            />
+                          </PageContent>
+                        )
+                      )}
+                    </View>
+                  ) : null}
+                </View>
+              )}
+            </>
+          )}
+          {recipientDetails &&
+            (!nonKrillPayUser ? (
+              <Text p={1.5} style={styles.text}>
+                Please review the info above to make sure this is your intended
+                recipient. Once you send, your transaction cannot be reversed.
+              </Text>
+            ) : (
+              <View
+                f={1}
+                style={{
+                  margin: 20,
+                  paddingTop: 20,
+                  paddingBottom: 20,
+                }}>
                 <Text
+                  p={1.5}
                   style={{
                     ...styles.text,
                     color: '#ff0000',
-                    fontWeight: '700',
+                    borderColor: '#ff0000',
+                    borderWidth: 2,
                   }}>
-                  {recipientDetails?.name || recipientDetails?.contact}
-                </Text>{' '}
-                is a non-KrillPay user, this transaction cannot be completed.
-              </Text>
-              <View
-                style={{
-                  marginTop: 30,
-                }}>
-                <Button p={1.5} disabled wide id="Send Now" />
+                  Since{' '}
+                  <Text
+                    style={{
+                      ...styles.text,
+                      color: '#ff0000',
+                      fontWeight: '700',
+                    }}>
+                    {recipientDetails?.name || recipientDetails?.contact}
+                  </Text>{' '}
+                  is a non-KrillPay user, this transaction cannot be completed.
+                </Text>
+                <View
+                  style={{
+                    marginTop: 30,
+                  }}>
+                  <Button p={1.5} disabled wide id="Send Now" />
+                </View>
               </View>
+            ))}
+          {recipientDetails && !nonKrillPayUser && (
+            <ButtonList p={1.5} items={buttons} />
+          )}
+        </View>
+      );
+    } else {
+      view = (
+        <>
+          <View f={1} scrollView>
+            <View
+              mh={1.5}
+              mt={1}
+              p={1.5}
+              bC={isConfirm ? 'primary' : state}
+              style={{
+                borderTopLeftRadius: 20,
+                borderTopRightRadius: 20,
+                ...(!hasDetail
+                  ? { borderBottomLeftRadius: 20, borderBottomRightRadius: 20 }
+                  : {}),
+              }}>
+              <Header {...props} />
             </View>
-          ))}
-        {recipientDetails && !nonKrillPayUser && (
+            {hasDetail ? (
+              <View
+                mh={1.5}
+                p={1.5}
+                bC="white"
+                style={{
+                  borderBottomLeftRadius: 20,
+                  borderBottomRightRadius: 20,
+                }}>
+                <Button
+                  disabled={hasResultConfig}
+                  onPress={() => setShowDetail(!showDetail)}>
+                  <View fD="row" jC="space-between">
+                    <Text fW="700" s={16} id="details" capitalize />
+                    {!hasResultConfig && (
+                      <AntDesign
+                        name={showDetail ? 'caretup' : 'caretdown'}
+                        size={18}
+                        color="black"
+                      />
+                    )}
+                  </View>
+                </Button>
+                {(showDetail || hasResultConfig) && (
+                  <View mt={1}>
+                    <Detail {...props} />
+                  </View>
+                )}
+              </View>
+            ) : null}
+          </View>
           <ButtonList p={1.5} items={buttons} />
-        )}
-      </View>
+        </>
+      );
+    }
+    return view;
+  };
+
+  return (
+    <View f={1} bC={bC}>
+      {getBody()}
     </View>
   );
 }
