@@ -331,7 +331,7 @@ export default function AccountFlow(props) {
       );
     } else if (isSuccess && typeof configs?.post === 'object') {
       const SuccessComponent =
-        pageProps.screenConfig?.id == 'request'
+        pageProps.screenConfig?.id == 'request' && !recipientDetails
           ? SuccessPagePaymentRequest
           : SuccessPage;
 

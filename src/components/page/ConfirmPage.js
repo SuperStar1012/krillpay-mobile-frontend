@@ -69,7 +69,7 @@ export default function ConfirmPage(props) {
     {
       onPress: onNext,
       loading: submitting,
-      id: isConfirm ? 'confirm' : 'close',
+      id: isConfirm ? 'Send Now' : 'close',
       ...primaryAction,
     },
   ];
@@ -106,7 +106,7 @@ export default function ConfirmPage(props) {
   const nonKrillPayUser = contacts?.phone?.contacts?.some(
     contact => contact?.contact === recipientDetails?.contact,
   );
-  console.log('Confirm', isRecipientDetailsLoading);
+
   useEffect(() => {
     setTimeout(() => setIsRecipientDetailsLoading(false), 500);
     if (recipientDetails) {
@@ -172,7 +172,7 @@ export default function ConfirmPage(props) {
                   ? { borderBottomLeftRadius: 20, borderBottomRightRadius: 20 }
                   : {}),
               }}>
-              <Header {...props} />
+              <Header {...props} recipientDetails={recipientDetails} />
             </View>
           )}
 
