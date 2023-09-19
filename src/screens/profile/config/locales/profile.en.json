@@ -114,6 +114,7 @@
   "verify_later": "Verify later",
   "verification_success": "{{value}} successfully verified",
   "deposit_us_users_only": "USD deposit is currently unavailable.",
+  "withdraw_us_users_only": "USD withdrawal is currently unavailable.",
   "profile_updated": "Profile updated",
   "mobile_updated": "Mobile updated",
   "mobile_added": "Mobile added",

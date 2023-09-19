@@ -1,0 +1,15 @@
+{
+  "expo": {
+    "name": "krillpay",
+    "slug": "krillpay",
+    "version": "1.2.0",
+    "description": "",
+    "sdkVersion": "48.0.0",
+    "platforms": [
+      "web"
+    ],
+    "android": {
+      "package": "com.okoliryan50.krillpay"
+    }
+  }
+}

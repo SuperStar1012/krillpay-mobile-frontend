@@ -293,6 +293,11 @@ export default function WalletActionList(props) {
   );
 
   const user = profile?.data?.[0];
+  const { context } = useRehive(['businessServiceSettings'], true, {
+    user,
+  });
+
+  console.log({ context });
   const {
     context: { businessServiceSettings },
   } = useRehive(['businessServiceSettings'], true, {
@@ -323,13 +328,28 @@ export default function WalletActionList(props) {
       case 'withdraw':
         // restrictUSDAccess(user, currency, navigation, 'Withdraw');
         // navigation.navigate('', { currency });
-        navigation.navigate('SendNairaNav', {
-          screen: 'SendNaira',
-          params: { currency },
-        });
+        restrictUSDAccess(
+          user,
+          currency,
+          navigation,
+          'SendNairaNav',
+          {
+            screen: 'SendNaira',
+            params: { currency },
+          },
+          'withdraw_us_users_only',
+        );
+
         break;
       case 'deposit':
-        restrictUSDAccess(user, currency, navigation, 'Deposit');
+        restrictUSDAccess(
+          user,
+          currency,
+          navigation,
+          'Deposit',
+          null,
+          'deposit_us_users_only',
+        );
         break;
       case 'scan':
         navigation.navigate('Scan', { currency });
@@ -377,13 +397,23 @@ export default function WalletActionList(props) {
     }
   }
 
-  const restrictUSDAccess = (user, currency, navigation, pagename) => {
+  const restrictUSDAccess = (
+    user,
+    currency,
+    navigation,
+    pagename,
+    navigationParams,
+    id,
+  ) => {
     if (
       user?.mobile &&
       getUserCountryFromMSISDN(user?.mobile) == 'US' &&
       currency.currency.code == 'USD'
     ) {
-      navigation.navigate(pagename, { currency });
+      navigation.navigate(
+        pagename,
+        navigationParams ? navigationParams : { currency },
+      );
     } else {
       if (
         currency.currency.code == 'USD' &&
@@ -391,9 +421,12 @@ export default function WalletActionList(props) {
         getUserCountryFromMSISDN(user?.mobile) !== 'US'
       ) {
         console.log(JSON.stringify(currency.currency.code));
-        showToast({ variant: 'error', id: 'deposit_us_users_only' });
+        showToast({ variant: 'error', id });
       } else {
-        navigation.navigate(pagename, { currency });
+        navigation.navigate(
+          pagename,
+          navigationParams ? navigationParams : { currency },
+        );
       }
     }
   };
