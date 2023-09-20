@@ -6,19 +6,13 @@ import {
   TouchableOpacity,
   Pressable,
   TextInput,
+  StyleSheet,
 } from 'react-native';
-<<<<<<< HEAD
  
 import { useToast } from 'contexts/ToastContext';
 import { useRehiveContext } from 'contexts/RehiveContext';
 import { concatAddress } from 'utility/general';
 import { getBankAccounts, fetchItem, createDynamicAccount, createBankAccount } from 'utility/rehive';
-=======
-import { useToast } from 'contexts/ToastContext';
-import { useRehiveContext } from 'contexts/RehiveContext';
-import { concatAddress } from 'utility/general';
-import { getBankAccounts, fetchItem } from 'utility/rehive';
->>>>>>> parent of 6dd636d (delete app.config.js)
 import DetailList from 'components/outputs/DetailList';
 import * as Clipboard from 'expo-clipboard';
 import { useSelector } from 'react-redux';
@@ -164,53 +158,37 @@ function DepositDetail(props) {
   //   'branch_address',
   // ];
 
-  // const items = {
-  //   bank_name: { label: 'bank_name', value: bank_name, copy: true },
-  //   type: { label: 'account_type', value: type, copy: true },
-  //   number: {
+  const [items, setItems] = useState([]);
+
+  // let items = [
+  //   {
+  //     id: 'name',
+  //     label: 'account_name',
+  //     value: name,
+  //     copy: true,
+  //   },
+  //   { label: 'bank_name', value: bank_name, copy: true },
+  //   {
+  //     id: 'number',
   //     label: 'account_number',
   //     value: number,
   //     copy: true,
   //   },
-  //   bank_code: { label: 'bank_code', value: bank_code, copy: true },
-  //   branch_code: { label: 'branch_code', value: branch_code },
-  //   name: { label: 'account_name', value: name, copy: true },
-  //   swift: { label: 'swift', value: swift },
-  //   routing_number: { label: 'routing_number', value: routing_number },
-  //   iban: { label: 'iban', value: iban },
-  //   bic: { label: 'bic', value: bic },
-  //   branch_address: { label: 'branch_address', value: address },
-  // };
-
-  let items = [
-    {
-      id: 'name',
-      label: 'account_name',
-      value: name,
-      copy: true,
-    },
-    { label: 'bank_name', value: bank_name, copy: true },
-    {
-      id: 'number',
-      label: 'account_number',
-      value: number,
-      copy: true,
-    },
-    { id: 'type', label: 'account_type', value: type, copy: true },
-    { label: 'branch_code', value: branch_code },
-    { label: 'bank_code', value: bank_code, copy: true },
-    { label: 'swift', value: swift },
-    { label: 'routing_number', value: routing_number },
-    { label: 'iban', value: iban },
-    { label: 'bic', value: bic },
-    { label: 'branch_address', value: address },
-  ]
-    .filter(
-      item =>
-        !hideBankFields.includes(item?.id) &&
-        !hideBankFields.includes(item?.label),
-    )
-    .filter(item => item.value);
+  //   { id: 'type', label: 'account_type', value: type, copy: true },
+  //   { label: 'branch_code', value: branch_code },
+  //   { label: 'bank_code', value: bank_code, copy: true },
+  //   { label: 'swift', value: swift },
+  //   { label: 'routing_number', value: routing_number },
+  //   { label: 'iban', value: iban },
+  //   { label: 'bic', value: bic },
+  //   { label: 'branch_address', value: address },
+  // ]
+  //   .filter(
+  //     item =>
+  //       !hideBankFields.includes(item?.id) &&
+  //       !hideBankFields.includes(item?.label),
+  //   )
+  //   .filter(item => item.value);
 
      
   /* TODO:
@@ -227,7 +205,6 @@ function DepositDetail(props) {
     getPlaidAccounts();
   }, [1]);
 
-<<<<<<< HEAD
   useEffect(() => {
    processVirtuals(items);
   }, [items]);
@@ -244,15 +221,14 @@ function DepositDetail(props) {
      }
   }
 
-=======
->>>>>>> parent of 6dd636d (delete app.config.js)
   const getPlaidAccounts = async () => {
     const bankAccounts = await getBankAccounts();
-
-    const accounts_plaid = bankAccounts?.filter(el => {
-      return el.bank_name.toLowerCase().indexOf('providus') == -1;
+    console.log(`bankAccounts === ${JSON.stringify(bankAccounts)}`);
+    const bankDetail = bankAccounts?.filter(el => {
+      return el.bank_name.toLowerCase().indexOf('providus') !== -1;
     });
-    setPlaidBankAccount(accounts_plaid);
+    setItems(bankDetail);
+    // setPlaidBankAccount(accounts_plaid);
   };
 
   const processDwollaSandbox = plaidItem => {
@@ -294,7 +270,6 @@ function DepositDetail(props) {
         refRBSheet.current.close();
       });
   };
-<<<<<<< HEAD
 
 
   //user account deposit 
@@ -352,6 +327,7 @@ function DepositDetail(props) {
       bic: '',
       metadata: {},
       action: 'withdraw',
+    //!   Change action to deposit
     };
     
     const final = await createBankAccount(dataBank);
@@ -361,11 +337,9 @@ function DepositDetail(props) {
     console.log(`Bank Account error === ${e}`)
   }
   }
-=======
->>>>>>> parent of 6dd636d (delete app.config.js)
   return (
     <View>
-      <View pt={1}>
+      {/* <View pt={1}>
         {walletAccount == 'USD' ? (
           <>
             <Text tA="center" fW="700" id="plaid_select_bank" />
@@ -413,12 +387,9 @@ function DepositDetail(props) {
         ) : (
           <>
             <Text tA="center" fW="700" id="make_you_deposit" />
-            <Text tA="center" s={14} id="bank_deposit_helper" />
-            {/** @Afeez add providus virtual bank list here start*/}
-            {/** @Afeez add providus virtual bank list here ends */}
+            <Text tA="center" s={14} id="bank_deposit_helper" /> 
           </>
         )}
-<<<<<<< HEAD
       </View> */}
       <View mt={2}>
         {/* <DetailList {...{ items, locales }} />  move the*/}
@@ -442,11 +413,6 @@ function DepositDetail(props) {
           <Text>ACCOUNT LOCATION: </Text>
           <Text>Nigeria</Text>
         </View>
-=======
-      </View>
-      <View mt={2}>
-        <DetailList {...{ items, locales }} />
->>>>>>> parent of 6dd636d (delete app.config.js)
       </View>
 
       <RBSheet
@@ -540,7 +506,6 @@ function DepositDetail(props) {
     </View>
   );
 }
-<<<<<<< HEAD
 
 
 const styles = StyleSheet.create({
@@ -551,5 +516,3 @@ const styles = StyleSheet.create({
   },
 
 });
-=======
->>>>>>> parent of 6dd636d (delete app.config.js)
