@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Image, TouchableOpacity, StyleSheet, Share } from 'react-native';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import SkeletonPlaceholder from 'expo-react-native-skeleton-placeholder';
 import { Text, View, Button } from 'components';
 import { get } from 'lodash';
 import ProfilePlaceholder from './ProfilePlaceholder';

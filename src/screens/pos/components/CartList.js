@@ -1,7 +1,7 @@
 import React from 'react';
 import CartListItem from './CartListItem';
 import { EmptyListMessage, View, Spinner } from 'components';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import SkeletonPlaceholder from 'expo-react-native-skeleton-placeholder';
 
 export default function CartList(props) {
   const { items, loadingItems } = props;

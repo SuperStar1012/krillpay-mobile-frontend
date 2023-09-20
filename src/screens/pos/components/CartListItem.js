@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { View, Text, Spinner } from 'components';
 
 import { Image, Animated, StyleSheet } from 'react-native';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import SkeletonPlaceholder from 'expo-react-native-skeleton-placeholder';
 
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 

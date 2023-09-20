@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Dimensions, Image as RNImage, TouchableOpacity } from 'react-native';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import SkeletonPlaceholder from 'expo-react-native-skeleton-placeholder';
 import { View } from '../layout/View';
 const SCREEN_WIDTH = Dimensions.get('window').width;
 

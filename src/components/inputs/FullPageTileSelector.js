@@ -1,6 +1,6 @@
 import React from 'react';
 import { Pressable } from 'react-native';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import SkeletonPlaceholder from 'expo-react-native-skeleton-placeholder';
 import { View, Text } from 'components';
 
 import { CustomImage } from 'components/outputs/CustomImage';

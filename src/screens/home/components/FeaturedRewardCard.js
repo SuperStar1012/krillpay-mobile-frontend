@@ -1,5 +1,5 @@
 import React from 'react';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import SkeletonPlaceholder from 'expo-react-native-skeleton-placeholder';
 import { Pressable } from 'react-native';
 import { View, Text } from 'components';
 import { displayFormatDivisibility } from 'utility/general';

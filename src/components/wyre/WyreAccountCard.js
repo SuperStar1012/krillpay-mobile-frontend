@@ -9,7 +9,7 @@ import {
 import { useQuery } from 'react-query';
 import { getWyrePaymentMethod } from 'utility/rehive';
 import Images from 'components/images';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import SkeletonPlaceholder from 'expo-react-native-skeleton-placeholder';
 import { standardizeString, statusToColor } from 'utility/general';
 
 export default function WyreAccountCard(props) {

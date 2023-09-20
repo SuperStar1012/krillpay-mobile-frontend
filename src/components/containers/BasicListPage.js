@@ -4,7 +4,7 @@ import { View, Text, Button } from 'components';
 import FormLayout from 'components/layout/Form';
 import { Icon } from 'components/outputs/Icon';
 
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import SkeletonPlaceholder from 'expo-react-native-skeleton-placeholder';
 
 import { useRehive } from 'hooks/rehive';
 import Output from 'components/outputs/OutputNew';

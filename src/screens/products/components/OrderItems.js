@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View } from 'components';
 import { formatAmountString } from 'utility/rates';
 
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import SkeletonPlaceholder from 'expo-react-native-skeleton-placeholder';
 import OrderItemsImages from './OrderItemsImages';
 
 export default function OrderItems(props) {

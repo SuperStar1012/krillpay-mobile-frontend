@@ -4,7 +4,7 @@ import { formatDivisibility } from 'utility/general';
 import { formatVariantsString } from '../util';
 // import BlockPlaceholderSvg from './images/Block';
 import { Image, Animated, StyleSheet } from 'react-native';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import SkeletonPlaceholder from 'expo-react-native-skeleton-placeholder';
 
 import QuantityEdit from './QuantityEditNew';
 

@@ -1698,6 +1698,7 @@ export const getLocale = (company, id, doThrow = true) =>
 export const createDynamicAccount = async data => {
   // console.log("create providus ooo", JSON.stringify(data));
   // callApi('POST','https://providus.krillpay.com/virtual/createdynamicaccount',data);
+
   let response = await fetch(
     'https://providus.krillpay.com/virtual/createdynamicaccount',
     {

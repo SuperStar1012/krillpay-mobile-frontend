@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { FlatList, Dimensions } from 'react-native';
 import { get, orderBy } from 'lodash';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import SkeletonPlaceholder from 'expo-react-native-skeleton-placeholder';
 import moment from 'moment';
 import { View, Button, Text, OutputStatus } from 'components/index.js';
 import EmptyListPlaceholderImage from 'components/outputs/CustomImage/empty/EmptyListPlaceholderImage';

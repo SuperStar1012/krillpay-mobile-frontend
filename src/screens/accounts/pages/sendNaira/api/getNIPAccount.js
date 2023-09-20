@@ -1,9 +1,11 @@
 import { CONSTANTS } from 'config/constants';
+
 /**
  *
  * @returns { Promise<NIPAccountModel> }
  */
 export default async function getNIPAccount(body) {
+  console.log(body);
   const requestBody = {
     beneficiaryBank: body.bankDetails.bankCode,
     accountNumber: body.accountNumber,
@@ -15,10 +17,12 @@ export default async function getNIPAccount(body) {
     },
     body: JSON.stringify(requestBody),
   });
+
   if (!response.ok) {
     console.log('Network response was not ok');
     return {};
   }
   const JSONresponse = await response.json();
+
   return JSONresponse?.data;
 }

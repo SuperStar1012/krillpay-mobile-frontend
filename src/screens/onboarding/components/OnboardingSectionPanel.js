@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, ScrollView, Dimensions, Text } from 'react-native';
 import { View } from 'components/layout/View';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import SkeletonPlaceholder from 'expo-react-native-skeleton-placeholder';
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
 export default function OnboardingSectionPanel(props) {

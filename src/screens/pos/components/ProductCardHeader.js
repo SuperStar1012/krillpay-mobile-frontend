@@ -6,7 +6,7 @@ import Image from 'components/outputs/Image';
 import { get } from 'lodash';
 import { useTheme } from 'components/context';
 import Images from 'components/images/products';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import SkeletonPlaceholder from 'expo-react-native-skeleton-placeholder';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 

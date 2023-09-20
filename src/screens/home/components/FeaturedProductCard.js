@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import SkeletonPlaceholder from 'expo-react-native-skeleton-placeholder';
 import Image from 'components/outputs/Image';
 import { TouchableOpacity, Dimensions } from 'react-native';
 import { View, Text } from 'components';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { FlatList } from 'react-native';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import SkeletonPlaceholder from 'expo-react-native-skeleton-placeholder';
 import { View, Button, Text } from 'components';
 import { Icon } from 'components/outputs/Icon';
 

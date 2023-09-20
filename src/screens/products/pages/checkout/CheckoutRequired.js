@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 // import PropTypes from 'prop-types';
 
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import SkeletonPlaceholder from 'expo-react-native-skeleton-placeholder';
 import { Text, View, ListItem, Button } from 'components';
 import { ModalFullscreen } from 'components/modals/ModalFullscreen';
 import { AddressForm } from 'components/form/AddressForm';

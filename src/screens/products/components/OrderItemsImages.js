@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, Button, PopUpGeneral } from 'components';
 
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import SkeletonPlaceholder from 'expo-react-native-skeleton-placeholder';
 import { Dimensions, ScrollView } from 'react-native';
 import ProductCardHeader from './ProductCardHeader';
 import Image from 'components/outputs/Image';

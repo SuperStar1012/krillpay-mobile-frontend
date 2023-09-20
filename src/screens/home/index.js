@@ -45,10 +45,69 @@ export default function HomeScreen(props) {
   // console.log('home', user);
   // console.log(getBankAccounts());
 
- 
+  async function CreateProvidusAccountNumber(user) {
+    const name = user?.first_name
+      ? user?.first_name + ' ' + user?.last_name
+      : '';
+    // console.log('home', user);
+    // console.log(user.groups[0].name);
+    // console.log(name);
+    let dataBankapi = {
+      account_name: name,
+    };
+    const CreateProvidusAccount = await createDynamicAccount(dataBankapi);
+    // console.log(await CreateProvidusAccount.data, 'tesr');
+    let dataBank = {
+      name: CreateProvidusAccount.data.account_name,
+      number: CreateProvidusAccount.data.account_number,
+      type: user.groups[0].name,
+      currencies: 'NGN',
+      beneficiary_type: user.groups[0].name,
+      clabe: 'string',
+      owner: {
+        first_name: user.first_name,
+        last_name: user.last_name,
+        phone_number: user.mobile,
+        email_address: user?.email,
+        company_name: 'string',
+        ein_tin: 'string',
+        address: {
+          line_1: 'string',
+          line_2: 'string',
+          city: 'string',
+          state_province: 'string',
+          country: 'AF',
+          postal_code: 'string',
+          state_code: 'string',
+        },
+        cpf_cpnj: 'string',
+      },
+      bank_name: 'providus bank',
+      bank_code: '',
+      branch_code: '',
+      branch_address: {
+        line_1: '',
+        line_2: '',
+        city: '',
+        state_province: '',
+        country: 'Nigeria',
+        postal_code: '',
+        state_code: '',
+      },
+      routing_number: '',
+      swift: '',
+      iban: '',
+      bic: '',
+      metadata: {},
+      action: 'withdraw',
+    };
 
+    const final = await createBankAccount(dataBank);
+    // console.log(final);
+  }
 
-  // const test = CreateProvidusAccountNumber(user);
+  const test = CreateProvidusAccountNumber(user);
+
   const { business } = useBusiness();
 
   const isBusinessGroup = checkBusinessGroup(

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Text, Button, View } from 'components';
 import { FormikFields } from 'components/inputs/FormikForm';
 import ErrorOutput from 'components/outputs/ErrorOutput';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import SkeletonPlaceholder from 'expo-react-native-skeleton-placeholder';
 import { useToast } from 'contexts';
 
 export default function OnboardingSectionForm(props) {

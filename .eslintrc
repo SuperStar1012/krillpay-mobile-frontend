@@ -1,0 +1,53 @@
+{
+  "parser": "@babel/eslint-parser",
+  "extends": [
+    "plugin:react/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "prettier",
+    "prettier/react",
+    "plugin:redux-saga/recommended",
+    "eslint-config-prettier"
+  ],
+  "plugins": ["react", "prettier", "redux-saga", "react-hooks"],
+  "globals": {
+    "document": false
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["src", "@redux"]
+      }
+    }
+  },
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true,
+      "experimentalObjectRestSpread": true,
+      "experimentalDecorators": true
+    }
+  },
+  "env": {
+    "jest": true,
+    "node": true
+  },
+  "rules": {
+    "no-undef": "error",
+    "no-unused-vars": ["warn", { "args": "none" }],
+    "no-duplicate-imports": 0,
+    "import/no-duplicates": 2,
+    "import/named": 0,
+    "import/no-unresolved": 1,
+    "react/prop-types": [1, { "skipUndeclared": true }],
+    "react/display-name": 0,
+    "no-console": "off",
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ]
+  }
+}

@@ -297,7 +297,6 @@ export default function WalletActionList(props) {
     user,
   });
 
-  console.log({ context });
   const {
     context: { businessServiceSettings },
   } = useRehive(['businessServiceSettings'], true, {
@@ -326,8 +325,11 @@ export default function WalletActionList(props) {
         navigation.navigate('Request', { currency });
         break;
       case 'withdraw':
-        // restrictUSDAccess(user, currency, navigation, 'Withdraw');
-        // navigation.navigate('', { currency });
+        if (getUserCountryFromMSISDN(user?.mobile) == 'US') {
+          navigation.navigate('Withdraw', { currency });
+          break;
+        }
+
         restrictUSDAccess(
           user,
           currency,

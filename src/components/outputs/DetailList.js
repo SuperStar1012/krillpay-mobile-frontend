@@ -8,9 +8,8 @@ import * as Clipboard from 'expo-clipboard';
 export default function DetailList(props) {
   const { items = [], ...restProps } = props;
   const { showToast } = useToast();
- 
+
   function copy(value) {
-    console.log(items);
     Clipboard.setString(value);
     showToast({ id: 'copied_to_clipboard' });
   }
