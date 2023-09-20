@@ -8,11 +8,16 @@ import {
   TextInput,
   StyleSheet,
 } from 'react-native';
- 
+
 import { useToast } from 'contexts/ToastContext';
 import { useRehiveContext } from 'contexts/RehiveContext';
 import { concatAddress } from 'utility/general';
-import { getBankAccounts, fetchItem, createDynamicAccount, createBankAccount } from 'utility/rehive';
+import {
+  getBankAccounts,
+  fetchItem,
+  createDynamicAccount,
+  createBankAccount,
+} from 'utility/rehive';
 import DetailList from 'components/outputs/DetailList';
 import * as Clipboard from 'expo-clipboard';
 import { useSelector } from 'react-redux';
@@ -49,7 +54,7 @@ export default function ManualDeposit(props) {
   const buttons = [
     { id: 'ive_made_the_deposit', onPress: () => navigation.goBack() },
   ];
-  
+
   // TODO: handle no bank acc
 
   return (
@@ -87,7 +92,8 @@ function DepositHeader(props) {
       });
   }
   return (
-    <Pressable onPress={handleCopy}>
+    // <Pressable onPress={handleCopy}>
+    <Pressable>
       {walletAccount == 'USD' ? (
         <>
           <Text c="white" p={0.25} s={18} tA="center" fW="700">
@@ -97,12 +103,20 @@ function DepositHeader(props) {
       ) : (
         <>
           {/* @AFeez add your header content here for Nigeria accunt */}
-          <Text c="white" p={0.25} s={18} tA="center" id="deposit_header" />
-          <Text c="white" s={36} p={0.5} tA="center" fW="700">
+          {/* <Text c="white" p={0.25} s={18} tA="center" id="deposit_header" /> */}
+          {/* <Text c="white" s={36} p={0.5} tA="center" fW="700">
             {reference}
           </Text>
-          <Text c="white" s={12} tA="center" id="tap_to_copy" />
-
+          <Text c="white" s={12} tA="center" id="tap_to_copy" /> */}
+          <View mt={0.5} mb={0.6}>
+            <Text c="white" s={20} p={0.5} tA="center" fW="700">
+              MAKE YOUR DEPOSIT
+            </Text>
+          </View>
+          <Text c="white" s={16} p={0.2} tA="center">
+            Sign into your bank, create a recipient and make a deposit using the
+            information below.
+          </Text>
           {/* @AFeez add your header content here for Nigeria accunt  ends*/}
         </>
       )}
@@ -190,7 +204,6 @@ function DepositDetail(props) {
   //   )
   //   .filter(item => item.value);
 
-     
   /* TODO:
     1. add multi bank acc selector
     2. supported currencies
@@ -206,20 +219,18 @@ function DepositDetail(props) {
   }, [1]);
 
   useEffect(() => {
-   processVirtuals(items);
+    processVirtuals(items);
   }, [items]);
 
-  const processVirtuals = async (items) => {
+  const processVirtuals = async items => {
     // console.log(`items.length === ${items.length }`)
-    if(items.length > 0){
-      }
-     else{
- 
-       //user doesn't have a virtual account. Create afresh
+    if (items.length > 0) {
+    } else {
+      //user doesn't have a virtual account. Create afresh
       await CreateProvidusAccountNumber();
       await getPlaidAccounts();
-     }
-  }
+    }
+  };
 
   const getPlaidAccounts = async () => {
     const bankAccounts = await getBankAccounts();
@@ -271,71 +282,66 @@ function DepositDetail(props) {
       });
   };
 
-
-  //user account deposit 
+  //user account deposit
   async function CreateProvidusAccountNumber() {
-
-    try{
-    const name = user?.first_name
-      ? user?.first_name + ' ' + user?.last_name
-      : '';
-    let dataBankapi = {
-      account_name: name,
-    };
-    const CreateProvidusAccount = await createDynamicAccount(dataBankapi);
-    // console.log(await CreateProvidusAccount.data, 'tesr');
-     let dataBank = {
-      name: CreateProvidusAccount?.data?.account_name,
-      number: CreateProvidusAccount?.data?.account_number,
-      type: user.groups[0].name,
-      currencies: 'NGN',
-      beneficiary_type: user.groups[0].name,
-      clabe: 'string',
-      owner: {
-        first_name: user.first_name,
-        last_name: user.last_name,
-        phone_number: user.mobile,
-        email_address: user?.email,
-        company_name: 'string',
-        ein_tin: 'string',
-        address: {
-          line_1: 'string',
-          line_2: 'string',
-          city: 'string',
-          state_province: 'string',
-          country: 'AF',
-          postal_code: 'string',
-          state_code: 'string',
+    try {
+      const name = user?.first_name
+        ? user?.first_name + ' ' + user?.last_name
+        : '';
+      let dataBankapi = {
+        account_name: name,
+      };
+      const CreateProvidusAccount = await createDynamicAccount(dataBankapi);
+      let dataBank = {
+        name: CreateProvidusAccount?.data?.account_name,
+        number: CreateProvidusAccount?.data?.account_number,
+        type: 'individual',
+        currencies: 'NGN',
+        beneficiary_type: 'individual',
+        clabe: 'string',
+        owner: {
+          first_name: user.first_name,
+          last_name: user.last_name,
+          phone_number: user.mobile,
+          email_address: user?.email,
+          company_name: 'string',
+          ein_tin: 'string',
+          address: {
+            line_1: 'string',
+            line_2: 'string',
+            city: 'string',
+            state_province: 'string',
+            country: 'AF',
+            postal_code: 'string',
+            state_code: 'string',
+          },
+          cpf_cpnj: 'string',
         },
-        cpf_cpnj: 'string',
-      },
-      bank_name: 'providus bank',
-      bank_code: '',
-      branch_code: '',
-      branch_address: {
-        line_1: '',
-        line_2: '',
-        city: '',
-        state_province: '',
-        country: 'Nigeria',
-        postal_code: '',
-        state_code: '',
-      },
-      routing_number: '',
-      swift: '',
-      iban: '',
-      bic: '',
-      metadata: {},
-      action: 'withdraw',
-    //!   Change action to deposit
-    };
-    
-    const final = await createBankAccount(dataBank);
-    console.log(final);
-  }
-  catch(e){
-    console.log(`Bank Account error === ${e}`)
-  }
+        bank_name: 'providus bank',
+        bank_code: '',
+        branch_code: '',
+        branch_address: {
+          line_1: '',
+          line_2: '',
+          city: '',
+          state_province: '',
+          country: 'Nigeria',
+          postal_code: '',
+          state_code: '',
+        },
+        routing_number: '',
+        swift: '',
+        iban: '',
+        bic: '',
+        metadata: {},
+        action: 'withdraw',
+      };
+
+      const final = await createBankAccount(dataBank);
+      console.log(final);
+    } catch (e) {
+      console.log(`Bank Account error === ${JSON.stringify(e)}`);
+    }
   }
   return (
     <View>
@@ -391,27 +397,49 @@ function DepositDetail(props) {
           </>
         )}
       </View> */}
-      <View mt={2}>
+      <View>
         {/* <DetailList {...{ items, locales }} />  move the*/}
-        <View style={styles.flexDirectionStyle}>
-          <Text>ACCOUNT NAME: </Text>
-          <Text>{items[0]?.name}</Text>
-        </View>
-        <View style={styles.flexDirectionStyle}>
-          <Text>BANK NAME: </Text>
-          <Text>Providus Bank</Text>
-        </View>
-        <View style={styles.flexDirectionStyle}>
-          <Text>ACCOUNT NUMBER: </Text>
-          <Text>{items[0]?.number}</Text>
-        </View>
-        <View style={styles.flexDirectionStyle}>
-          <Text>ACCOUNT TYPE: </Text>
-          <Text>INDIVIDUAL</Text>
-        </View>
-        <View style={styles.flexDirectionStyle}>
-          <Text>ACCOUNT LOCATION: </Text>
-          <Text>Nigeria</Text>
+        <View style={styles.container}>
+          <View style={styles.row}>
+            <View style={styles.labelContainer}>
+              <Text style={styles.label}>ACCOUNT NAME:</Text>
+            </View>
+            <View style={styles.valueContainer}>
+              <Text>{items[0]?.name}</Text>
+            </View>
+          </View>
+          <View style={styles.row}>
+            <View style={styles.labelContainer}>
+              <Text style={styles.label}>BANK NAME:</Text>
+            </View>
+            <View style={styles.valueContainer}>
+              <Text>Providus Bank</Text>
+            </View>
+          </View>
+          <View style={styles.row}>
+            <View style={styles.labelContainer}>
+              <Text style={styles.label}>ACCOUNT NUMBER:</Text>
+            </View>
+            <View style={styles.valueContainer}>
+              <Text>{items[0]?.number}</Text>
+            </View>
+          </View>
+          <View style={styles.row}>
+            <View style={styles.labelContainer}>
+              <Text style={styles.label}>ACCOUNT TYPE:</Text>
+            </View>
+            <View style={styles.valueContainer}>
+              <Text>INDIVIDUAL</Text>
+            </View>
+          </View>
+          <View style={styles.row}>
+            <View style={styles.labelContainer}>
+              <Text style={styles.label}>ACCOUNT LOCATION:</Text>
+            </View>
+            <View style={styles.valueContainer}>
+              <Text>Nigeria</Text>
+            </View>
+          </View>
         </View>
       </View>
 
@@ -506,13 +534,30 @@ function DepositDetail(props) {
     </View>
   );
 }
-
-
 const styles = StyleSheet.create({
-  flexDirectionStyle: {
-    flexDirection: 'row',
-    padding: 2,
-    margin: 2,
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    paddingHorizontal: 0,
+    paddingTop: 20,
+    paddingBottom: 10,
   },
-
+  row: {
+    flexDirection: 'row',
+    gap: 20,
+    marginBottom: 20,
+    alignItems: 'center',
+  },
+  labelContainer: {
+    flex: 1,
+    alignItems: 'flex-start',
+  },
+  valueContainer: {
+    flex: 1,
+    alignItems: 'flex-start',
+    textTransform: 'uppercase',
+  },
+  label: {
+    fontWeight: 'bold',
+  },
 });
