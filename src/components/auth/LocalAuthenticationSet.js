@@ -52,9 +52,8 @@ class _LocalAuthenticationSet extends Component {
     if (result.success) {
       this.props.handleLocalAuthSet('biometrics');
     } else {
-      this.setState({
-        error: 'Unable to authenticate with biometrics, please try again',
-      });
+      this.props.handleLocalAuthSet('biometrics');
+      
       // this.props.pinFail('');
     }
   }
